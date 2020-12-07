@@ -17,9 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'nom','prenom', 'email', 'password','pseudo', 'role_id', 'updated_at', 'created_at', 'remember_token'
     ];
 
     /**
@@ -40,4 +38,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function avis() 
+    {
+        return $this->hasMany(Avis::class);
+    }
+
+    public function favoris(){
+        return $this->belongsToMany(Favori::class);
+    }
+
+    public function adresses() 
+    {
+        return $this->hasMany(Adresse::class);
+    }
+
+    public function isAdmin()
+    {
+        return auth()->user()->roles_id === 2;
+    }
 }
