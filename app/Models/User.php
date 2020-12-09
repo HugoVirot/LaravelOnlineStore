@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -17,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'nom','prenom', 'email', 'password','pseudo', 'role_id', 'updated_at', 'created_at', 'remember_token'
+        'nom', 'prenom', 'email', 'password', 'pseudo', 'role_id', 'updated_at', 'created_at', 'remember_token'
     ];
 
     /**
@@ -44,18 +43,21 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    public function avis() 
+    public function avis()
     {
         return $this->hasMany(Avis::class);
     }
 
-    public function favoris(){
-        return $this->belongsToMany(Favori::class);
-    }
-
-    public function adresses() 
+    public function adresses()
     {
         return $this->hasMany(Adresse::class);
+    }
+
+    //pour table intermédiaire favoris (= users_articles)
+
+    public function articles()
+    {
+        return $this->belongsToMany(Article::class);
     }
 
     public function isAdmin()

@@ -17,12 +17,19 @@ class Article extends Model
         return $this->belongsToMany(Campagne::class);
     }
 
-    public function favoris(){
-        return $this->belongsToMany(Favori::class);
+    //pour table intermédiaire favoris (users_articles)
+    
+    public function users(){           
+        return $this->belongsToMany(User::class);
     }
 
     public function avis() 
     {
         return $this->hasMany(Avis::class);
     }
+
+    public function gamme() 
+    {
+        return $this->belongsTo(Gamme::class);
+    }  
 }

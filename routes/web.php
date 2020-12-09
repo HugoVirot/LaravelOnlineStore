@@ -13,10 +13,36 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// ********** accueil ***********
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
+
+
+// ********** authentification ***********
 
 Auth::routes();
 
+
+// ********** accueil ***********
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+// ********** user ***********
+
+Route::get('account/{user}', [App\Http\Controllers\UserController::class, 'account'])->name('account');
+Route::put('account/update',  [App\Http\Controllers\UserController::class, 'update'])->name('account.update');
+Route::put('account/updatePassword',  [App\Http\Controllers\UserController::class, 'updatePassword'])->name('account.updatePassword');
+
+
+// ********** adresse ***********
+
+Route::post('address/create',  [App\Http\Controllers\AdresseController::class, 'create'])->name('address.create');
+Route::put('address/update',  [App\Http\Controllers\AdresseController::class, 'update'])->name('address.update');
+
+// ********** Articles ***********
+
+Route::resource('articles/', App\Http\Controllers\ArticleController::class);
+

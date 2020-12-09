@@ -21,10 +21,11 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->integer('roles_id')->default(1);
             $table->rememberToken();
             $table->timestamps();
 
-            $table->foreignId('role_id')->constrained();
+            $table->foreign('roles_id')->references('id')->on('roles');
         });
     }
 
