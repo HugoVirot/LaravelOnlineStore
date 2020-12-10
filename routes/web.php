@@ -30,7 +30,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-// ********** user ***********
+// ********** User ***********
 
 Route::get('account/{user}', [App\Http\Controllers\UserController::class, 'account'])->name('account');
 Route::put('account/update',  [App\Http\Controllers\UserController::class, 'update'])->name('account.update');
@@ -42,7 +42,13 @@ Route::put('account/updatePassword',  [App\Http\Controllers\UserController::clas
 Route::post('address/create',  [App\Http\Controllers\AdresseController::class, 'create'])->name('address.create');
 Route::put('address/update',  [App\Http\Controllers\AdresseController::class, 'update'])->name('address.update');
 
+
 // ********** Articles ***********
 
-Route::resource('articles/', App\Http\Controllers\ArticleController::class);
+Route::resource('articles/articles', App\Http\Controllers\ArticleController::class);
+
+
+// ********** Gammes ***********
+
+Route::resource('gammes/gammes', App\Http\Controllers\GammeController::class);
 

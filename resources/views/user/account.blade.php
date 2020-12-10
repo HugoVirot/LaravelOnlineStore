@@ -1,100 +1,105 @@
 @extends ('layouts.app')
 
 @section('title')
-Mon compte
+Mon compte - Laravel Online Store
 @endsection
 
 @section('content')
 
-<h4 class="text-center p-5">Mes informations</h4>
+<div class="container">
 
-<div class="row">
-    <div class="col-4">
-    </div>
-    <div class="col-4 text-center">
-        <form class="col-12 mx-auto p-5 border border-info" action="{{ route('account.update')}}" method="POST">
-            @csrf
-            @method('PUT')
-            <div class="form-group">
-                <label for="prenom">Prénom</label>
-                <input required type="text" class="form-control" name="prenom" value="{{ $user->prenom }}" id="prenom">
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <h4 class="text-center p-5">Mes informations</h4>
+
+            <div class="row">
+                <div class="col-10 offset-1 text-center">
+                    <form class="col-12 mx-auto p-5 border border-info" action="{{ route('account.update')}}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="form-group">
+                            <label for="prenom">Prénom</label>
+                            <input required type="text" class="form-control" name="prenom" value="{{ $user->prenom }}" id="prenom">
+                        </div>
+                        <div class="form-group">
+                            <label for="nom">Nom</label>
+                            <input required type="text" class="form-control" name="nom" value="{{ $user->nom }}" id="nom">
+                        </div>
+                        <div class="form-group">
+                            <label for="pseudo">Pseudo</label>
+                            <input required type="text" class="form-control" name="pseudo" value="{{ $user->pseudo }}" id="pseudo">
+                        </div>
+                        <input type="hidden" name="email" value="{{ $user->email }}" id="email">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input required type="email" class="form-control" name="email" value="{{ $user->email }}" id="email">
+                        </div>
+                        <button type="submit" class="btn btn-info text-light mt-4">Modifier</button>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="nom">Nom</label>
-                <input required type="text" class="form-control" name="nom" value="{{ $user->nom }}" id="nom">
+
+        </div>
+
+        <div class="col-md-6">
+
+            <h4 class="text-center p-5">Modifier mon mot de passe</h4>
+
+            <div class="row">
+                <div class="col-10 offset-1 text-center">
+                    <form class="col-12 mx-auto p-5 border border-info" action="{{ route('account.updatePassword')}}" method="POST">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="form-group mt-4">
+                            <label class="label">Mot de passe actuel</label>
+                            <div class="control">
+                                <input class="form-control" type="password" name="currentPassword">
+                            </div>
+                            @if($errors->has('password'))
+                            <p class="help is-danger">{{ $errors->first('currentPassword') }}</p>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
+                            <label class="label">Nouveau mot de passe</label>
+                            <div class="control">
+                                <input class="form-control" type="password" name="newPassword">
+                            </div>
+                            @if($errors->has('password'))
+                            <p class="help is-danger">{{ $errors->first('password') }}</p>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
+                            <label class="label">Confirmez le mot de passe</label>
+                            <div class="control">
+                                <input class="form-control" type="password" name="newPassword_confirmation">
+                            </div>
+                            @if($errors->has('password_confirmation'))
+                            <p class="help is-danger">{{ $errors->first('password_confirmation') }}</p>
+                            @endif
+                            @if($errors->has('password_error'))
+                            <p class="help is-danger">{{ $errors->first('password_error') }}</p>
+                            @endif
+                        </div>
+                        <button type="submit" class="btn btn-info text-light mt-4">Modifier</button>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="pseudo">Pseudo</label>
-                <input required type="text" class="form-control" name="pseudo" value="{{ $user->pseudo }}" id="pseudo">
-            </div>
-            <input type="hidden" name="email" value="{{ $user->email }}" id="email">
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input required type="email" class="form-control" name="email" value="{{ $user->email }}" id="email">
-            </div>
-            <button type="submit" class="btn btn-info text-light mt-4">Modifier</button>
-        </form>
-    </div>
-    <div class="col-4">
+
+        </div>
+
     </div>
 </div>
 
-<h4 class="text-center p-5">Modifier mon mot de passe</h4>
+<h4 class="text-center p-5">Mes adresses</h4>
 
-<div class="row">
-    <div class="col-4">
-    </div>
-    <div class="col-4 text-center">
-        <form class="col-12 mx-auto p-5 border border-info" action="{{ route('account.updatePassword')}}" method="POST">
-            @csrf
-            @method('PUT')
-
-            <div class="form-group">
-                <label class="label">Mot de passe actuel</label>
-                <div class="control">
-                    <input class="form-control" type="password" name="currentPassword">
-                </div>
-                @if($errors->has('password'))
-                <p class="help is-danger">{{ $errors->first('currentPassword') }}</p>
-                @endif
-            </div>
-
-            <div class="form-group">
-                <label class="label">Nouveau mot de passe</label>
-                <div class="control">
-                    <input class="form-control" type="password" name="newPassword">
-                </div>
-                @if($errors->has('password'))
-                <p class="help is-danger">{{ $errors->first('password') }}</p>
-                @endif
-            </div>
-            
-            <div class="form-group">
-                <label class="label">Confirmez le mot de passe</label>
-                <div class="control">
-                    <input class="form-control" type="password" name="newPassword_confirmation">
-                </div>
-                @if($errors->has('password_confirmation'))
-                <p class="help is-danger">{{ $errors->first('password_confirmation') }}</p>
-                @endif
-                @if($errors->has('password_error'))
-                <p class="help is-danger">{{ $errors->first('password_error') }}</p>
-                @endif
-            </div>
-            <button type="submit" class="btn btn-info text-light mt-4">Modifier</button>
-        </form>
-    </div>
-    <div class="col-4">
-    </div>
-</div>
-
-<h4 class="text-center p-5">Mon adresse</h4>
-@if($user->adresses !== null)
 @foreach($user->adresses as $adresse)
 <div class="row">
-    <div class="col-4">
-    </div>
-    <div class="col-4 text-center">
+    <div class="col-6 offset-3 text-center">
         <form class="col-12 mx-auto p-5 border border-info" action="{{ route('address.update', $adresse) }}" method="post">
             @method('PUT')
             @csrf
@@ -116,16 +121,13 @@ Mon compte
             </div>
         </form>
     </div>
-    <div class="col-4">
-    </div>
 </div>
 @endforeach
-@else
-<div class="container text-center">
-    <p> Vous n'avez pas d'adresse enregistrée...</p>
-    <p> C'est par ici !</p>
 
-    <div class="row">
+@if(count($user->adresses) < 2) <div class="container text-center mt-5">
+    <h5> Ajouter une adresse (maximum 2)</h5>
+
+    <div class="row mt-4">
         <div class="col-4">
         </div>
         <div class="col-4 text-center">
@@ -152,7 +154,7 @@ Mon compte
         <div class="col-4">
         </div>
     </div>
-</div>
-@endif
+    </div>
+    @endif
 
-@endsection
+    @endsection

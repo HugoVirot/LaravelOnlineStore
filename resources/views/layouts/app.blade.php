@@ -34,8 +34,20 @@
         </div>
         <nav class="navbar navbar-expand-md pb-3 navbar-light shadow-sm">
             <div class="container">
-                <a class="navbar-brand text-info" href="{{ url('/') }}">
+                <a class="navbar-brand pr-5" href="{{ url('/') }}">
                     <i class="fas fa-home"></i>
+                </a>
+                <a class="navbar-brand pr-5" href="{{ route('articles.index') }}">
+                    Catalogue
+                </a>
+                <a class="navbar-brand pr-5" href="{{ route('gammes.index') }}">
+                    Gammes
+                </a>
+                <a class="navbar-brand pr-5" href="{{ route('gammes.index') }}">
+                    Lien 3
+                </a>
+                <a class="navbar-brand pr-5" href="{{ route('gammes.index') }}">
+                    Lien 4
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
