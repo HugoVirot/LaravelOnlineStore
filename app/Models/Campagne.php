@@ -10,6 +10,6 @@ class Campagne extends Model
     use HasFactory;
 
     public function articles(){
-        return $this->belongsToMany(Article::class);
+        return $this->belongsToMany(Article::class, 'campagne_articles');
     }
 }

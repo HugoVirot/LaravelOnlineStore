@@ -52,3 +52,15 @@ Route::resource('articles/articles', App\Http\Controllers\ArticleController::cla
 
 Route::resource('gammes/gammes', App\Http\Controllers\GammeController::class);
 
+
+// ********** Campagnes ***********
+
+Route::resource('campagnes/campagnes', App\Http\Controllers\CampagneController::class);
+
+
+// ********** Panier **********
+
+Route::get('basket', [App\Http\Controllers\BasketController::class, 'show'])->name('basket.show');
+Route::post('basket/add/{product}', [App\Http\Controllers\BasketController::class, 'add'])->name('basket.add');
+Route::get('basket/remove/{product}', [App\Http\Controllers\BasketController::class, 'remove'])->name('basket.remove');
+Route::get('basket/empty', [App\Http\Controllers\BasketController::class, 'empty'])->name('basket.empty');

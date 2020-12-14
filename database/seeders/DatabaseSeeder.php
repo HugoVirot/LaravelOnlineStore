@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Campagne;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,7 +16,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             ArticleSeeder::class,
-            GammeSeeder::class
+            GammeSeeder::class,
+            CampagneSeeder::class,
+            CampagneArticlesSeeder::class
         ]);
     }
 }

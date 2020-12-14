@@ -14,7 +14,7 @@ class Article extends Model
     }
 
     public function campagnes(){
-        return $this->belongsToMany(Campagne::class);
+        return $this->belongsToMany(Campagne::class, 'campagne_articles');
     }
 
     //pour table intermédiaire favoris (users_articles)

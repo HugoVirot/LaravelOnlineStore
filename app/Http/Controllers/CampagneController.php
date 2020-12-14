@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Campagne;
 use Illuminate\Http\Request;
 
 class CampagneController extends Controller
@@ -13,7 +14,8 @@ class CampagneController extends Controller
      */
     public function index()
     {
-        //
+        $campagnes = Campagne::all();
+        return view('campagnes/index', ['campagnes' => $campagnes]);
     }
 
     /**

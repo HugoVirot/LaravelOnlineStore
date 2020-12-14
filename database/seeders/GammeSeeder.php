@@ -14,7 +14,6 @@ class GammeSeeder extends Seeder
      */
     public function run()
     {
-
         DB::table('gammes')->insert([
             'nom' => 'informatique',
         ]);

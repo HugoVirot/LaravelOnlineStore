@@ -1,26 +1,27 @@
 @extends('layouts.app')
 
 @section('title')
-Gammes - Laravel Online Store
+Promotions - Laravel Online Store
 @endsection
 
 
 @section('content')
 
-<h2 class='pb-5 text-center'>Gammes</h3>
+<h2 class='pb-5 text-center'>Promotions</h3>
 
     <div class="container">
         <div class="row">
 
-            @foreach ($gammes as $gamme)
+            @foreach ($campagnes as $campagne)
 
             <div class="container p-5 border border-info">
                 <div class="row p-5 justify-content-center">
-                    <h3>{{ $gamme->nom }}</h3>
+                    <h3>{{ $campagne->nom }}</h3>
                 </div>
                 <div class="container">
                     <div class="row">
-                        @foreach ($gamme->articles as $article)
+
+                        @foreach ($campagne->articles as $article)
                         <div class="card text-center col-md-4 col-lg-3 p-3 m-3\" style="width: 18rem;">
                             <img class="card-img-top" src="{{ asset("images/$article->image") }}" alt="article">
                             <div class="card-body">
@@ -39,11 +40,12 @@ Gammes - Laravel Online Store
                                 </form>
                             </div>
                         </div>
-
                         @endforeach
+
                     </div>
                 </div>
             </div>
+
             @endforeach
 
             @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +24,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $christmasArticles = Article::with('promotions')->where('promotions.id', '=', '2')->get();
+        return view('home', ['christmasArticles' => $christmasArticles]);
     }
 }
+  

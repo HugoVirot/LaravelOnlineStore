@@ -28,11 +28,11 @@
 
 <body>
     <div id="app">
-        <div class="container text-center mt-4">
+        <div class="container text-center mt-4 mb-3">
             <img style="width : 100px;" src="{{ asset("images/logo.png") }}" alt="logo">
             <h2 class="pt-3">Laravel Online Store</h2>
         </div>
-        <nav class="navbar navbar-expand-md pb-3 navbar-light shadow-sm">
+        <nav class="navbar navbar-expand-md p-4 navbar-light bg-info shadow-sm">
             <div class="container">
                 <a class="navbar-brand pr-5" href="{{ url('/') }}">
                     <i class="fas fa-home"></i>
@@ -43,11 +43,11 @@
                 <a class="navbar-brand pr-5" href="{{ route('gammes.index') }}">
                     Gammes
                 </a>
-                <a class="navbar-brand pr-5" href="{{ route('gammes.index') }}">
-                    Lien 3
+                <a class="navbar-brand pr-5" href="{{ route('campagnes.index') }}">
+                    Promotions
                 </a>
-                <a class="navbar-brand pr-5" href="{{ route('gammes.index') }}">
-                    Lien 4
+                <a class="navbar-brand pr-5" href="{{ route('basket.show') }}">
+                    Panier
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
