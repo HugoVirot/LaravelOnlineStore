@@ -9,6 +9,8 @@ class Adresse extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['adresse', 'code_postal', 'ville'];
+
     public function user()
     {
         return $this->belongsTo(User::class);

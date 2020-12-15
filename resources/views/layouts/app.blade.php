@@ -32,7 +32,7 @@
             <img style="width : 100px;" src="{{ asset("images/logo.png") }}" alt="logo">
             <h2 class="pt-3">Laravel Online Store</h2>
         </div>
-        <nav class="navbar navbar-expand-md p-4 navbar-light bg-info shadow-sm">
+        <nav class="navbar navbar-expand-md p-4 navbar-dark bg-primary shadow-sm">
             <div class="container">
                 <a class="navbar-brand pr-5" href="{{ url('/') }}">
                     <i class="fas fa-home"></i>
@@ -76,7 +76,7 @@
                         @endif
                         @else
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" style="color: black" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" style="color: white" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ auth()->user()->pseudo }}
                             </a>
 
@@ -113,7 +113,7 @@
                 </ul>
             </div>
             @endif
-            
+
         </div>
 
         <main class="py-4">
@@ -122,8 +122,19 @@
     </div>
 </body>
 
-<footer class="text-center bg-info p-5 mt-5">
-    <p>© LaravelOnlineStore 2020</p>
+<footer class="text-center text-light bg-primary p-5 mt-3">
+    <h5 class="m-4">© LaravelOnlineStore 2020</h5>
+    <div class="container w-25 d-flex justify-content-around ">
+    <a href="https://www.facebook.com" style="color:inherit">
+        <i class="fab fa-3x fa-facebook-square"></i>
+    </a>
+    <a href="https://www.twitter.com" style="color:inherit">
+        <i class="fab fa-3x fa-twitter"></i>
+    </a>
+    <a href="https://www.youtube.com" style="color:inherit">
+        <i class="fab fa-3x fa-youtube"></i>
+    </a>
+    </div>
 </footer>
 
 </html>

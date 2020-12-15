@@ -96,11 +96,10 @@ Mon compte - Laravel Online Store
 </div>
 
 <h4 class="text-center p-5">Mes adresses</h4>
-
 @foreach($user->adresses as $adresse)
 <div class="row">
-    <div class="col-6 offset-3 text-center">
-        <form class="col-12 mx-auto p-5 border border-info" action="{{ route('address.update', $adresse) }}" method="post">
+    <div class="col-6 offset-3 text-center border border-info">
+        <form class="col-12 mx-auto p-5" action="{{ route('address.update', $adresse) }}" method="post">
             @method('PUT')
             @csrf
             <div class="form-group">
@@ -116,9 +115,16 @@ Mon compte - Laravel Online Store
                 <input name="ville" type="text" class="form-control" id="ville" value="{{ $adresse->ville }}" required>
             </div>
             <input type="hidden" value="{{ auth()->user()->id }}" name="user_id">
+            <input type="hidden" value="{{ $adresse->id }}" name="adresse_id">
             <div class="row justify-content-center mt-4">
                 <button type="submit" class="btn btn-info text-light">Modifier</button>
             </div>
+        </form>
+        <form action="{{ route('address.delete', $adresse) }}" method="post">
+            @csrf
+            @method('delete')
+            <input type="hidden" value="{{ $adresse->id }}" name="adresse_id">
+            <button type="submit" class="btn btn-danger">Supprimer</button>
         </form>
     </div>
 </div>

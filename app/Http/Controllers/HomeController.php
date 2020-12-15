@@ -2,20 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Campagne;
 use App\Models\Article;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     /**
      * Show the application dashboard.
@@ -24,8 +15,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $christmasArticles = Article::with('promotions')->where('promotions.id', '=', '2')->get();
-        return view('home', ['christmasArticles' => $christmasArticles]);
+        $christmasArticles = Campagne::with('articles')
+            ->where('id', '=', '2')
+            ->get();
+        $christmasArticles = $christmasArticles[0];
+
+        $topRatedArticles = Article::limit(3)->get();
+        return view('home', [
+            'christmasArticles' => $christmasArticles,
+            'topRatedArticles' => $topRatedArticles
+            ]);
     }
 }
-  

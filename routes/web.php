@@ -13,13 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// ********** accueil ***********
-
-Route::get('/', function () {
-    return view('home');
-});
-
-
 // ********** authentification ***********
 
 Auth::routes();
@@ -27,7 +20,7 @@ Auth::routes();
 
 // ********** accueil ***********
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 // ********** User ***********
@@ -40,7 +33,8 @@ Route::put('account/updatePassword',  [App\Http\Controllers\UserController::clas
 // ********** adresse ***********
 
 Route::post('address/create',  [App\Http\Controllers\AdresseController::class, 'create'])->name('address.create');
-Route::put('address/update',  [App\Http\Controllers\AdresseController::class, 'update'])->name('address.update');
+Route::put('address/update/{address}',  [App\Http\Controllers\AdresseController::class, 'update'])->name('address.update');
+Route::delete('address/delete/{address}',  [App\Http\Controllers\AdresseController::class, 'delete'])->name('address.delete');
 
 
 // ********** Articles ***********

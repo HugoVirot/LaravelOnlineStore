@@ -47,13 +47,24 @@ class AdresseController extends Controller
             'ville' => 'required|min:3|max:50',
         ]);
 
-        // $adresse = Adresse::where('user_id', $request->input('user_id'));
-        $adresse->user_id = $request->input('user_id');
-        $adresse->adresse = $request->input('adresse');
-        $adresse->code_postal = $request->input('code_postal');
-        $adresse->ville = $request->input('ville');
-        $adresse->save();
+        $adresseId = intval($request->input('adresse_id'));
+        $adresse = Adresse::find($adresseId);
+
+        $adresse->update([
+            'adresse' => $request->input('adresse'),
+            'code_postal' => $request->input('code_postal'),
+            'ville' => $request->input('ville'),
+        ]);
 
         return redirect()->route('home')->with('message', 'L\'adresse a bien été modifiée');
+    }
+
+
+    public function delete(Request $request)
+    {
+        $adresseId = intval($request->input('adresse_id'));
+        $adresse = Adresse::find($adresseId);
+        $adresse->delete();
+        return redirect()->route('home')->with('message', 'L\'adresse a bien été supprimée');
     }
 }
