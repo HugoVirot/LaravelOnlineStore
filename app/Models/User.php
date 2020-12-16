@@ -64,4 +64,9 @@ class User extends Authenticatable
     {
         return auth()->user()->roles_id === 2;
     }
+
+    public function commandes()
+    {
+        return $this->hasMany(Commande::class);
+    }
 }

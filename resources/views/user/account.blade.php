@@ -163,4 +163,34 @@ Mon compte - Laravel Online Store
     </div>
     @endif
 
+    <h4 class="text-center p-5"> Mes commandes</h4>
+
+    @if (isset ($user->commandes) && count($user->commandes) > 0)
+    <div class="container">
+        <table class="table table border border-primary">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">numéro</th>
+                    <th scope="col">prix</th>
+                    <th scope="col">date</th>
+                    <th scope="col">détails</th>
+                </tr>
+            </thead>
+            @foreach ($user->commandes as $commande)
+            <tr>
+                <td>{{$commande->numero}}</td>
+                <td>{{$commande->prix}}</td>
+                <td>{{$commande->created_at}}</td>
+                <td>
+                    <button class="btn btn-primary">Détails</button>
+                </td>
+            </tr>
+            @endforeach
+        </table>
+    </div>
+
+    @else
+    <p class="text-center p-5"> Vous n'avez pas encore passé de commande.</p>
+    @endif
+
     @endsection
