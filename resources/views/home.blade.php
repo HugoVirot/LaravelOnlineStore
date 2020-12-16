@@ -6,7 +6,10 @@
 </div>
 
 <div class="container text-center pt-5">
-    <h1>Promotions de Noël</h1>
+    <div class="row justify-content-center">
+        <i class="fas fa-tree fa-3x mr-4"></i>
+        <h1>Promotions de Noël</h1>
+    </div>
     <div class="row mt-5 mb-5">
 
         @php $articles = $christmasArticles->articles @endphp
@@ -59,7 +62,7 @@
                 <form method="POST" action="{{ route('basket.add', $article->id) }}" class="form-inline d-inline-block">
                     @csrf
                     <input type="number" name="quantite" placeholder="Quantité ?" class="form-control mr-2" value="{{ isset(session('basket')[$article->id]) ? session('basket')[$article->id]['quantite'] : null }}">
-                    <button type="submit" class="btn btn-warning">+ Ajouter au panier</button>
+                    <button type="submit" class="btn btn-danger">+ Ajouter au panier</button>
                 </form>
             </div>
         </div>

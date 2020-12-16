@@ -29,7 +29,7 @@ class AdresseController extends Controller
         $adresse->user_id = $request->input('user_id');
         $adresse->save();
 
-        return redirect()->route('home')->with('message', 'Adresse enregistrée !');
+        return redirect()->back()->with('message', 'Adresse enregistrée !');
     }
 
     /**
@@ -56,7 +56,7 @@ class AdresseController extends Controller
             'ville' => $request->input('ville'),
         ]);
 
-        return redirect()->route('home')->with('message', 'L\'adresse a bien été modifiée');
+        return redirect()->back()->with('message', 'L\'adresse a bien été modifiée');
     }
 
 
@@ -65,6 +65,6 @@ class AdresseController extends Controller
         $adresseId = intval($request->input('adresse_id'));
         $adresse = Adresse::find($adresseId);
         $adresse->delete();
-        return redirect()->route('home')->with('message', 'L\'adresse a bien été supprimée');
+        return redirect()->back()->with('message', 'L\'adresse a bien été supprimée');
     }
 }

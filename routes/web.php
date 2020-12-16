@@ -21,6 +21,7 @@ Auth::routes();
 // ********** accueil ***********
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 // ********** User ***********
@@ -39,17 +40,17 @@ Route::delete('address/delete/{address}',  [App\Http\Controllers\AdresseControll
 
 // ********** Articles ***********
 
-Route::resource('articles/articles', App\Http\Controllers\ArticleController::class);
+Route::resource('articles', App\Http\Controllers\ArticleController::class);
 
 
 // ********** Gammes ***********
 
-Route::resource('gammes/gammes', App\Http\Controllers\GammeController::class);
+Route::resource('gammes', App\Http\Controllers\GammeController::class);
 
 
 // ********** Campagnes ***********
 
-Route::resource('campagnes/campagnes', App\Http\Controllers\CampagneController::class);
+Route::resource('campagnes', App\Http\Controllers\CampagneController::class);
 
 
 // ********** Panier **********
@@ -58,3 +59,12 @@ Route::get('basket', [App\Http\Controllers\BasketController::class, 'show'])->na
 Route::post('basket/add/{product}', [App\Http\Controllers\BasketController::class, 'add'])->name('basket.add');
 Route::get('basket/remove/{product}', [App\Http\Controllers\BasketController::class, 'remove'])->name('basket.remove');
 Route::get('basket/empty', [App\Http\Controllers\BasketController::class, 'empty'])->name('basket.empty');
+Route::get('basket/validation', [App\Http\Controllers\BasketController::class, 'validation'])->name('basket.validation');
+Route::post('basket/choosedelivery', [App\Http\Controllers\BasketController::class, 'chooseDelivery'])->name('basket.choosedelivery');
+
+
+// ********** Commande **********
+
+Route::resource('commandes', App\Http\Controllers\CommandeController::class);
+
+

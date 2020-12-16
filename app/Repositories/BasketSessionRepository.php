@@ -19,6 +19,7 @@ class BasketSessionRepository implements BasketInterfaceRepository  {
 
 		// Les informations du produit à ajouter
 		$article_details = [
+			'id' => $article->id,
 			'nom' => $article->nom,
 			'prix' => $article->prix,
 			'description' => $article->description,

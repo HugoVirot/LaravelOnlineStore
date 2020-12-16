@@ -63,13 +63,20 @@
 
 		</table>
 	</div>
+	<div class="container w-50 text-center">
+		<!-- Lien pour vider le panier -->
+		<a class="btn btn-danger" href="{{ route('basket.empty') }}" title="Retirer tous les produits du panier">Vider le panier</a>
 
-	<!-- Lien pour vider le panier -->
-	<a class="btn btn-danger" href="{{ route('basket.empty') }}" title="Retirer tous les produits du panier">Vider le panier</a>
+		@if(Auth::check())
+		<!-- Lien pour valider le panier -->
+		<a class="btn btn-primary" href="{{ route('basket.validation') }}" title="validation">Valider la commande</a>
+		@else
+		<p class="p-2">Vous devez être connecté pour valider la commande.</p>
+		@endif
 
-	@else
-	<div class="alert alert-info">Aucun produit dans le panier</div>
-	@endif
-
+		@else
+		<div class="alert alert-info">Aucun produit dans le panier</div>
+		@endif
+	</div>
 </div>
 @endsection

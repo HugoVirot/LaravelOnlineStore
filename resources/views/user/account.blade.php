@@ -99,7 +99,7 @@ Mon compte - Laravel Online Store
 @foreach($user->adresses as $adresse)
 <div class="row">
     <div class="col-6 offset-3 text-center border border-info">
-        <form class="col-12 mx-auto p-5" action="{{ route('address.update', $adresse) }}" method="post">
+        <form class="col-12 mx-auto pt-5" action="{{ route('address.update', $adresse) }}" method="post">
             @method('PUT')
             @csrf
             <div class="form-group">
@@ -120,7 +120,7 @@ Mon compte - Laravel Online Store
                 <button type="submit" class="btn btn-info text-light">Modifier</button>
             </div>
         </form>
-        <form action="{{ route('address.delete', $adresse) }}" method="post">
+        <form action="{{ route('address.delete', $adresse) }}" class="p-3" method="post">
             @csrf
             @method('delete')
             <input type="hidden" value="{{ $adresse->id }}" name="adresse_id">
