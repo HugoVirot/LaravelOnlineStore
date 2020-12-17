@@ -20,10 +20,19 @@ class HomeController extends Controller
             ->get();
         $christmasArticles = $christmasArticles[0];
 
-        $topRatedArticles = Article::limit(3)->get();
+        $topRatedArticles = Article::orderBy('note', 'desc')
+            ->limit(3)
+            ->get();
+
         return view('home', [
             'christmasArticles' => $christmasArticles,
             'topRatedArticles' => $topRatedArticles
-            ]);
+        ]);
+    }
+
+
+    public function apropos()
+    {
+        return view('apropos');
     }
 }

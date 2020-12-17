@@ -57,9 +57,10 @@ class CommandeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Commande $commande)
     {
-        //
+        $commande->load('articles');
+        return view('commandes/show', ['commande' => $commande]);
     }
 
     /**

@@ -68,3 +68,6 @@ Route::post('basket/choosedelivery', [App\Http\Controllers\BasketController::cla
 Route::resource('commandes', App\Http\Controllers\CommandeController::class);
 
 
+// ********** Notre histoire / qualité **********
+
+Route::get('apropos', [App\Http\Controllers\HomeController::class, 'apropos'])->name('apropos');

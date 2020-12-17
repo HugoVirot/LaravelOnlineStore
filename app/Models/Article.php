@@ -10,7 +10,7 @@ class Article extends Model
     use HasFactory;
 
     public function commandes(){
-        return $this->belongsToMany(Commandes::class, 'commande_articles');
+        return $this->belongsToMany(Commandes::class, 'commande_articles')->withPivot('quantite');;
     }
 
     public function campagnes(){

@@ -182,7 +182,9 @@ Mon compte - Laravel Online Store
                 <td>{{$commande->prix}}</td>
                 <td>{{$commande->created_at}}</td>
                 <td>
-                    <button class="btn btn-primary">Détails</button>
+                    <form action="{{route('commandes.show', $commande)}}" method="get">
+                        <button type="submit" class="btn btn-primary">Détails</button>
+                    </form>
                 </td>
             </tr>
             @endforeach
