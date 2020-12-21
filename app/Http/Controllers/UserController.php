@@ -42,13 +42,11 @@ class UserController extends Controller
 
                 $user->update(['password' => Hash::make($newPassword)]);
                 return redirect()->route('home')->with('message', 'Le mot de passe a bien été modifié');
-
             } else {
                 return redirect()->back()->withErrors(['Attention !', 'ancien et nouveau mot de passe identiques !']);
             }
-
         } else {
-            return redirect()->back()->withErrors(['Attention !', 'mot de passe actuel saisi incorrect']); 
+            return redirect()->back()->withErrors(['Attention !', 'mot de passe actuel saisi incorrect']);
         }
     }
 
@@ -87,8 +85,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete(Request $request)
     {
-        //
+        $userId = intval($request->input('userId'));
+        $user = User::find($userId);
+        $user->delete();
+        return redirect()->route('admin.index')->with('message', 'L\'utilisateur a bien été supprimé');
     }
 }

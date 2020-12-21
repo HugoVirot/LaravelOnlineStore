@@ -1,17 +1,20 @@
 @extends('layouts.app')
 
 @section('title')
-Catalogue - Laravel Online Store
+Favoris - Laravel Online Store
 @endsection
+
 
 @section('content')
 
-<h2 class='pb-5 text-center'>Catalogue</h3>
+<h2 class='pb-5 text-center'>Mes favoris</h3>
 
     <div class="container">
         <div class="row">
 
-            @foreach ($articles as $article)
+            @if(count($user->favoris) > 0)
+            @foreach ($user->favoris as $article)
+
             <div class="card text-center col-md-4 col-lg-3 p-3 m-3\" style="width: 18rem;">
                 <img class="card-img-top" src="{{ asset("images/$article->image") }}" alt="article">
                 <div class="card-body">
@@ -23,27 +26,12 @@ Catalogue - Laravel Online Store
                         <button class="btn btn-info m-2">Détails produit</button>
                     </a>
 
-                    <!--  problème ici -->
-
-                    @php $articleId = $article->id @endphp
-                    @if(in_array($articleId, $favorisIds))
-                    <!-- si dans les favoris-->
                     <form method="post" action="{{ route('favoris.destroy', $article) }}">
                         @csrf
                         @method('delete')
                         <button type="submit" class="btn btn-danger m-2">Retirer des favoris</button>
                         <input type="hidden" value="{{$article->id}}" name="articleId">
                     </form>
-
-                    @else
-                    <!-- si pas dans les favoris-->
-                    <form method="post" action="{{ route('favoris.store', $article) }}">
-                        @csrf
-                        <button type="submit" class="btn btn-success m-2">Ajouter aux favoris</button>
-                        <input type="hidden" value="{{$article->id}}" name="articleId">
-                    </form>
-
-                    @endif
 
                     <form method="POST" action="{{ route('basket.add', $article->id) }}" class="form-inline d-inline-block">
                         @csrf
@@ -52,8 +40,10 @@ Catalogue - Laravel Online Store
                     </form>
                 </div>
             </div>
-
             @endforeach
-
-
+            @else
+            <div class="container text-center">
+                <h5 class="text-center">Vous n'avez aucun article dans vos favoris.</h5>
+            </div>
+            @endif
             @endsection

@@ -55,9 +55,9 @@ class User extends Authenticatable
 
     //pour table intermédiaire favoris (= users_articles)
 
-    public function articles()
+    public function favoris()
     {
-        return $this->belongsToMany(Article::class);
+        return $this->belongsToMany(Article::class, 'favoris');
     }
 
     public function isAdmin()

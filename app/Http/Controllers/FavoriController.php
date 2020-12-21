@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Article;
 
 class FavoriController extends Controller
 {
@@ -13,7 +15,11 @@ class FavoriController extends Controller
      */
     public function index()
     {
-        //
+        $user = User::find(auth()->user()->id);
+        $user->load('favoris');
+        return view('favoris/index', [
+            'user' => $user
+        ]);
     }
 
     /**
@@ -23,7 +29,7 @@ class FavoriController extends Controller
      */
     public function create()
     {
-        //
+        //.
     }
 
     /**
@@ -32,9 +38,12 @@ class FavoriController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Article $article)
     {
-        //
+        $articleId = $request->input('articleId');
+        $user = User::find(auth()->user()->id);
+        $user->favoris()->attach($articleId);
+        return redirect()->back()->with('message', 'Produit ajouté aux favoris !');
     }
 
     /**
@@ -77,8 +86,11 @@ class FavoriController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $articleId = $request->input('articleId');
+        $user = User::find(auth()->user()->id);
+        $user->favoris()->detach($articleId);
+        return redirect()->back()->with('message', 'Produit retiré des favoris !');
     }
 }

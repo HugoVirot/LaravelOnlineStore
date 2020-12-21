@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
             ArticleSeeder::class,
             GammeSeeder::class,
             CampagneSeeder::class,
-            CampagneArticlesSeeder::class
+            CampagneArticlesSeeder::class,
+            RoleSeeder::class
         ]);
     }
 }

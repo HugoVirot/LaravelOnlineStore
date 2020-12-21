@@ -9,6 +9,8 @@ class Article extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['nom', 'description', 'description_detaillee', 'image', 'prix', 'stock', 'note', 'gamme_id'];
+
     public function commandes(){
         return $this->belongsToMany(Commandes::class, 'commande_articles')->withPivot('quantite');;
     }
@@ -17,10 +19,10 @@ class Article extends Model
         return $this->belongsToMany(Campagne::class, 'campagne_articles');
     }
 
-    //pour table intermédiaire favoris (users_articles)
+    //pour table intermédiaire favoris (= users_articles)
     
-    public function users(){           
-        return $this->belongsToMany(User::class);
+    public function favoris(){           
+        return $this->belongsToMany(User::class, 'favoris');
     }
 
     public function avis() 

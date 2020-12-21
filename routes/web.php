@@ -29,6 +29,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('account/{user}', [App\Http\Controllers\UserController::class, 'account'])->name('account');
 Route::put('account/update',  [App\Http\Controllers\UserController::class, 'update'])->name('account.update');
 Route::put('account/updatePassword',  [App\Http\Controllers\UserController::class, 'updatePassword'])->name('account.updatePassword');
+Route::delete('user/delete',  [App\Http\Controllers\UserController::class, 'delete'])->name('user.delete');
 
 
 // ********** adresse ***********
@@ -63,7 +64,7 @@ Route::get('basket/validation', [App\Http\Controllers\BasketController::class, '
 Route::post('basket/choosedelivery', [App\Http\Controllers\BasketController::class, 'chooseDelivery'])->name('basket.choosedelivery');
 
 
-// ********** Commande **********
+// ********** Commandes **********
 
 Route::resource('commandes', App\Http\Controllers\CommandeController::class);
 
@@ -71,3 +72,18 @@ Route::resource('commandes', App\Http\Controllers\CommandeController::class);
 // ********** Notre histoire / qualité **********
 
 Route::get('apropos', [App\Http\Controllers\HomeController::class, 'apropos'])->name('apropos');
+
+
+// ********** Admin **********
+
+Route::get('admin/index', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.index');
+
+
+// ********** Favoris **********
+
+Route::resource('favoris', App\Http\Controllers\FavoriController::class);
+
+
+// ********** Avis **********
+
+Route::resource('avis', App\Http\Controllers\AvisController::class);

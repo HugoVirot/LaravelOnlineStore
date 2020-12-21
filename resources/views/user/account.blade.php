@@ -7,7 +7,7 @@ Mon compte - Laravel Online Store
 @section('content')
 
 <div class="container">
-
+    <h1 class="text-center p2">Mon compte</h1>
     <div class="row">
 
         <div class="col-md-6">
@@ -95,7 +95,7 @@ Mon compte - Laravel Online Store
     </div>
 </div>
 
-<h4 class="text-center p-5">Mes adresses</h4>
+<h4 class="text-center pt-5">Mes adresses</h4>
 @foreach($user->adresses as $adresse)
 <div class="row">
     <div class="col-6 offset-3 text-center border border-info">
@@ -163,7 +163,7 @@ Mon compte - Laravel Online Store
     </div>
     @endif
 
-    <h4 class="text-center p-5"> Mes commandes</h4>
+    <h4 class="text-center pt-5"> Mes commandes</h4>
 
     @if (isset ($user->commandes) && count($user->commandes) > 0)
     <div class="container">

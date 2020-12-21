@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Avis;
 use Illuminate\Http\Request;
+use App\Models\Gamme;
 use App\Models\Article;
+use App\Models\Campagne;
+use App\Models\User;
 
-class AvisController extends Controller
+class AdminController extends Controller
 {
+
+    public function __construct()
+    {
+        return $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +22,16 @@ class AvisController extends Controller
      */
     public function index()
     {
-        //
+        $gammes = Gamme::all();
+        $articles = Article::all();
+        $campagnes = Campagne::all();
+        $users = User::with('role')->get();
+        return view('admin/index', [
+            'gammes' => $gammes,
+            'articles' => $articles,
+            'campagnes' => $campagnes,
+            'users' => $users
+            ]);
     }
 
     /**
@@ -36,26 +52,7 @@ class AvisController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'note' => 'required',
-            'commentaire' => 'min:10|max:255'
-        ]);
-
-        Avis::create([
-            'note' => $request->input('note'),
-            'commentaire' => $request->input('commentaire'),
-            'user_id' => auth()->user()->id,
-            'article_id' => $request->input('articleId')
-        ]);
-
-        $article = Article::find($request->input('articleId'));
-            
-        $currentNote = $article->note;
-        $newNote = $request->input('note');
-
-        // moyenne = note actuelle + nouvelle note / nb notes
-        
-        return redirect()->back()->with('message', 'Avis enregistré !');
+        //
     }
 
     /**

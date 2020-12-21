@@ -41,26 +41,43 @@
 
                 <div class="pl-5 collapse navbar-collapse text-center" id="navbarSupportedContent">
 
-                    <a class="navbar-brand pl-5 pr-5" href="{{ url('/') }}">
-                        <i class="fas fa-home"></i>
-                    </a>
-                    <a class="navbar-brand pl-4 pr-5" href="{{ route('articles.index') }}">
-                        Catalogue
-                    </a>
-                    <a class="navbar-brand pl-4 pr-5" href="{{ route('gammes.index') }}">
-                        Gammes
-                    </a>
-                    <a class="navbar-brand pl-4 pr-5" href="{{ route('campagnes.index') }}">
-                        Promotions
-                    </a>
-                    <a class="navbar-brand pl-4 pr-5" href="{{ route('apropos') }}">
-                        A propos
-                    </a>
-                    <a class="navbar-brand pl-4 pr-5" href="{{ route('basket.show') }}">
-                        Panier
-                    </a>
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav w-100 justify-content-around mr-auto">
+                        <li>
+                            <a class="navbar-brand" href="{{ url('/') }}">
+                                <i class="fas fa-home"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="navbar-brand" href="{{ route('articles.index') }}">
+                                Catalogue
+                            </a>
+                        </li>
+                        <li>
+                            <a class="navbar-brand" href="{{ route('gammes.index') }}">
+                                Gammes
+                            </a>
+                        </li>
+                        <li>
+                            <a class="navbar-brand" href="{{ route('campagnes.index') }}">
+                                Promotions
+                            </a>
+                        </li>
+                        <li>
+                            <a class="navbar-brand" href="{{ route('apropos') }}">
+                                A propos
+                            </a>
+                        </li>
+                        <li>
+                            <a class="navbar-brand" href="{{ route('basket.show') }}">
+                                Panier
+                            </a>
+                        </li>
+                        <li>
+                            <a class="navbar-brand" href="{{ route('favoris.index') }}">
+                                Favoris
+                            </a>
+                        </li>
+                        <!-- Left Side Of Navbar -->
 
                     </ul>
 
@@ -91,10 +108,14 @@
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Déconnexion') }}
                                 </a>
-
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
+                                @if (auth()->user()->role_id == 2)
+                                <a class="dropdown-item" href="{{ route('admin.index') }}">
+                                    Back-office
+                                </a>
+                                @endif
                             </div>
                         </li>
                         @endguest

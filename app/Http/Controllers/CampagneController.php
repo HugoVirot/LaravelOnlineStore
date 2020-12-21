@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Campagne;
+use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CampagneController extends Controller
 {
@@ -36,7 +38,27 @@ class CampagneController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nom' => 'required|min:5|max:30',
+            'reduction' => 'required',
+            'date_debut' => 'required',
+            'date_fin' => 'required'
+        ]);
+
+        // dd($request);
+
+        $campagne = Campagne::create($request->all());
+
+        $articles = Article::all();
+
+        for ($i = 0; $i < count($articles); $i++) {
+            if (isset($request['article' . $i])) {
+
+                $campagne->articles()->attach([$request['article' . $i]]);
+            }
+        }
+
+        return redirect()->route('admin.index')->with('message', 'Campagne créée avec succès');
     }
 
     /**
@@ -56,9 +78,16 @@ class CampagneController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Campagne $campagne)
     {
-        //
+        $campagneArticlesIds = DB::table('campagne_articles')->where('campagne_id', '=', $campagne->id)->get('article_id');
+        $articles = Article::all();
+
+        return view('campagnes/edit', [
+            'campagne' => $campagne,
+            'articles' => $articles,
+            'campagneArticlesIds' => $campagneArticlesIds
+        ]);
     }
 
     /**
@@ -68,9 +97,37 @@ class CampagneController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Campagne $campagne)
     {
-        //
+        $request->validate([
+            'nom' => 'required|min:5|max:30',
+            'reduction' => 'required',
+            'date_debut' => 'required',
+            'date_fin' => 'required'
+        ]);
+
+        // on sauvegarde les modifications issues du formulaire
+        $campagne->update($request->all());
+
+        // on charge les articles associés à la campagne
+        $campagne->load('articles');
+
+        // on les retire de la table intermédiaire
+        foreach ($campagne->articles as $article) {
+            $campagne->articles()->detach($article);
+        }
+
+        // on récupère la liste des articles
+        $articles = Article::all();
+
+        // on associe à la campagne ceux cochés dans le formulaire
+        for ($i = 0; $i < count($articles); $i++) {
+            if (isset($request['article' . $i])) {
+                $campagne->articles()->attach([$request['article' . $i]]);
+            }
+        }
+
+        return redirect()->route('admin.index')->with('message', 'Campagne modifiée avec succès');
     }
 
     /**
@@ -79,8 +136,10 @@ class CampagneController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Campagne $campagne)
     {
-        //
+        $campagne->articles()->detach();
+        $campagne->delete();
+        return redirect()->route('admin.index')->with('message', 'La campagne a bien été supprimée');
     }
 }

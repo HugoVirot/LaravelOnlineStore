@@ -22,7 +22,7 @@ class ArticleSeeder extends Seeder
                 'description_detaillee' => Str::random(100),
                 'image' => 'product.png',
                 'gamme_id' => rand(1,4),
-                'prix' => rand(),
+                'prix' => mt_rand(5, 1000),
                 'stock' => 50,
                 'note' => 4.5,
             ]);
