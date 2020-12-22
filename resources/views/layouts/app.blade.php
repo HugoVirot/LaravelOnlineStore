@@ -32,7 +32,7 @@
             <img style="width : 100px;" src="{{ asset("images/logo.png") }}" alt="logo">
             <h2 class="pt-3">Laravel Online Store</h2>
         </div>
-        <nav class="navbar navbar-expand-md p-4 navbar-dark bg-primary shadow-sm">
+        <nav class="navbar navbar-expand-md sticky-top p-4 navbar-dark bg-primary shadow-sm">
             <div class="container">
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

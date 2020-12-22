@@ -17,7 +17,19 @@ class CampagneController extends Controller
     public function index()
     {
         $campagnes = Campagne::all();
-        return view('campagnes/index', ['campagnes' => $campagnes]);
+        
+        if (auth()->user()) {
+            $userId = auth()->user()->id;
+            $favorisIds = DB::table('favoris')->where('user_id', '=', $userId)->pluck('article_id');
+            $favorisIds = $favorisIds->toArray();
+        } else {
+            $favorisIds = null;
+        }
+
+        return view('campagnes/index', [
+            'campagnes' => $campagnes,
+            'favorisIds' => $favorisIds
+        ]);
     }
 
     /**

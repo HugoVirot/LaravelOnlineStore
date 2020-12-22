@@ -32,6 +32,27 @@ Gammes - Laravel Online Store
                                     <button class="btn btn-info m-2">Détails produit</button>
                                 </a>
 
+                                @php $articleId = $article->id @endphp
+
+                                @if(auth()->user()!== null && in_array($articleId, $favorisIds))
+                                <!-- si dans les favoris-->
+                                <form method="post" action="{{ route('favoris.destroy', $article) }}">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-danger m-2">Retirer des favoris</button>
+                                    <input type="hidden" value="{{$article->id}}" name="articleId">
+                                </form>
+
+                                @else
+                                <!-- si pas dans les favoris-->
+                                <form method="post" action="{{ route('favoris.store', $article) }}">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success m-2">Ajouter aux favoris</button>
+                                    <input type="hidden" value="{{$article->id}}" name="articleId">
+                                </form>
+
+                                @endif
+                                
                                 <form method="POST" action="{{ route('basket.add', $article->id) }}" class="form-inline d-inline-block">
                                     @csrf
                                     <input type="number" name="quantite" placeholder="Quantité ?" class="form-control mr-2" value="{{ isset(session('basket')[$article->id]) ? session('basket')[$article->id]['quantite'] : null }}">

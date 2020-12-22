@@ -19,6 +19,10 @@ class GammeSeeder extends Seeder
         ]);
 
         DB::table('gammes')->insert([
+            'nom' => 'image et TV',
+        ]);
+
+        DB::table('gammes')->insert([
             'nom' => 'téléphonie',
         ]);
 

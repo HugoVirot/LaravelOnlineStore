@@ -12,9 +12,6 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @var array
      */
-    protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
-    ];
 
     /**
      * Register any authentication / authorization services.
@@ -25,6 +22,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+
+        Gate::define('access_backoffice', function ($user) {
+            return $user->isAdmin();
+        });
     }
 }

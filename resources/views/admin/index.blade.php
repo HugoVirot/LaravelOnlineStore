@@ -22,7 +22,7 @@
 </script>
 
 <div class="container text-center pt-3 mb-3">
-    <h1 class="pb-5">Index Admin</h1>
+    <h1 class="pb-5">Back-office</h1>
     <div class="row mb-3 justify-content-around">
         <button class="btn btn-lg btn-primary" onclick="showCreationForm('articlesForm')">Créer un article</button>
         <button class="btn btn-lg btn-primary" onclick="showCreationForm('rangesForm')">Créer une gamme</button>

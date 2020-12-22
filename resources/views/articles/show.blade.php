@@ -5,7 +5,7 @@ Détails {{$article->name}} - Laravel Online Store
 @endsection
 @section('content')
 
-<h2 class='pb-5 text-center'>Détails {{ $article->nom }}</h3>
+<h2 class='pb-5 text-center'>{{ $article->nom }}</h3>
 
     <div class="container">
         <div class="row justify-content-center">
@@ -16,7 +16,41 @@ Détails {{$article->name}} - Laravel Online Store
                     <h5 class="card-title font-weight-bold">{{$article->nom}}</h5>
                     <p class="card-text font-italic">{{$article->description}}</p>
                     <p class="card-text font-italic">{{$article->description_detaillee}}</p>
-                    <p class="card-text font-weight-light">{{$article->prix}}€</p>
+
+                    @if(($article->campagnes) !== null)
+                    <p class="card-text text-danger font-weight-bold">-{{$article->campagnes[0]->reduction}}%</p>
+                    <h5 class="card-text font-weight-light"><del>{{$article->prix}} €</del>
+                        <span class="text-danger font-weight-bold">
+                            @php
+                            $newPrice = $article->prix - $article->prix * ($article->campagnes[0]->reduction/100);
+                            echo number_format($newPrice, 2)
+                            @endphp
+                            €</span>
+                    </h5>
+                    @else
+                    <h5 class="card-text font-weight-light">{{$article->prix}} €</h5>
+                    @endif
+
+                    @php $articleId = $article->id @endphp
+
+                    @if(auth()->user()!== null && in_array($articleId, $favorisIds))
+                    <!-- si dans les favoris-->
+                    <form method="post" action="{{ route('favoris.destroy', $article) }}">
+                        @csrf
+                        @method('delete')
+                        <button type="submit" class="btn btn-danger m-2">Retirer des favoris</button>
+                        <input type="hidden" value="{{$article->id}}" name="articleId">
+                    </form>
+
+                    @else
+                    <!-- si pas dans les favoris-->
+                    <form method="post" action="{{ route('favoris.store', $article) }}">
+                        @csrf
+                        <button type="submit" class="btn btn-success m-2">Ajouter aux favoris</button>
+                        <input type="hidden" value="{{$article->id}}" name="articleId">
+                    </form>
+
+                    @endif
 
                     <form method="POST" action="{{ route('basket.add', $article) }}" class="form-inline d-inline-block">
                         @csrf
@@ -25,7 +59,13 @@ Détails {{$article->name}} - Laravel Online Store
                     </form>
 
                     <h5 class="p-4">Avis sur ce produit</h5>
-                    <div class="container w-50 m-auto">
+                    <div class="container w-75 m-auto">
+
+                        <div class="row pb-2 justify-content-center text-warning">
+                            <i class="fas fa-star fa-2x mr-4 text-warning"></i>
+                            <h4>{{$article->note}} / 5</h4>
+                        </div>
+
                         @php $avisNumber = count($article->avis);
                         @endphp
 
@@ -33,7 +73,7 @@ Détails {{$article->name}} - Laravel Online Store
 
                         @foreach($article->avis as $avis)
                         <div class="row justify-content-around text-info">
-                            <p>Posté par {{$avis->user_id}}</p>
+                            <p>Posté par {{$avis->user->pseudo}}</p>
                             <p>{{ \Carbon\Carbon::parse($avis->created_at)->diffForHumans() }}</p>
                         </div>
                         <div class="row justify-content-center">

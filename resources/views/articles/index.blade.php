@@ -17,16 +17,28 @@ Catalogue - Laravel Online Store
                 <div class="card-body">
                     <h5 class="card-title font-weight-bold">{{$article->nom}}</h5>
                     <p class="card-text font-italic">{{$article->description}}</p>
-                    <p class="card-text font-weight-light">{{$article->prix}}€</p>
+                    
+                    @if(($article->campagnes) !== null)
+                    <p class="card-text text-danger font-weight-bold">-{{$article->campagnes->reduction}}%</p>
+                    <h5 class="card-text font-weight-light"><del>{{$article->prix}} €</del>
+                        <span class="text-danger font-weight-bold">
+                            @php
+                            $newPrice = $article->prix - $article->prix * ($article->campagnes->reduction/100);
+                            echo number_format($newPrice, 2)
+                            @endphp
+                            €</span>
+                    </h5>
+                    @else
+                    <h5 class="card-text font-weight-light">{{$article->prix}} €</h5>
+                    @endif
 
                     <a href="{{ route('articles.show', $article) }}">
                         <button class="btn btn-info m-2">Détails produit</button>
                     </a>
 
-                    <!--  problème ici -->
-
                     @php $articleId = $article->id @endphp
-                    @if(in_array($articleId, $favorisIds))
+
+                    @if(auth()->user()!== null && in_array($articleId, $favorisIds))
                     <!-- si dans les favoris-->
                     <form method="post" action="{{ route('favoris.destroy', $article) }}">
                         @csrf

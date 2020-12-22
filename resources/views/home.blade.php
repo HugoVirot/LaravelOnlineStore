@@ -21,11 +21,40 @@
                 <div class="card-body">
                     <h5 class="card-title font-weight-bold">{{$articles[$i]->nom}}</h5>
                     <p class="card-text font-italic">{{$articles[$i]->description}}</p>
-                    <p class="card-text font-weight-light">{{$articles[$i]->prix}}€</p>
+                    <h5 class="card-text font-weight-light"><del>{{$articles[$i]->prix}} €</del>
+                        <span class="text-danger font-weight-bold">
+                            @php
+                            $newPrice = $articles[$i]->prix - $articles[$i]->prix * ($articles[$i]->campagnes[0]->reduction/100);
+                            echo number_format($newPrice, 2)
+                            @endphp
+                            €</span>
+                    </h5>
 
                     <a href="{{ route('articles.show', $articles[$i]) }}">
                         <button class="btn btn-info m-2">Détails produit</button>
                     </a>
+
+
+                    @php $articleId = $articles[$i]->id @endphp
+
+                    @if(auth()->user()!== null && in_array($articleId, $favorisIds))
+                    <!-- si dans les favoris-->
+                    <form method="post" action="{{ route('favoris.destroy', $articles[$i]) }}">
+                        @csrf
+                        @method('delete')
+                        <button type="submit" class="btn btn-danger m-2">Retirer des favoris</button>
+                        <input type="hidden" value="{{$articles[$i]->id}}" name="articleId">
+                    </form>
+
+                    @else
+                    <!-- si pas dans les favoris-->
+                    <form method="post" action="{{ route('favoris.store', $articles[$i]) }}">
+                        @csrf
+                        <button type="submit" class="btn btn-success m-2">Ajouter aux favoris</button>
+                        <input type="hidden" value="{{$articles[$i]->id}}" name="articleId">
+                    </form>
+
+                    @endif
 
                     <form method="POST" action="{{ route('basket.add', $articles[$i]->id) }}" class="form-inline d-inline-block">
                         @csrf
@@ -63,11 +92,46 @@
                 </div>
                 <h5 class="card-title font-weight-bold">{{$article->nom}}</h5>
                 <p class="card-text font-italic">{{$article->description}}</p>
-                <p class="card-text font-weight-light">{{$article->prix}}€</p>
+
+                @if(($article->campagnes) !== null)
+                <p class="card-text text-danger font-weight-bold">-{{$article->campagnes[0]->reduction}}%</p>
+                <h5 class="card-text font-weight-light"><del>{{$article->prix}} €</del>
+                    <span class="text-danger font-weight-bold">
+                        @php
+                        $newPrice = $article->prix - $article->prix * ($article->campagnes[0]->reduction/100);
+                        echo number_format($newPrice, 2)
+                        @endphp
+                        €</span>
+                </h5>
+                @else
+                <h5 class="card-text font-weight-light">{{$article->prix}} €</h5>
+                @endif
 
                 <a href="{{ route('articles.show', $article) }}">
                     <button class="btn btn-info m-2">Détails produit</button>
                 </a>
+
+
+                @php $articleId = $article->id @endphp
+
+                @if(auth()->user()!== null && in_array($articleId, $favorisIds))
+                <!-- si dans les favoris-->
+                <form method="post" action="{{ route('favoris.destroy', $article) }}">
+                    @csrf
+                    @method('delete')
+                    <button type="submit" class="btn btn-danger m-2">Retirer des favoris</button>
+                    <input type="hidden" value="{{$article->id}}" name="articleId">
+                </form>
+
+                @else
+                <!-- si pas dans les favoris-->
+                <form method="post" action="{{ route('favoris.store', $article) }}">
+                    @csrf
+                    <button type="submit" class="btn btn-success m-2">Ajouter aux favoris</button>
+                    <input type="hidden" value="{{$article->id}}" name="articleId">
+                </form>
+
+                @endif
 
                 <form method="POST" action="{{ route('basket.add', $article->id) }}" class="form-inline d-inline-block">
                     @csrf

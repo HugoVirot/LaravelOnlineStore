@@ -17,7 +17,7 @@ class CreateArticlesTable extends Migration
             $table->id();
             $table->string('nom');
             $table->string('description');
-            $table->string('description_detaillee');
+            $table->text('description_detaillee');
             $table->string('image');
             $table->float('prix');
             $table->integer('stock');

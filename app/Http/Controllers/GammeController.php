@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Gamme;
+use Illuminate\Support\Facades\DB;
 
 class GammeController extends Controller
 {
@@ -15,7 +16,19 @@ class GammeController extends Controller
     public function index()
     {
         $gammes = Gamme::all();
-        return view('gammes/index', ['gammes' => $gammes]);
+
+        if (auth()->user()) {
+            $userId = auth()->user()->id;
+            $favorisIds = DB::table('favoris')->where('user_id', '=', $userId)->pluck('article_id');
+            $favorisIds = $favorisIds->toArray();
+        } else {
+            $favorisIds = null;
+        }
+
+        return view('gammes/index', [
+            'gammes' => $gammes,
+            'favorisIds' => $favorisIds
+        ]);
     }
 
     /**
@@ -63,8 +76,7 @@ class GammeController extends Controller
      */
     public function edit(Gamme $gamme)
     {
-        return view ('gammes/edit', ['gamme' => $gamme]);
-
+        return view('gammes/edit', ['gamme' => $gamme]);
     }
 
     /**
@@ -93,8 +105,7 @@ class GammeController extends Controller
     public function destroy(Gamme $gamme)
     {
         $gamme->load('articles');
-        foreach ($gamme->articles as $article)
-        {
+        foreach ($gamme->articles as $article) {
             $article->delete();
         }
         $gamme->delete();

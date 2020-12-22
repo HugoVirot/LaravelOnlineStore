@@ -15,10 +15,20 @@ class ArticleController extends Controller
      */
     public function index()
     {
+        // $articles = Article::with('campagnes')->get();
         $articles = Article::all();
-        $userId = auth()->user()->id;
-        $favorisIds = DB::table('favoris')->where('user_id', '=', $userId)->get('article_id');
-        $favorisIds = $favorisIds->toArray();
+        $articles->load('campagnes');
+        dd($articles);
+
+        if (auth()->user()) {
+            $userId = auth()->user()->id;
+            $favorisIds = DB::table('favoris')->where('user_id', '=', $userId)->pluck('article_id');
+            $favorisIds = $favorisIds->toArray();
+        } else {
+            $favorisIds = null;
+        }
+
+        dd($articles);
         return view('articles/index', [
             'articles' => $articles,
             'favorisIds' => $favorisIds
@@ -65,8 +75,20 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        $article->load('avis');
-        return view('articles/show', ['article' => $article]);
+        $article->load('avis.user', 'campagnes');
+
+        if (auth()->user()) {
+            $userId = auth()->user()->id;
+            $favorisIds = DB::table('favoris')->where('user_id', '=', $userId)->pluck('article_id');
+            $favorisIds = $favorisIds->toArray();
+        } else {
+            $favorisIds = null;
+        }
+
+        return view('articles/show', [
+            'article' => $article,
+            'favorisIds' => $favorisIds
+        ]);
     }
 
     /**

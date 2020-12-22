@@ -36,25 +36,50 @@ class AvisController extends Controller
      */
     public function store(Request $request)
     {
+        // 1) sauvegarde nouvelle note
+
         $request->validate([
             'note' => 'required',
             'commentaire' => 'min:10|max:255'
         ]);
 
+        $articleId = $request->input('articleId');
+        $newNote = intval($request->input('note'));
+
+        // dd($newNote);
+
+        // 2) calcul moyenne = note actuelle + nouvelle note / nb notes
+
+        $article = Article::find($articleId); //ok
+        // dd($article);
+
+        $currentAverageNote = $article->note; // ok
+        // dd($currentAverageNote);
+
+        $allArticleReviews= Avis::where('article_id', $articleId)->get(); // ok
+        // dd($allArticleReviews);
+
+        $notesNumber = count($allArticleReviews); // ok
+        // dd($notesNumber);
+
+        $newAverageNote = ($currentAverageNote * $notesNumber + $newNote) / ($notesNumber + 1);
+
+        // current average = 0 + new = 4   /  1
+
+        // dd($currentAverageNote + $newNote);
+
+        $article->note = $newAverageNote;
+        // dd($article->note);
+
+        $article->save();
+
         Avis::create([
-            'note' => $request->input('note'),
+            'note' => $newNote,
             'commentaire' => $request->input('commentaire'),
             'user_id' => auth()->user()->id,
-            'article_id' => $request->input('articleId')
+            'article_id' => $articleId
         ]);
 
-        $article = Article::find($request->input('articleId'));
-            
-        $currentNote = $article->note;
-        $newNote = $request->input('note');
-
-        // moyenne = note actuelle + nouvelle note / nb notes
-        
         return redirect()->back()->with('message', 'Avis enregistré !');
     }
 
