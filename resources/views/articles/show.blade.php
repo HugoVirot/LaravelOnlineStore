@@ -5,20 +5,19 @@ Détails {{$article->name}} - Laravel Online Store
 @endsection
 @section('content')
 
-<h2 class='pb-5 text-center'>{{ $article->nom }}</h3>
+<h2 class='pb-3 text-center'>{{ $article->nom }}</h3>
 
     <div class="container">
         <div class="row justify-content-center">
 
             <div class="card text-center col-md-6 p-3 m-3\" style="width: 18rem;">
-                <img class="card-img-top" src="{{ asset("images/$article->image") }}" alt="article">
+                <img class="card-img-top mb-3" src="{{ asset("images/$article->image") }}" alt="article">
                 <div class="card-body">
-                    <h5 class="card-title font-weight-bold">{{$article->nom}}</h5>
-                    <p class="card-text font-italic">{{$article->description}}</p>
+                    <h5 class="card-text font-weight-bold text-info">{{$article->description}}</h5>
                     <p class="card-text font-italic">{{$article->description_detaillee}}</p>
 
                     @if(($article->campagnes) !== null)
-                    <p class="card-text text-danger font-weight-bold">-{{$article->campagnes[0]->reduction}}%</p>
+                    <p class="card-text text-danger font-weight-bold">{{$article->campagnes[0]->nom}} : -{{$article->campagnes[0]->reduction}}%</p>
                     <h5 class="card-text font-weight-light"><del>{{$article->prix}} €</del>
                         <span class="text-danger font-weight-bold">
                             @php
@@ -38,7 +37,7 @@ Détails {{$article->name}} - Laravel Online Store
                     <form method="post" action="{{ route('favoris.destroy', $article) }}">
                         @csrf
                         @method('delete')
-                        <button type="submit" class="btn btn-danger m-2">Retirer des favoris</button>
+                        <button type="submit" class="btn btn-warning m-2">Retirer des favoris</button>
                         <input type="hidden" value="{{$article->id}}" name="articleId">
                     </form>
 
@@ -55,10 +54,10 @@ Détails {{$article->name}} - Laravel Online Store
                     <form method="POST" action="{{ route('basket.add', $article) }}" class="form-inline d-inline-block">
                         @csrf
                         <input type="number" name="quantite" placeholder="Quantité ?" class="form-control mr-2">
-                        <button type="submit" class="btn btn-warning">+ Ajouter au panier</button>
+                        <button type="submit" class="btn btn-danger">+ Ajouter au panier</button>
                     </form>
 
-                    <h5 class="p-4">Avis sur ce produit</h5>
+                    <h5 class="p-4">Note et avis sur ce produit</h5>
                     <div class="container w-75 m-auto">
 
                         <div class="row pb-2 justify-content-center text-warning">

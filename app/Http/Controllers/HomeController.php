@@ -41,7 +41,6 @@ class HomeController extends Controller
         ]);
     }
 
-
     public function apropos()
     {
         return view('apropos');

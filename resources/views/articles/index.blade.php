@@ -17,13 +17,16 @@ Catalogue - Laravel Online Store
                 <div class="card-body">
                     <h5 class="card-title font-weight-bold">{{$article->nom}}</h5>
                     <p class="card-text font-italic">{{$article->description}}</p>
-                    
-                    @if(($article->campagnes) !== null)
-                    <p class="card-text text-danger font-weight-bold">-{{$article->campagnes->reduction}}%</p>
+
+                    @if(in_array($article->id, $campagnesArticlesIds))
+
+                    @php $campagne = GetCampaign($campagnes, $article->id) @endphp
+
+                    <p class="card-text text-danger font-weight-bold">{{$campagne->nom}} : -{{$campagne->reduction}}%</p>
                     <h5 class="card-text font-weight-light"><del>{{$article->prix}} €</del>
                         <span class="text-danger font-weight-bold">
                             @php
-                            $newPrice = $article->prix - $article->prix * ($article->campagnes->reduction/100);
+                            $newPrice = $article->prix - $article->prix * ($campagne->reduction/100);
                             echo number_format($newPrice, 2)
                             @endphp
                             €</span>

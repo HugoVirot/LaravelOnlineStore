@@ -32,7 +32,7 @@
 						<strong><a href="{{ route('articles.show', $key) }}" title="Afficher le produit">{{ $item['nom'] }}</a></strong>
 					</td>
 					<td>{{ $item['prix'] }} €</td>
-					<td>{{ $item['description'] }} €</td>
+					<td>{{ $item['description'] }}</td>
 					<td>
 						<!-- Le formulaire de mise à jour de la quantité -->
 						<form method="POST" action="{{ route('basket.add', $key) }}" class="form-inline d-inline-block">

@@ -26,7 +26,23 @@ Gammes - Laravel Online Store
                             <div class="card-body">
                                 <h5 class="card-title font-weight-bold">{{$article->nom}}</h5>
                                 <p class="card-text font-italic">{{$article->description}}</p>
-                                <p class="card-text font-weight-light">{{$article->prix}}€</p>
+
+                                @if(in_array($article->id, $campagnesArticlesIds))
+
+                                @php $campagne = GetCampaign($campagnes, $article->id) @endphp
+
+                                <p class="card-text text-danger font-weight-bold">{{$campagne->nom}} : -{{$campagne->reduction}}%</p>
+                                <h5 class="card-text font-weight-light"><del>{{$article->prix}} €</del>
+                                    <span class="text-danger font-weight-bold">
+                                        @php
+                                        $newPrice = $article->prix - $article->prix * ($campagne->reduction/100);
+                                        echo number_format($newPrice, 2)
+                                        @endphp
+                                        €</span>
+                                </h5>
+                                @else
+                                <h5 class="card-text font-weight-light">{{$article->prix}} €</h5>
+                                @endif
 
                                 <a href="{{ route('articles.show', $article) }}">
                                     <button class="btn btn-info m-2">Détails produit</button>
@@ -52,7 +68,7 @@ Gammes - Laravel Online Store
                                 </form>
 
                                 @endif
-                                
+
                                 <form method="POST" action="{{ route('basket.add', $article->id) }}" class="form-inline d-inline-block">
                                     @csrf
                                     <input type="number" name="quantite" placeholder="Quantité ?" class="form-control mr-2" value="{{ isset(session('basket')[$article->id]) ? session('basket')[$article->id]['quantite'] : null }}">

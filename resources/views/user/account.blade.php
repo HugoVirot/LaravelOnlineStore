@@ -12,7 +12,7 @@ Mon compte - Laravel Online Store
 
         <div class="col-md-6">
 
-            <h4 class="text-center p-5">Mes informations</h4>
+            <h4 class="text-center p-4">Mes informations</h4>
 
             <div class="row">
                 <div class="col-10 offset-1 text-center">
@@ -45,7 +45,7 @@ Mon compte - Laravel Online Store
 
         <div class="col-md-6">
 
-            <h4 class="text-center p-5">Modifier mon mot de passe</h4>
+            <h4 class="text-center p-4">Modifier mon mot de passe</h4>
 
             <div class="row">
                 <div class="col-10 offset-1 text-center">
@@ -95,9 +95,9 @@ Mon compte - Laravel Online Store
     </div>
 </div>
 
-<h4 class="text-center pt-5">Mes adresses</h4>
+<h4 class="text-center p-4">Mes adresses</h4>
 @foreach($user->adresses as $adresse)
-<div class="row">
+<div class="row w-75 m-auto">
     <div class="col-6 offset-3 text-center border border-info">
         <form class="col-12 mx-auto pt-5" action="{{ route('address.update', $adresse) }}" method="post">
             @method('PUT')
@@ -130,37 +130,32 @@ Mon compte - Laravel Online Store
 </div>
 @endforeach
 
-@if(count($user->adresses) < 2) <div class="container text-center mt-5">
-    <h5> Ajouter une adresse (maximum 2)</h5>
+@if(count($user->adresses) < 2) 
+<h5 class="text-center pt-4 pb-3"> Ajouter une adresse (maximum 2)</h5>
 
-    <div class="row mt-4">
-        <div class="col-4">
-        </div>
-        <div class="col-4 text-center">
-            <form class="col-12 mx-auto p-5 border border-info" action="{{ route('address.create') }}" method="post">
-                @csrf
-                <div class="form-group">
-                    <label for="adresse">Adresse</label>
-                    <input name="adresse" type="text" class="form-control" id="adresse" placeholder="15, rue Laravel" required>
-                </div>
-                <div class="form-group">
-                    <label for="code_postal">Code Postal</label>
-                    <input name="code_postal" type="text" class="form-control" id="code_postal" placeholder="12345" required>
-                </div>
-                <div class="form-group">
-                    <label for="ville">Ville</label>
-                    <input name="ville" type="text" class="form-control" id="ville" placeholder="PHPCITY" required>
-                </div>
-                <input type="hidden" value="{{ auth()->user()->id }}" name="user_id">
-                <div class="row justify-content-center mt-4">
-                    <button type="submit" class="btn btn-info text-light">Enregistrer l'adresse</button>
-                </div>
-            </form>
-        </div>
-        <div class="col-4">
-        </div>
+<div class="row text-center w-75 m-auto mt-4">
+    <div class="col-6 offset-3 text-center">
+        <form class="col-12 mx-auto p-5 border border-info" action="{{ route('address.create') }}" method="post">
+            @csrf
+            <div class="form-group">
+                <label for="adresse">Adresse</label>
+                <input name="adresse" type="text" class="form-control" id="adresse" placeholder="15, rue Laravel" required>
+            </div>
+            <div class="form-group">
+                <label for="code_postal">Code Postal</label>
+                <input name="code_postal" type="text" class="form-control" id="code_postal" placeholder="12345" required>
+            </div>
+            <div class="form-group">
+                <label for="ville">Ville</label>
+                <input name="ville" type="text" class="form-control" id="ville" placeholder="PHPCITY" required>
+            </div>
+            <input type="hidden" value="{{ auth()->user()->id }}" name="user_id">
+            <div class="row justify-content-center mt-4">
+                <button type="submit" class="btn btn-info text-light">Enregistrer l'adresse</button>
+            </div>
+        </form>
     </div>
-    </div>
+</div>
     @endif
 
     <h4 class="text-center pt-5"> Mes commandes</h4>

@@ -35,10 +35,11 @@ class UserController extends Controller
         $currentPasswordDatabase = $user->password;
         $newPassword = $request->input('newPassword');
 
+        // test 1 : mdp actuel saisi = mdp actuel base 
+        if (Hash::check($currentPassword, $currentPasswordDatabase)) {  
 
-        if (Hash::check($currentPassword, $currentPasswordDatabase)) {  // test 1 : mdp actuel saisi = mdp actuel base 
-
-            if (($currentPassword !== $newPassword)) {    // test 2 : ancien et nouveau mdp différents
+            // test 2 : ancien et nouveau mdp différents
+            if (($currentPassword !== $newPassword)) {    
 
                 $user->update(['password' => Hash::make($newPassword)]);
                 return redirect()->route('home')->with('message', 'Le mot de passe a bien été modifié');
@@ -49,7 +50,6 @@ class UserController extends Controller
             return redirect()->back()->withErrors(['Attention !', 'mot de passe actuel saisi incorrect']);
         }
     }
-
 
     /**
      * Update the specified resource in storage.

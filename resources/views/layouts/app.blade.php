@@ -72,11 +72,13 @@
                                 Panier
                             </a>
                         </li>
+                        @if(auth()->user() !== null)
                         <li>
                             <a class="navbar-brand" href="{{ route('favoris.index') }}">
                                 Favoris
                             </a>
                         </li>
+                        @endif
                         <!-- Left Side Of Navbar -->
 
                     </ul>

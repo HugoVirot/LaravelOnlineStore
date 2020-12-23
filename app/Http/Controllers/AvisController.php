@@ -8,25 +8,6 @@ use App\Models\Article;
 
 class AvisController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -36,42 +17,34 @@ class AvisController extends Controller
      */
     public function store(Request $request)
     {
-        // 1) sauvegarde nouvelle note
+        // 1) validation inputs requête + déclaration variables utiles pour la suite
 
         $request->validate([
-            'note' => 'required',
+            'note' => 'required|min:1|max:5',
             'commentaire' => 'min:10|max:255'
         ]);
 
         $articleId = $request->input('articleId');
         $newNote = intval($request->input('note'));
 
-        // dd($newNote);
 
-        // 2) calcul moyenne = note actuelle + nouvelle note / nb notes
+        // 2) calcul moyenne = (note actuelle * nb notes + nouvelle note) / (nb notes + 1)
 
-        $article = Article::find($articleId); //ok
-        // dd($article);
-
-        $currentAverageNote = $article->note; // ok
-        // dd($currentAverageNote);
-
-        $allArticleReviews= Avis::where('article_id', $articleId)->get(); // ok
-        // dd($allArticleReviews);
-
-        $notesNumber = count($allArticleReviews); // ok
-        // dd($notesNumber);
+        $article = Article::find($articleId);
+        $currentAverageNote = $article->note;
+        $allArticleReviews = Avis::where('article_id', $articleId)->get();
+        $notesNumber = count($allArticleReviews);
 
         $newAverageNote = ($currentAverageNote * $notesNumber + $newNote) / ($notesNumber + 1);
 
-        // current average = 0 + new = 4   /  1
 
-        // dd($currentAverageNote + $newNote);
+        // 3) sauvegarde de la nouvelle note moyenne de l'article
 
         $article->note = $newAverageNote;
-        // dd($article->note);
-
         $article->save();
+
+
+        // 4) sauvegarde de l'avis + redirection
 
         Avis::create([
             'note' => $newNote,
@@ -81,50 +54,5 @@ class AvisController extends Controller
         ]);
 
         return redirect()->back()->with('message', 'Avis enregistré !');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

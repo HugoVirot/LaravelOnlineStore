@@ -24,7 +24,7 @@
                     <h5 class="card-text font-weight-light"><del>{{$articles[$i]->prix}} €</del>
                         <span class="text-danger font-weight-bold">
                             @php
-                            $newPrice = $articles[$i]->prix - $articles[$i]->prix * ($articles[$i]->campagnes[0]->reduction/100);
+                            $newPrice = $articles[$i]->prix - $articles[$i]->prix * ($christmasArticles->reduction/100);
                             echo number_format($newPrice, 2)
                             @endphp
                             €</span>
@@ -37,12 +37,13 @@
 
                     @php $articleId = $articles[$i]->id @endphp
 
-                    @if(auth()->user()!== null && in_array($articleId, $favorisIds))
+                    @if(auth()->user()!== null)
+                    @if(in_array($articleId, $favorisIds))
                     <!-- si dans les favoris-->
                     <form method="post" action="{{ route('favoris.destroy', $articles[$i]) }}">
                         @csrf
                         @method('delete')
-                        <button type="submit" class="btn btn-danger m-2">Retirer des favoris</button>
+                        <button type="submit" class="btn btn-warning m-2">Retirer des favoris</button>
                         <input type="hidden" value="{{$articles[$i]->id}}" name="articleId">
                     </form>
 
@@ -54,6 +55,7 @@
                         <input type="hidden" value="{{$articles[$i]->id}}" name="articleId">
                     </form>
 
+                    @endif
                     @endif
 
                     <form method="POST" action="{{ route('basket.add', $articles[$i]->id) }}" class="form-inline d-inline-block">
@@ -93,12 +95,16 @@
                 <h5 class="card-title font-weight-bold">{{$article->nom}}</h5>
                 <p class="card-text font-italic">{{$article->description}}</p>
 
-                @if(($article->campagnes) !== null)
-                <p class="card-text text-danger font-weight-bold">-{{$article->campagnes[0]->reduction}}%</p>
+                @if(isset($article->campagnes[0]))
+                @php
+                $campagne = ($article->campagnes)->toArray();
+                $reduction = $campagne[0]['reduction'];
+                @endphp
+                <p class="card-text text-danger font-weight-bold">-{{$reduction}}%</p>
                 <h5 class="card-text font-weight-light"><del>{{$article->prix}} €</del>
                     <span class="text-danger font-weight-bold">
                         @php
-                        $newPrice = $article->prix - $article->prix * ($article->campagnes[0]->reduction/100);
+                        $newPrice = $article->prix - $article->prix * ($reduction/100);
                         echo number_format($newPrice, 2)
                         @endphp
                         €</span>
@@ -114,12 +120,13 @@
 
                 @php $articleId = $article->id @endphp
 
-                @if(auth()->user()!== null && in_array($articleId, $favorisIds))
+                @if(auth()->user()!== null)
+                @if(in_array($articleId, $favorisIds))
                 <!-- si dans les favoris-->
                 <form method="post" action="{{ route('favoris.destroy', $article) }}">
                     @csrf
                     @method('delete')
-                    <button type="submit" class="btn btn-danger m-2">Retirer des favoris</button>
+                    <button type="submit" class="btn btn-warning m-2">Retirer des favoris</button>
                     <input type="hidden" value="{{$article->id}}" name="articleId">
                 </form>
 
@@ -131,6 +138,7 @@
                     <input type="hidden" value="{{$article->id}}" name="articleId">
                 </form>
 
+                @endif
                 @endif
 
                 <form method="POST" action="{{ route('basket.add', $article->id) }}" class="form-inline d-inline-block">

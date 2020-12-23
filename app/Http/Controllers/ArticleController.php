@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\Campagne;
 use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
@@ -15,10 +16,10 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        // $articles = Article::with('campagnes')->get();
         $articles = Article::all();
-        $articles->load('campagnes');
-        dd($articles);
+        $campagnes = Campagne::all();
+        $campagnesArticlesIds = DB::table('campagne_articles')->pluck('article_id');
+        $campagnesArticlesIds = $campagnesArticlesIds->toArray();
 
         if (auth()->user()) {
             $userId = auth()->user()->id;
@@ -28,21 +29,12 @@ class ArticleController extends Controller
             $favorisIds = null;
         }
 
-        dd($articles);
         return view('articles/index', [
             'articles' => $articles,
-            'favorisIds' => $favorisIds
+            'campagnes' => $campagnes,
+            'campagnesArticlesIds' => $campagnesArticlesIds,
+            'favorisIds' => $favorisIds,
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Campagne;
 use Illuminate\Http\Request;
 use App\Models\Gamme;
+
 use Illuminate\Support\Facades\DB;
 
 class GammeController extends Controller
@@ -16,6 +18,12 @@ class GammeController extends Controller
     public function index()
     {
         $gammes = Gamme::all();
+        $gammes->load('articles');
+
+        $campagnes = Campagne::all();
+
+        $campagnesArticlesIds = DB::table('campagne_articles')->pluck('article_id');
+        $campagnesArticlesIds = $campagnesArticlesIds->toArray();
 
         if (auth()->user()) {
             $userId = auth()->user()->id;
@@ -27,18 +35,10 @@ class GammeController extends Controller
 
         return view('gammes/index', [
             'gammes' => $gammes,
+            'campagnes' => $campagnes,
+            'campagnesArticlesIds' => $campagnesArticlesIds,
             'favorisIds' => $favorisIds
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -54,18 +54,8 @@ class GammeController extends Controller
         ]);
 
         Gamme::create($request->all());
+        
         return redirect()->route('admin.index')->with('message', 'Gamme créée avec succès');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**

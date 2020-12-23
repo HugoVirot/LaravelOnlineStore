@@ -21,13 +21,17 @@ class AdresseController extends Controller
             'code_postal' => 'required|min:3|max:50',
             'ville' => 'required|min:3|max:50',
         ]);
-          
-        $adresse = new Adresse();
-        $adresse->adresse = $request->input('adresse');
-        $adresse->code_postal = $request->input('code_postal');
-        $adresse->ville = $request->input('ville');
-        $adresse->user_id = $request->input('user_id');
-        $adresse->save();
+
+        // ------------- solution 1 ----------------
+        // $adresse = new Adresse();
+        // $adresse->adresse = $request->input('adresse');
+        // $adresse->code_postal = $request->input('code_postal');
+        // $adresse->ville = $request->input('ville');
+        // $adresse->user_id = $request->input('user_id');
+        // $adresse->save();
+
+        // ------------- solution 2 (optimale !)-----------------
+        Adresse::create($request->all());
 
         return redirect()->back()->with('message', 'Adresse enregistrée !');
     }
