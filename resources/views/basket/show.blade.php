@@ -76,7 +76,7 @@
 
 		@else
 		<div class="container p-5 m-3">
-		<div class="alert alert-info m-5">Aucun produit dans le panier</div>
+		<div class="alert alert-info m-5 text-center">Aucun produit dans le panier</div>
 		</div>
 		@endif
 	</div>

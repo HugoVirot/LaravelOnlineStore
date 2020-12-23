@@ -65,7 +65,7 @@ class BasketController extends Controller
 		$this->basketRepository->empty();
 
 		// Redirection 
-		return redirect('basket.show')->withMessage("Panier vidé");
+		return back()->withMessage("Panier vidé");
 	}
 
 	// Vider le panier après validation commande
