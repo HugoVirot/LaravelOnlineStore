@@ -37,7 +37,7 @@
 						<!-- Le formulaire de mise à jour de la quantité -->
 						<form method="POST" action="{{ route('basket.add', $key) }}" class="form-inline d-inline-block">
 							@csrf
-							<input type="number" name="quantite" placeholder="Quantité ?" value="{{ $item['quantite'] }}" class="form-control mr-2" style="width: 80px">
+							<input type="number" min="1" max="9" name="quantite" value="{{ $item['quantite'] }}" class="form-control mr-2" style="width: 80px">
 							<input type="submit" class="btn btn-primary" value="Actualiser" />
 						</form>
 					</td>
@@ -75,7 +75,9 @@
 		@endif
 
 		@else
-		<div class="alert alert-info">Aucun produit dans le panier</div>
+		<div class="container p-5 m-3">
+		<div class="alert alert-info m-5">Aucun produit dans le panier</div>
+		</div>
 		@endif
 	</div>
 </div>

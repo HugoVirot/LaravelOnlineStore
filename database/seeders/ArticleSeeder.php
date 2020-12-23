@@ -34,7 +34,7 @@ class ArticleSeeder extends Seeder
             'image' => 'blu-ray.jpg',
             'gamme_id' => 2,
             'prix' => 190.50,
-            'stock' => 30,
+            'stock' => 3,
             'note' => 4.4,
         ]);
 
@@ -56,7 +56,7 @@ class ArticleSeeder extends Seeder
             'image' => 'iphone.jpg',
             'gamme_id' => 3,
             'prix' => 1099.49,
-            'stock' => 86,
+            'stock' => 0,
             'note' => 4.3,
         ]);
 
@@ -89,7 +89,7 @@ class ArticleSeeder extends Seeder
             'image' => 'fold.jpg',
             'gamme_id' => 3,
             'prix' => 899.99,
-            'stock' => 28,
+            'stock' => 7,
             'note' => 4.8,
         ]);
         
@@ -100,7 +100,7 @@ class ArticleSeeder extends Seeder
             'image' => 'vivobook.jpg',
             'gamme_id' => 1,
             'prix' => 750.49,
-            'stock' => 72,
+            'stock' => 8,
             'note' => 4.0,
         ]);
 

@@ -1,13 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+
+<h1 class="pb-3 text-center">Notre histoire</h1>
+
 <div class="container-fluid text-center p-3">
     <img src="{{ asset("images/evolution.png") }}" alt="logo" style="width : 80vw">
 </div>
 
 <div class="container text-center w-75 p-5">
     <div class="row justify-content-center">
-        <h3 class="pb-3">Notre histoire</h3>
         <p>
             Fondé en 1988, l'entreprise Laravel Digital Equipment est née avec cette philosophie : <b>vous proposer les meilleurs produits hi-tech du marché, à des prix défiant toute concurrence.</b><br>
             A l'origine, un magasin, le Laravel Store, situé à Paris, fournit les franciliens en ordinateurs Apple, en consoles Atari et en disquettes.<br>
@@ -20,13 +22,14 @@
     </div>
 </div>
 
+<h1 class="pb-3 text-center">Qualité</h1>
+
 <div class="container-fluid text-center p-3">
     <img src="{{ asset("images/history.jpg") }}" alt="logo" style="width : 80vw">
 </div>
 
 <div class="container text-center w-75 p-5">
     <div class="row justify-content-center">
-        <h3 class="pb-3">Qualité</h3>
         <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, incidunt quam inventore perspiciatis error quas totam similique illum architecto, facilis praesentium qui ex laudantium laborum aperiam odit enim dolor numquam.
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, incidunt quam inventore perspiciatis error quas totam similique illum architecto, facilis praesentium qui ex laudantium laborum aperiam odit enim dolor numquam.

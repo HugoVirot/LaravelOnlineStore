@@ -15,6 +15,7 @@ Détails {{$article->name}} - Laravel Online Store
                 <div class="card-body">
                     <h5 class="card-text font-weight-bold text-info">{{$article->description}}</h5>
                     <p class="card-text font-italic">{{$article->description_detaillee}}</p>
+                    <i class="fas fa-boxes fa-2x mr-2"></i>@php DisplayStock($article->stock) @endphp
 
                     @if(($article->campagnes) !== null)
                     <p class="card-text text-danger font-weight-bold">{{$article->campagnes[0]->nom}} : -{{$article->campagnes[0]->reduction}}%</p>
@@ -51,12 +52,14 @@ Détails {{$article->name}} - Laravel Online Store
 
                     @endif
 
+                    @if ($article->stock !== 0)
                     <form method="POST" action="{{ route('basket.add', $article) }}" class="form-inline d-inline-block">
                         @csrf
-                        <input type="number" name="quantite" placeholder="Quantité ?" class="form-control mr-2">
+                        <input type="number" min="1" max="9" name="quantite" value="1" class="form-control mr-2">
                         <button type="submit" class="btn btn-danger">+ Ajouter au panier</button>
                     </form>
-
+                    @endif
+                    
                     <h5 class="p-4">Note et avis sur ce produit</h5>
                     <div class="container w-75 m-auto">
 

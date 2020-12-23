@@ -46,7 +46,6 @@
                     </td>
                 </tr>
             </tbody>
-
         </table>
     </div>
     <div class="container w-50 text-center p-4">
@@ -88,70 +87,99 @@
         </div>
     </div>
 
-    @foreach($user->adresses as $adresse)
 
-    @if($loop->iteration == 1)
     <h3 class="p-3">Adresse de livraison</h3>
-    @else
-    <h3 class="p-3">Adresse de facturation</h3>
-    @endif
+
     <div class="row pb-3">
         <div class="col-6 offset-3 text-center border border-info">
-            <form class="col-12 mx-auto pt-5" action="{{ route('address.update', $adresse) }}" method="post">
-                @method('PUT')
+
+            @if ((session('adresseLivraison') !== null))
+            @php $adresseLivraison = session('adresseLivraison') @endphp
+
+            <div class="font-weight-bold pt-3">
+                <p>{{$user->prenom}} {{$user->nom}}</p>
+                <p>{{$adresseLivraison->adresse}}</p>
+                <p>{{$adresseLivraison->code_postal}} {{$adresseLivraison->ville}}</p>
+            </div>
+            
+            @else
+            <p class="mt-4">Aucune adresse choisie.</p>
+            @endif
+
+            <form action="{{ route('basket.validation') }}" class="p-3" method="post">
                 @csrf
                 <div class="form-group">
-                    <label for="adresse">Adresse</label>
-                    <input name="adresse" type="text" class="form-control" id="adresse" value="{{ $adresse->adresse }}" required>
-                </div>
-                <div class="form-group">
-                    <label for="code_postal">Code Postal</label>
-                    <input name="code_postal" type="text" class="form-control" id="code_postal" value="{{ $adresse->code_postal }}" required>
-                </div>
-                <div class="form-group">
-                    <label for="ville">Ville</label>
-                    <input name="ville" type="text" class="form-control" id="ville" value="{{ $adresse->ville }}" required>
-                </div>
-                <input type="hidden" value="{{ auth()->user()->id }}" name="user_id">
-                <input type="hidden" value="{{ $adresse->id }}" name="adresse_id">
-                <div class="row justify-content-center mt-4">
-                    <button type="submit" class="btn btn-info text-light">Modifier</button>
+                    <label for="adresseLivraisonId">Choisisez une adresse</label>
+                    <select name="adresseLivraisonId" id="adresseLivraisonId">
+                        <option value=""></option>
+                        @foreach ($user->adresses as $adresse)
+                        <option value="{{ $adresse->id }}">
+                            <p>{{$adresse->adresse}}</p>
+                            <p>{{$adresse->code_postal}}</p>
+                            <p>{{$adresse->ville}}</p>
+                        </option>
+                        @endforeach
+                    </select>
+                    <button type="submit" class="btn btn-warning">Sélectionner</button>
                 </div>
             </form>
-            <form action="{{ route('address.delete', $adresse) }}" class="p-3" method="post">
-                @csrf
-                @method('delete')
-                <input type="hidden" value="{{ $adresse->id }}" name="adresse_id">
-                <button type="submit" class="btn btn-danger">Supprimer</button>
-            </form>
+
         </div>
     </div>
-    @endforeach
+
+    <h3 class="p-3">Adresse de facturation</h3>
+
+    <div class="row pb-3">
+        <div class="col-6 offset-3 text-center border border-info">
+
+            @if ((session('adresseFacturation') !== null))
+            @php $adresseFacturation = session('adresseFacturation') @endphp
+
+            <div class="font-weight-bold pt-3">
+                <p>{{$user->nom}} {{$user->prenom}}</p>
+                <p>{{$adresseFacturation->adresse}}</p>
+                <p>{{$adresseFacturation->code_postal}} {{$adresseFacturation->ville}}</p>
+            </div>
+
+            @else
+            <p class="mt-4">Aucune adresse choisie.</p>
+            @endif
+
+            <form action="{{ route('basket.validation') }}" class="p-3" method="post">
+                @csrf
+                <div class="form-group">
+                    <label for="adresseFacturationId">Choisisez une adresse</label>
+                    <select name="adresseFacturationId" id="adresseFacturationId">
+                        <option value=""></option>
+                        @foreach ($user->adresses as $adresse)
+                        <option value="{{ $adresse->id }}">
+                            <p>{{$adresse->adresse}}</p>
+                            <p>{{$adresse->code_postal}}</p>
+                            <p>{{$adresse->ville}}</p>
+                        </option>
+                        @endforeach
+                    </select>
+                    <button type="submit" class="btn btn-warning">Sélectionner</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
 
     <h3 class="p-3">Type de livraison</h3>
     <form method="post" action="{{route('basket.choosedelivery')}}">
         @csrf
         <div class="form-group">
-            <input type="radio" name="delivery" id="classique" value="classique" 
-            @if(isset($delivery) && $delivery === "classique")
-            checked
-            @endif
-            >
+            <input type="radio" name="delivery" id="classique" value="classique" @if(isset($delivery) && $delivery==="classique" ) checked @endif>
             <label for="classique">Classique (à domicile, 48h) : 5 €</label>
         </div>
         <div class="form-group">
-            <input type="radio" name="delivery" id="express" value="express"
-            @if(isset($delivery) && $delivery === "express")
-            checked
-            @endif
-            >
+            <input type="radio" name="delivery" id="express" value="express" @if(isset($delivery) && $delivery==="express" ) checked @endif>
             <label for="express">Express (à domicile, 24h) : 9,90 €</label>
         </div>
         <div class="form-group">
-            <input type="radio" name="delivery" id="pointrelais" value="pointrelais"
-            @if(isset($delivery) && $delivery === "pointrelais")
-            checked
-            @endif>
+            <input type="radio" name="delivery" id="pointrelais" value="pointrelais" @if(isset($delivery) && $delivery==="pointrelais" ) checked @endif>
             <label for="classique">En point-relais (48h) : 4 €</label>
         </div>
         <button type="submit" class="btn btn-info">Valider</button>

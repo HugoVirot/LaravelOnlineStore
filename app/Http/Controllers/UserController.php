@@ -76,7 +76,7 @@ class UserController extends Controller
             'email' => $request->input('email'),
         ]);
 
-        return redirect()->route('home')->with('message', 'Le profil a bien été modifié');
+        return redirect()->back()->with('message', 'Le profil a bien été modifié');
     }
 
     /**

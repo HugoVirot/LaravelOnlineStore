@@ -60,7 +60,9 @@ Route::get('basket', [App\Http\Controllers\BasketController::class, 'show'])->na
 Route::post('basket/add/{product}', [App\Http\Controllers\BasketController::class, 'add'])->name('basket.add');
 Route::get('basket/remove/{product}', [App\Http\Controllers\BasketController::class, 'remove'])->name('basket.remove');
 Route::get('basket/empty', [App\Http\Controllers\BasketController::class, 'empty'])->name('basket.empty');
+Route::get('basket/emptyAfterOrder', [App\Http\Controllers\BasketController::class, 'emptyAfterOrder'])->name('basket.emptyAfterOrder');
 Route::get('basket/validation', [App\Http\Controllers\BasketController::class, 'validation'])->name('basket.validation');
+Route::post('basket/validation', [App\Http\Controllers\BasketController::class, 'validation'])->name('basket.validation');
 Route::post('basket/choosedelivery', [App\Http\Controllers\BasketController::class, 'chooseDelivery'])->name('basket.choosedelivery');
 
 

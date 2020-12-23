@@ -69,11 +69,14 @@ Gammes - Laravel Online Store
 
                                 @endif
 
+                                @if ($article->stock !== 0)
                                 <form method="POST" action="{{ route('basket.add', $article->id) }}" class="form-inline d-inline-block">
                                     @csrf
-                                    <input type="number" name="quantite" placeholder="Quantité ?" class="form-control mr-2" value="{{ isset(session('basket')[$article->id]) ? session('basket')[$article->id]['quantite'] : null }}">
+                                    <input type="number" min="1" max="9" name="quantite" class="form-control mr-2" value="{{ isset(session('basket')[$article->id]) ? session('basket')[$article->id]['quantite'] : 1 }}">
                                     <button type="submit" class="btn btn-warning">+ Ajouter au panier</button>
                                 </form>
+                                @endif
+                                
                             </div>
                         </div>
 
