@@ -17,7 +17,7 @@ Détails {{$article->name}} - Laravel Online Store
                     <p class="card-text font-italic">{{$article->description_detaillee}}</p>
                     <i class="fas fa-boxes fa-2x mr-2"></i>@php DisplayStock($article->stock) @endphp
 
-                    @if(($article->campagnes) !== null)
+                    @if(isset($article->campagnes[0]) && $article->campagnes!== null)
                     <p class="card-text text-danger font-weight-bold">{{$article->campagnes[0]->nom}} : -{{$article->campagnes[0]->reduction}}%</p>
                     <h5 class="card-text font-weight-light"><del>{{$article->prix}} €</del>
                         <span class="text-danger font-weight-bold">

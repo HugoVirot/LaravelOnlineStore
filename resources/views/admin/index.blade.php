@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Back-office - Laravel Online Store
+@endsection
+
 @section('content')
 <script>
     function showCreationForm($formId) {

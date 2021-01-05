@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Laravel Online Store
+@endsection
+
 @section('content')
 <div class="container-fluid text-center p-3">
     <img src="{{ asset("images/banner.jpg") }}" alt="logo" style="width : 80vw">

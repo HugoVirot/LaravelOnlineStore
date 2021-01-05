@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    A propos - Laravel Online Store
+@endsection
+
 @section('content')
 
 <h1 class="pb-3 text-center">Notre histoire</h1>
