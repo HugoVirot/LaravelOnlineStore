@@ -1,8 +1,33 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css2?family=Leckerli+One&display=swap');
 
 // Variables
-@import 'variables';
+@import '_variables';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+#header {
+    background-image: url(/images/summerbanner1.jpg);
+    background-position: center;
+    background-size: cover 
+}
+
+nav {
+    background: linear-gradient($blue, $yellow)
+}
+
+.currentPromoTitle {
+    color: $yellow;
+    font-size : 5rem;
+    font-family: 'Leckerli One', cursive;
+}
+
+#summerImage {
+    width: 97vw
+}
+
+.ranges h2 {
+    letter-spacing: 1rem;
+}

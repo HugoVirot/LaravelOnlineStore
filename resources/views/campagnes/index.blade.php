@@ -16,13 +16,13 @@ Promotions - Laravel Online Store
 
             <div class="container p-5 border border-info">
                 <div class="row p-2 justify-content-center text-info">
-                    <h1>{{ $campagne->nom }}</h3>
+                    <h1 class="currentPromoTitle">{{ $campagne->nom }}</h1>
                 </div>
                 <div class="row p-2 justify-content-center">
-                    <h5>du {{ $campagne->date_debut }} au {{ $campagne->date_fin }}</h3>
+                    <h4>du {{ date("d/m", strtotime($campagne->date_debut)) }} au {{ date("d/m/y", strtotime($campagne->date_fin)) }}</h4>
                 </div>
-                <div class="row p-3 justify-content-center text-danger">
-                    <h3>-{{ $campagne->reduction }} % sur tous ces produits</h3>
+                <div class="row p-3 justify-content-center text-primary">
+                    <h2>-{{ $campagne->reduction }} % sur tous ces produits</h2>
                 </div>
                 <div class="container">
                     <div class="row">
@@ -47,9 +47,7 @@ Promotions - Laravel Online Store
                                     <button class="btn btn-info m-2">Détails produit</button>
                                 </a>
 
-                                @php $articleId = $article->id @endphp
-
-                                @if(auth()->user()!== null && in_array($articleId, $favorisIds))
+                                @if(auth()->user()!== null && in_array($article->id, $favorisIds))
                                 <!-- si dans les favoris-->
                                 <form method="post" action="{{ route('favoris.destroy', $article) }}">
                                     @csrf
@@ -74,6 +72,8 @@ Promotions - Laravel Online Store
                                     <input type="number" min="1" max="9" name="quantite" class="form-control mr-2" value="{{ isset(session('basket')[$article->id]) ? session('basket')[$article->id]['quantite'] : null }}">
                                     <button type="submit" class="btn btn-warning mt-1">+ Ajouter au panier</button>
                                 </form>
+                                @else
+                                <button class="btn btn-danger btn-sm m-3">Article en rupture de stock</button>
                                 @endif
                                 
                             </div>

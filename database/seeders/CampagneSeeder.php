@@ -14,17 +14,17 @@ class CampagneSeeder extends Seeder
     public function run()
     {
         DB::table('campagnes')->insert([
-            'nom' => 'Black Friday',
+            'nom' => 'Promos départ en vacances',
             'reduction' => '20',
-            'date_debut' => '2020-12-17',
-            'date_fin' => '2020-12-19',
+            'date_debut' => '2021-07-01',
+            'date_fin' => '2021-07-07',
         ]);
 
         DB::table('campagnes')->insert([
-            'nom' => 'Promos de Noël',
+            'nom' => 'Soldes d\'été',
             'reduction' => '15',
-            'date_debut' => '2020-12-20',
-            'date_fin' => '2020-12-26',
+            'date_debut' => '2021-07-08',
+            'date_fin' => '2021-08-31',
         ]);
     }
 }

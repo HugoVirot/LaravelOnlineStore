@@ -14,6 +14,7 @@ class CreateCampagneArticlesTable extends Migration
     public function up()
     {
         Schema::create('campagne_articles', function (Blueprint $table) {
+            $table->primary(['campagne_id', 'article_id']);
             $table->foreignId('campagne_id')->constrained();
             $table->foreignId('article_id')->constrained();
             $table->timestamps();

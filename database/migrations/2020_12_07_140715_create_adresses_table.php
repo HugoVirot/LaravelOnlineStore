@@ -20,7 +20,7 @@ class CreateAdressesTable extends Migration
             $table->string('ville');
             $table->timestamps();
 
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
         });
     }
 

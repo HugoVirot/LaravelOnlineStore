@@ -7,16 +7,20 @@ Gammes - Laravel Online Store
 
 @section('content')
 
-<h2 class='pb-5 text-center'>Gammes</h3>
+<div class="container-fluid text-center mb-4">
+    <img class="w-75 border border-primary" src="{{ asset("images/ranges.jpg") }}" alt="gammes">
+</div>
 
-    <div class="container">
+<h1 class='pb-5 text-center'>Nos gammes</h1>
+
+    <div class="container ranges">
         <div class="row">
 
             @foreach ($gammes as $gamme)
 
             <div class="container p-5 border border-info">
                 <div class="row p-5 justify-content-center">
-                    <h3>{{ $gamme->nom }}</h3>
+                    <h2 class="text-primary">{{ $gamme->nom }}</h2>
                 </div>
                 <div class="container">
                     <div class="row">

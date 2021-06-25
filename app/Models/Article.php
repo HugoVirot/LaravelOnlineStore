@@ -14,7 +14,7 @@ class Article extends Model
     protected $fillable = ['nom', 'description', 'description_detaillee', 'image', 'prix', 'stock', 'note', 'gamme_id'];
 
     public function commandes(){
-        return $this->belongsToMany(Commandes::class, 'commande_articles')->withPivot('quantite');;
+        return $this->belongsToMany(Commande::class, 'commande_articles')->withPivot('quantite');;
     }
 
     public function campagnes(){

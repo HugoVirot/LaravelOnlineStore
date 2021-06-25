@@ -16,10 +16,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $christmasArticles = Campagne::with('articles')
-            ->where('id', '=', '2')
+        $currentPromo = Campagne::with(['articles' => function ($query) {
+            $query->limit(3);
+        }])
+            ->whereDate('date_debut', '<=', '2021-07-01')
+            ->whereDate('date_fin', '>=', '2021-07-01')
             ->get();
-        $christmasArticles = $christmasArticles[0];
+
+        $currentPromo = $currentPromo[0];
 
         $topRatedArticles = Article::orderBy('note', 'desc')
             ->limit(3)
@@ -35,7 +39,7 @@ class HomeController extends Controller
         }
 
         return view('home', [
-            'christmasArticles' => $christmasArticles,
+            'currentPromo' => $currentPromo,
             'topRatedArticles' => $topRatedArticles,
             'favorisIds' => $favorisIds
         ]);

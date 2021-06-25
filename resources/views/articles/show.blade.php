@@ -15,12 +15,12 @@ Détails {{$article->name}} - Laravel Online Store
                 <div class="card-body">
                     <h5 class="card-text font-weight-bold text-info">{{$article->description}}</h5>
                     <p class="card-text font-italic">{{$article->description_detaillee}}</p>
-                    <i class="fas fa-boxes fa-2x mr-2"></i>@php DisplayStock($article->stock) @endphp
+                    <i class="fas fa-box-open fa-2x mr-2"></i>@php DisplayStock($article->stock) @endphp
 
                     @if(isset($article->campagnes[0]) && $article->campagnes!== null)
-                    <p class="card-text text-danger font-weight-bold">{{$article->campagnes[0]->nom}} : -{{$article->campagnes[0]->reduction}}%</p>
+                    <p class="card-text text-primary font-weight-bold">{{$article->campagnes[0]->nom}} : -{{$article->campagnes[0]->reduction}}%</p>
                     <h5 class="card-text font-weight-light"><del>{{$article->prix}} €</del>
-                        <span class="text-danger font-weight-bold">
+                        <span class="text-primary font-weight-bold">
                             @php
                             $newPrice = $article->prix - $article->prix * ($article->campagnes[0]->reduction/100);
                             echo number_format($newPrice, 2)
@@ -46,7 +46,7 @@ Détails {{$article->name}} - Laravel Online Store
                     <!-- si pas dans les favoris-->
                     <form method="post" action="{{ route('favoris.store', $article) }}">
                         @csrf
-                        <button type="submit" class="btn btn-success m-2">Ajouter aux favoris</button>
+                        <button type="submit" class="btn btn-primary text-light m-2">Ajouter aux favoris</button>
                         <input type="hidden" value="{{$article->id}}" name="articleId">
                     </form>
 

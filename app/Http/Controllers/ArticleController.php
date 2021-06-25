@@ -16,7 +16,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
+       
         $articles = Article::all();
+
         $campagnes = Campagne::all();
         $campagnesArticlesIds = DB::table('campagne_articles')->pluck('article_id');
         $campagnesArticlesIds = $campagnesArticlesIds->toArray();
@@ -126,6 +128,6 @@ class ArticleController extends Controller
     public function destroy(Article $article)
     {
         $article->delete();
-        return redirect()->route('admin.index')->with('message', 'L\'article a bien été supprimée');
+        return redirect()->route('admin.index')->with('message', 'L\'article a bien été supprimé');
     }
 }

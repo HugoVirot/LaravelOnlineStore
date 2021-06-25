@@ -14,6 +14,7 @@ class CreateCommandeArticlesTable extends Migration
     public function up()
     {
         Schema::create('commande_articles', function (Blueprint $table) {
+            $table->primary(['commande_id', 'article_id']);
             $table->foreignId('commande_id')->constrained();
             $table->foreignId('article_id')->constrained();
             $table->integer('quantite');
