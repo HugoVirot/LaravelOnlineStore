@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Gamme;
 use App\Models\Article;
 use App\Models\Campagne;
@@ -12,10 +11,10 @@ use Illuminate\Support\Facades\Gate;
 class AdminController extends Controller
 {
 
-    public function __construct()
-    {
-        return $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     return $this->middleware('admin');
+    // }
     /**
      * Display a listing of the resource.
      *

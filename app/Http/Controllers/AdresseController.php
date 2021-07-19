@@ -43,7 +43,7 @@ class AdresseController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function update(Request $request, Adresse $adresse)
+    public function update(Request $request)
     {
         $request->validate([
             'adresse' => 'required|min:3|max:50',

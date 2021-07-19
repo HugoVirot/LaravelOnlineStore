@@ -31,12 +31,11 @@ class AvisController extends Controller
         // 2) calcul moyenne = (note actuelle * nb notes + nouvelle note) / (nb notes + 1)
 
         $article = Article::find($articleId);
-        $currentAverageNote = $article->note;
+        $currentAverageNote = $article->note;   // OK
         $allArticleReviews = Avis::where('article_id', $articleId)->get();
-        $notesNumber = count($allArticleReviews);
+        $notesNumber = count($allArticleReviews) + 1;
 
         $newAverageNote = ($currentAverageNote * $notesNumber + $newNote) / ($notesNumber + 1);
-
 
         // 3) sauvegarde de la nouvelle note moyenne de l'article
 

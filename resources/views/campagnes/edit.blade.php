@@ -34,17 +34,13 @@ Modifier campagne {{$campagne->nom}}
                 value="{{ $article->id }}" id="article{{ $article->id }}"
                 @foreach ($campagneArticlesIds as $id) 
                 @if ($article->id == $id->article_id)
-                checked="checked"
+                checked
                 @break
                 @endIf
                 @endforeach>
                 <label class="custom-control-label" for="article{{ $article->id }}">{{ $article->nom }}</label>
             </div>
             @endforeach
-            <!-- @foreach ($articles as $article)
-            <input type="checkbox" id="article{{$article->id}}" name="article{{$article->id}}" value="{{$article->id}}" checked>
-            <label for="article{{$article->id}}">{{$article->nom}}</label>
-            @endforeach -->
         </div>
         <button type="submit" class="btn btn-info text-light mt-4">Valider</button>
     </form>

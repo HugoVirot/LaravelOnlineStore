@@ -18,9 +18,9 @@ Détails {{$article->name}} - Laravel Online Store
                     <i class="fas fa-box-open fa-2x mr-2"></i>@php DisplayStock($article->stock) @endphp
 
                     @if(isset($article->campagnes[0]) && $article->campagnes!== null)
-                    <p class="card-text text-primary font-weight-bold">{{$article->campagnes[0]->nom}} : -{{$article->campagnes[0]->reduction}}%</p>
+                    <p class="card-text text-danger font-weight-bold">{{$article->campagnes[0]->nom}} : -{{$article->campagnes[0]->reduction}}%</p>
                     <h5 class="card-text font-weight-light"><del>{{$article->prix}} €</del>
-                        <span class="text-primary font-weight-bold">
+                        <span class="text-danger font-weight-bold">
                             @php
                             $newPrice = $article->prix - $article->prix * ($article->campagnes[0]->reduction/100);
                             echo number_format($newPrice, 2)

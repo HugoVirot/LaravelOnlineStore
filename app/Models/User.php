@@ -62,7 +62,7 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return auth()->user()->role_id === 2;
+        return auth()->user()->role_id == 2;
     }
 
     public function commandes()

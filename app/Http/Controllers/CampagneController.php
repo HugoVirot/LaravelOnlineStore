@@ -16,8 +16,9 @@ class CampagneController extends Controller
      */
     public function index()
     {
-        $campagnes = Campagne::all();
-        
+        // on récupère uniquement les campagnes non terminées (sinon, inutiles)
+        $campagnes = Campagne::whereDate('date_fin', '>=',  date('Y-m-d'))->orderBy('date_debut')->get();
+
         if (auth()->user()) {
             $userId = auth()->user()->id;
             $favorisIds = DB::table('favoris')->where('user_id', '=', $userId)->pluck('article_id');

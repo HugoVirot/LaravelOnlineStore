@@ -16,7 +16,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-       
+
         $articles = Article::all();
 
         $campagnes = Campagne::all();
@@ -69,7 +69,13 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        $article->load('avis.user', 'campagnes');
+        // récupération de l'article avec ses avis et les users qui les ont postés
+        // + son éventuelle campagne promo (si et seulement si elle est en cours)
+        $article->load('avis.user');
+        $article->load(['campagnes' => function ($query) {
+            $query->whereDate('date_debut', '<=', date('Y-m-d'))
+            ->whereDate('date_fin', '>=', date('Y-m-d'));
+        }]);
 
         if (auth()->user()) {
             $userId = auth()->user()->id;

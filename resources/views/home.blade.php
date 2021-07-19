@@ -24,6 +24,7 @@
                 <div class="card-body">
                     <h5 class="card-title font-weight-bold">{{$article->nom}}</h5>
                     <p class="card-text font-italic">{{$article->description}}</p>
+                    <p class="card-text text-danger font-weight-bold">-{{$currentPromo->reduction}}%</p>
                     <h5 class="card-text font-weight-light"><del>{{$article->prix}} €</del>
                         <span class="text-danger font-weight-bold">
                             @php

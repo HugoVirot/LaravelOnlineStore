@@ -96,34 +96,34 @@ Mon compte - Laravel Online Store
 </div>
 
 <h4 class="text-center p-4">Mes adresses</h4>
-@foreach($user->adresses as $adresse)
+@foreach($user->adresses as $adress)
 <div class="row w-75 m-auto">
     <div class="col-6 offset-3 text-center border border-info">
-        <form class="col-12 mx-auto pt-5" action="{{ route('address.update', $adresse) }}" method="post">
+        <form class="col-12 mx-auto pt-5" action="{{ route('address.update') }}" method="post">
             @method('PUT')
             @csrf
             <div class="form-group">
                 <label for="adresse">Adresse</label>
-                <input name="adresse" type="text" class="form-control" id="adresse" value="{{ $adresse->adresse }}" required>
+                <input name="adresse" type="text" class="form-control" id="adresse" value="{{ $adress->adresse }}" required>
             </div>
             <div class="form-group">
                 <label for="code_postal">Code Postal</label>
-                <input name="code_postal" type="text" class="form-control" id="code_postal" value="{{ $adresse->code_postal }}" required>
+                <input name="code_postal" type="text" class="form-control" id="code_postal" value="{{ $adress->code_postal }}" required>
             </div>
             <div class="form-group">
                 <label for="ville">Ville</label>
-                <input name="ville" type="text" class="form-control" id="ville" value="{{ $adresse->ville }}" required>
+                <input name="ville" type="text" class="form-control" id="ville" value="{{ $adress->ville }}" required>
             </div>
             <input type="hidden" value="{{ auth()->user()->id }}" name="user_id">
-            <input type="hidden" value="{{ $adresse->id }}" name="adresse_id">
+            <input type="hidden" value="{{ $adress->id }}" name="adresse_id">
             <div class="row justify-content-center mt-4">
                 <button type="submit" class="btn btn-info text-light">Modifier</button>
             </div>
         </form>
-        <form action="{{ route('address.delete', $adresse) }}" class="p-3" method="post">
+        <form action="{{ route('address.delete') }}" class="p-3" method="post">
             @csrf
             @method('delete')
-            <input type="hidden" value="{{ $adresse->id }}" name="adresse_id">
+            <input type="hidden" value="{{ $adress->id }}" name="adresse_id">
             <button type="submit" class="btn btn-danger">Supprimer</button>
         </form>
     </div>
