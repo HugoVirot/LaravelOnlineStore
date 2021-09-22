@@ -23,13 +23,8 @@ class ArticleController extends Controller
         $campagnesArticlesIds = DB::table('campagne_articles')->pluck('article_id');
         $campagnesArticlesIds = $campagnesArticlesIds->toArray();
 
-        if (auth()->user()) {
-            $userId = auth()->user()->id;
-            $favorisIds = DB::table('favoris')->where('user_id', '=', $userId)->pluck('article_id');
-            $favorisIds = $favorisIds->toArray();
-        } else {
-            $favorisIds = null;
-        }
+        // on récupère la liste des favoris du user, si connecté, grâce au helper GetFavorites
+        $favorisIds = getFavorites();
 
         return view('articles/index', [
             'articles' => $articles,
@@ -76,14 +71,9 @@ class ArticleController extends Controller
             $query->whereDate('date_debut', '<=', date('Y-m-d'))
             ->whereDate('date_fin', '>=', date('Y-m-d'));
         }]);
-
-        if (auth()->user()) {
-            $userId = auth()->user()->id;
-            $favorisIds = DB::table('favoris')->where('user_id', '=', $userId)->pluck('article_id');
-            $favorisIds = $favorisIds->toArray();
-        } else {
-            $favorisIds = null;
-        }
+        
+        // on récupère la liste des favoris du user, si connecté, grâce au helper GetFavorites
+        $favorisIds = getFavorites();
 
         return view('articles/show', [
             'article' => $article,

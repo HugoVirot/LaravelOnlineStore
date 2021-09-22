@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,7 +26,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // ********** User ***********
 
-Route::get('account/{user}', [App\Http\Controllers\UserController::class, 'account'])->name('account');
+Route::get('account/{user}',[UserController::class, 'account'])->name('account');
 Route::put('account/update',  [App\Http\Controllers\UserController::class, 'update'])->name('account.update');
 Route::put('account/updatePassword',  [App\Http\Controllers\UserController::class, 'updatePassword'])->name('account.updatePassword');
 Route::delete('user/delete',  [App\Http\Controllers\UserController::class, 'delete'])->name('user.delete');
@@ -89,3 +89,6 @@ Route::resource('favoris', App\Http\Controllers\FavoriController::class);
 // ********** Avis **********
 
 Route::resource('avis', App\Http\Controllers\AvisController::class);
+
+Route::get('/mail', [App\Http\Controllers\TestController::class, 'mail'])->name('mail');
+

@@ -19,13 +19,8 @@ class CampagneController extends Controller
         // on récupère uniquement les campagnes non terminées (sinon, inutiles)
         $campagnes = Campagne::whereDate('date_fin', '>=',  date('Y-m-d'))->orderBy('date_debut')->get();
 
-        if (auth()->user()) {
-            $userId = auth()->user()->id;
-            $favorisIds = DB::table('favoris')->where('user_id', '=', $userId)->pluck('article_id');
-            $favorisIds = $favorisIds->toArray();
-        } else {
-            $favorisIds = null;
-        }
+        // on récupère la liste des favoris du user, si connecté, grâce au helper GetFavorites
+        $favorisIds = getFavorites();
 
         return view('campagnes/index', [
             'campagnes' => $campagnes,

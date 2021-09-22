@@ -7,6 +7,7 @@ use App\Repositories\BasketInterfaceRepository;
 use App\Models\Article;
 use App\Models\User;
 use App\Models\Adresse;
+use App\Models\Gamme;
 
 class BasketController extends Controller
 {
@@ -39,7 +40,6 @@ class BasketController extends Controller
 
 			// Ajout/Mise à jour du produit au panier avec sa quantité
 			$this->basketRepository->add($article, $quantite);
-
 		} else {
 			return redirect()->back()->withErrors("Quantité en stock insuffisante !");
 		}
@@ -83,18 +83,17 @@ class BasketController extends Controller
 	{
 		$user = User::find(auth()->user()->id);
 
+		
 		$adresseLivraisonId = null;
 		$adresseFacturationId = null;
 
-		if (($request->input('adresseLivraisonId')!= null))
-		{
+		if (($request->input('adresseLivraisonId') != null)) {
 			$adresseLivraisonId = $request->input('adresseLivraisonId');
 			$adresseLivraison = Adresse::findOrFail($adresseLivraisonId);
 			session(['adresseLivraison' => $adresseLivraison]);
 		}
 
-		if (($request->input('adresseFacturationId')!= null))
-		{
+		if (($request->input('adresseFacturationId') != null)) {
 			$adresseFacturationId = $request->input('adresseFacturationId');
 			$adresseFacturation = Adresse::findOrFail($adresseFacturationId);
 			session(['adresseFacturation' => $adresseFacturation]);
@@ -104,7 +103,7 @@ class BasketController extends Controller
 			'user' => $user,
 			'adresseLivraisonId' => $adresseLivraisonId,
 			'adresseFacturationId' => $adresseFacturationId,
-			]);
+		]);
 	}
 
 	// valider le mode de livraison choisi et modifier le prix en conséquence

@@ -19,19 +19,13 @@ class GammeController extends Controller
     {
         $gammes = Gamme::all();
         $gammes->load('articles');
-
         $campagnes = Campagne::all();
 
         $campagnesArticlesIds = DB::table('campagne_articles')->pluck('article_id');
         $campagnesArticlesIds = $campagnesArticlesIds->toArray();
 
-        if (auth()->user()) {
-            $userId = auth()->user()->id;
-            $favorisIds = DB::table('favoris')->where('user_id', '=', $userId)->pluck('article_id');
-            $favorisIds = $favorisIds->toArray();
-        } else {
-            $favorisIds = null;
-        }
+        // on récupère la liste des favoris du user, si connecté, grâce au helper GetFavorites
+        $favorisIds = getFavorites();
 
         return view('gammes/index', [
             'gammes' => $gammes,
@@ -54,7 +48,7 @@ class GammeController extends Controller
         ]);
 
         Gamme::create($request->all());
-        
+
         return redirect()->route('admin.index')->with('message', 'Gamme créée avec succès');
     }
 

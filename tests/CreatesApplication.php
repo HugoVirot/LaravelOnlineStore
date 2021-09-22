@@ -4,7 +4,7 @@ namespace Tests;
 
 use Illuminate\Contracts\Console\Kernel;
 
-trait CreatesApplication
+trait CreatesApplication  // crée une instance de l'application pour réaliser les tests
 {
     /**
      * Creates the application.

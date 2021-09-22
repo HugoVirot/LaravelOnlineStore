@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\RegistrationCompleted;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -54,7 +57,14 @@ class RegisterController extends Controller
             'prenom' => ['required', 'string', 'max:30'],
             'pseudo' => ['required', 'string', 'max:30'],
             'email' => ['required', 'string', 'email', 'max:40', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => [
+                'required', 'confirmed',
+                Password::min(8) // minimum 8 caractères   
+                    ->mixedCase() // Require at least one uppercase and one lowercase letter...
+                    ->letters()  // Require at least one letter...
+                    ->numbers() // Require at least one number...
+                    ->symbols() // Require at least one symbol...       
+            ],   // nouvelle syntaxe validation mdp, + d'infos : https://laravel.com/docs/8.x/validation#validating-passwords     
         ]);
     }
 
@@ -66,12 +76,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'nom' => $data['nom'],
             'prenom' => $data['prenom'],
             'pseudo' => $data['pseudo'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+       Mail::to($user->email)->send(new RegistrationCompleted($user));
+
+        return $user;
     }
 }

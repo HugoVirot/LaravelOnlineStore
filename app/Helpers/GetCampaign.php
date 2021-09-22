@@ -1,4 +1,5 @@
 <?php
+
 /**
  * GetCampaign helper
  *
@@ -11,9 +12,11 @@
 function getCampaign($campagnes, $articleId)
 {
     foreach ($campagnes as $campagne) {
-        foreach ($campagne->articles as $article) {
-            if ($article->id  == $articleId) {
-                return $campagne;
+        if ($campagne->date_debut <= date('Y-m-d') && $campagne->date_fin >= date('Y-m-d')) {
+            foreach ($campagne->articles as $article) {
+                if ($article->id  == $articleId) {
+                    return $campagne;
+                }
             }
         }
     }
