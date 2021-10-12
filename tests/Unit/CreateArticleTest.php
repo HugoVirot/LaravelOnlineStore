@@ -22,11 +22,11 @@ class CreateArticleTest extends TestCase
         // on vérifie que l'on part d'une table articles vide
         $this->assertEquals(0, Article::count());
 
-        // on initalise les données
+        // on initialise les données
         $data = [
             'nom' => 'article 1',
             'description' => 'super article',
-            'description_detaillee' => 'article exceptionnel',
+            'description_detaillee' => 'Article exceptionnel, unique, incroyable, extraordinaire !',
             'image' => 'article.jpg',
             'prix' => 99.99,
             'stock' => 10,

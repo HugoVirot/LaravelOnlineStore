@@ -23,14 +23,10 @@ class ArticleController extends Controller
         $campagnesArticlesIds = DB::table('campagne_articles')->pluck('article_id');
         $campagnesArticlesIds = $campagnesArticlesIds->toArray();
 
-        // on récupère la liste des favoris du user, si connecté, grâce au helper GetFavorites
-        $favorisIds = getFavorites();
-
         return view('articles/index', [
             'articles' => $articles,
             'campagnes' => $campagnes,
             'campagnesArticlesIds' => $campagnesArticlesIds,
-            'favorisIds' => $favorisIds,
         ]);
     }
 
@@ -69,16 +65,10 @@ class ArticleController extends Controller
         $article->load('avis.user');
         $article->load(['campagnes' => function ($query) {
             $query->whereDate('date_debut', '<=', date('Y-m-d'))
-            ->whereDate('date_fin', '>=', date('Y-m-d'));
+                ->whereDate('date_fin', '>=', date('Y-m-d'));
         }]);
-        
-        // on récupère la liste des favoris du user, si connecté, grâce au helper GetFavorites
-        $favorisIds = getFavorites();
 
-        return view('articles/show', [
-            'article' => $article,
-            'favorisIds' => $favorisIds
-        ]);
+        return view('articles/show', ['article' => $article]);
     }
 
     /**

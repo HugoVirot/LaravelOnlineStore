@@ -24,14 +24,10 @@ class GammeController extends Controller
         $campagnesArticlesIds = DB::table('campagne_articles')->pluck('article_id');
         $campagnesArticlesIds = $campagnesArticlesIds->toArray();
 
-        // on récupère la liste des favoris du user, si connecté, grâce au helper GetFavorites
-        $favorisIds = getFavorites();
-
         return view('gammes/index', [
             'gammes' => $gammes,
             'campagnes' => $campagnes,
             'campagnesArticlesIds' => $campagnesArticlesIds,
-            'favorisIds' => $favorisIds
         ]);
     }
 

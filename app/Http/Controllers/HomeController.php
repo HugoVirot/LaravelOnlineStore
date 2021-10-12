@@ -37,13 +37,9 @@ class HomeController extends Controller
             }])
             ->get();
 
-        // on récupère la liste des favoris du user, si connecté, grâce au helper GetFavorites
-        $favorisIds = getFavorites();
-
         return view('home', [
             'currentPromo' => $currentPromo,
             'topRatedArticles' => $topRatedArticles,
-            'favorisIds' => $favorisIds
         ]);
     }
 

@@ -22,7 +22,7 @@ class CommandeController extends Controller
         $commande->user_id = auth()->user()->id;
         $commande->save();
 
-        $panier = session()->get("basket");
+        $panier = session()->get("cart");
 
         foreach ($panier as $article) {
             $commande->articles()->attach($article['id'], ['quantite' => $article['quantite']]);
@@ -31,7 +31,7 @@ class CommandeController extends Controller
 			$articleInDatabase->save();
         }
 
-        return redirect()->route('basket.emptyAfterOrder');
+        return redirect()->route('cart.emptyAfterOrder');
     }
 
     /**

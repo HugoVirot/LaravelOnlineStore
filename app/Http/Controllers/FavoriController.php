@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Article;
 
 class FavoriController extends Controller
 {
@@ -34,7 +33,7 @@ class FavoriController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Article $article)
+    public function store(Request $request)
     {
         $articleId = $request->input('articleId');
         $user = User::find(auth()->user()->id);

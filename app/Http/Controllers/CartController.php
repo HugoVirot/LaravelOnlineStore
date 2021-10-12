@@ -3,26 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Repositories\BasketInterfaceRepository;
+use App\Repositories\CartInterfaceRepository;
 use App\Models\Article;
 use App\Models\User;
 use App\Models\Adresse;
 use App\Models\Gamme;
+use Illuminate\Support\Facades\Gate;
 
-class BasketController extends Controller
+class CartController extends Controller
 {
 
-	protected $basketRepository; // L'instance BasketSessionRepository
+	protected $cartRepository; // L'instance cartSessionRepository
 
-	public function __construct(BasketInterfaceRepository $basketRepository)
+	public function __construct(CartInterfaceRepository $cartRepository)
 	{
-		$this->basketRepository = $basketRepository;
+		$this->cartRepository = $cartRepository;
 	}
 
 	# Affichage du panier
 	public function show()
 	{
-		return view("basket.show"); // resources\views\basket\show.blade.php
+		return view("cart.show"); // resources\views\cart\show.blade.php
 	}
 
 	# Ajout d'un produit au panier
@@ -39,20 +40,20 @@ class BasketController extends Controller
 		if ($article->stock >= $quantite) {
 
 			// Ajout/Mise à jour du produit au panier avec sa quantité
-			$this->basketRepository->add($article, $quantite);
+			$this->cartRepository->add($article, $quantite);
 		} else {
 			return redirect()->back()->withErrors("Quantité en stock insuffisante !");
 		}
 
 		// Redirection vers le panier avec un message
-		return redirect()->route("basket.show")->withMessage("Produit ajouté au panier");
+		return redirect()->route("cart.show")->withMessage("Produit ajouté au panier");
 	}
 
 	// Suppression d'un produit du panier
 	public function remove($key)
 	{
 		// Suppression du produit du panier par son identifiant
-		$this->basketRepository->remove($key);
+		$this->cartRepository->remove($key);
 
 		// Redirection vers le panier
 		return back()->withMessage("Produit retiré du panier");
@@ -62,7 +63,7 @@ class BasketController extends Controller
 	public function empty()
 	{
 		// Suppression des informations du panier en session
-		$this->basketRepository->empty();
+		$this->cartRepository->empty();
 
 		// Redirection 
 		return back()->withMessage("Panier vidé");
@@ -72,7 +73,7 @@ class BasketController extends Controller
 	public function emptyAfterOrder()
 	{
 		// Suppression des informations du panier en session
-		$this->basketRepository->empty();
+		$this->cartRepository->empty();
 
 		// Redirection
 		return redirect('home')->withMessage("Votre commande a été validée. Merci de votre confiance.");
@@ -81,8 +82,12 @@ class BasketController extends Controller
 	// valider le panier
 	public function validation(Request $request)
 	{
-		$user = User::find(auth()->user()->id);
 
+			if (!Gate::allows('access_order_validation')){
+			abort(403);
+		}
+
+		$user = User::find(auth()->user()->id);
 		
 		$adresseLivraisonId = null;
 		$adresseFacturationId = null;
@@ -99,7 +104,7 @@ class BasketController extends Controller
 			session(['adresseFacturation' => $adresseFacturation]);
 		}
 
-		return view('basket/validation', [
+		return view('cart/validation', [
 			'user' => $user,
 			'adresseLivraisonId' => $adresseLivraisonId,
 			'adresseFacturationId' => $adresseFacturationId,
@@ -125,6 +130,6 @@ class BasketController extends Controller
 				break;
 		}
 
-		return view('basket/validation', ['user' => $user, 'lastTotal' => $total, 'delivery' => $delivery]);
+		return view('cart/validation', ['user' => $user, 'lastTotal' => $total, 'delivery' => $delivery]);
 	}
 }

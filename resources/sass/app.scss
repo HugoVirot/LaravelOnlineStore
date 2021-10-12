@@ -8,16 +8,14 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-@import 'index.scss';
-
 #header {
-    background-image: url(/images/summerbanner1.jpg);
+    background-image: url(/images/autumnbanner.jpg);
     background-position: center;
-    background-size: cover 
+    background-size: 115% 
 }
 
 nav {
-    background: linear-gradient($blue, $yellow)
+    background: linear-gradient($orange, $yellow)
 }
 
 .currentPromoTitle {
@@ -32,4 +30,8 @@ nav {
 
 .ranges h2 {
     letter-spacing: 1rem;
+}
+
+footer {
+    background: linear-gradient($orange, $yellow)
 }

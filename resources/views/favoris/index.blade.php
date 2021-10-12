@@ -26,7 +26,7 @@ Favoris - Laravel Online Store
                         <button class="btn btn-info m-2">Détails produit</button>
                     </a>
 
-                    <form method="post" action="{{ route('favoris.destroy', $article) }}">
+                    <form method="post" action="{{ route('favoris.destroy') }}">
                         @csrf
                         @method('delete')
                         <button type="submit" class="btn btn-danger m-2">Retirer des favoris</button>
@@ -34,9 +34,9 @@ Favoris - Laravel Online Store
                     </form>
 
                     @if ($article->stock !== 0)
-                    <form method="POST" action="{{ route('basket.add', $article->id) }}" class="form-inline d-inline-block">
+                    <form method="POST" action="{{ route('cart.add', $article->id) }}" class="form-inline d-inline-block">
                         @csrf
-                        <input type="number" min="1" max="9" name="quantite" class="form-control mr-2" value="{{ isset(session('basket')[$article->id]) ? session('basket')[$article->id]['quantite'] : null }}">
+                        <input type="number" min="1" max="9" name="quantite" class="form-control mr-2" value="{{ isset(session('cart')[$article->id]) ? session('cart')[$article->id]['quantite'] : null }}">
                         <button type="submit" class="btn btn-warning">+ Ajouter au panier</button>
                     </form>
                     @endif

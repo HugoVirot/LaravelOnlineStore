@@ -19,9 +19,10 @@ class Article extends Model
         return $this->belongsToMany(Campagne::class, 'campagne_articles');
     }
 
-    //pour table intermédiaire favoris (= users_articles)
+    // relation avec les utilisateurs qui mettent l'article en favori
+    // on précise le nom table intermédiaire : favoris (= users_articles)
     
-    public function favoris(){           
+    public function users(){           
         return $this->belongsToMany(User::class, 'favoris');
     }
 

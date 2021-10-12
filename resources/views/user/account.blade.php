@@ -7,7 +7,8 @@ Mon compte - Laravel Online Store
 @section('content')
 
 <div class="container">
-    <h1 class="text-center p2">Mon compte</h1>
+    <h1 class="text-center p-2">Mon compte</h1>
+    <h4 class="text-center p-3">Bienvenue chez vous, {{ $user->pseudo }} ! </h4>
     <div class="row">
 
         <div class="col-md-6">

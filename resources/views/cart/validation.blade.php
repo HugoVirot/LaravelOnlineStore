@@ -1,7 +1,7 @@
 @extends("layouts.app")
 @section("content")
 <div class="container text-center">
-    @if (session()->has("basket"))
+    @if (session()->has("cart"))
     <h1 class="pb-5">Valider ma commande </h1>
     <div class="table-responsive shadow mb-3">
         <table class="table table-bordered table-hover bg-white mb-0">
@@ -18,8 +18,8 @@
                 <!-- Initialisation du total général à 0 -->
                 @php $total = 0 @endphp
 
-                <!-- On parcourt les produits du panier en session : session('basket') -->
-                @foreach (session("basket") as $key => $item)
+                <!-- On parcourt les produits du panier en session : session('cart') -->
+                @foreach (session("cart") as $key => $item)
                 <!-- On incrémente le total général par le total de chaque produit du panier -->
                 @if (count($item) > 0)
                 @php $total += $item['prix'] * $item['quantite'] @endphp
@@ -49,8 +49,8 @@
         </table>
     </div>
     <div class="container w-50 text-center p-4">
-        <a class="btn btn-danger" href="{{ route('basket.empty') }}" title="Retirer tous les produits du panier">Vider le panier</a>
-        <a class="btn btn-primary" href="{{ route('basket.validation') }}" title="validation">Valider la commande</a>
+        <a class="btn btn-danger" href="{{ route('cart.empty') }}" title="Retirer tous les produits du panier">Vider le panier</a>
+        <a class="btn btn-primary" href="{{ route('cart.validation') }}" title="validation">Valider la commande</a>
 
         @else
         <div class="alert alert-info">Aucun produit dans le panier</div>
@@ -106,7 +106,7 @@
             <p class="mt-4">Aucune adresse choisie.</p>
             @endif
 
-            <form action="{{ route('basket.validation') }}" class="p-3" method="post">
+            <form action="{{ route('cart.validation') }}" class="p-3" method="post">
                 @csrf
                 <div class="form-group">
                     <label for="adresseLivraisonId">Choisisez une adresse</label>
@@ -145,7 +145,7 @@
             <p class="mt-4">Aucune adresse choisie.</p>
             @endif
 
-            <form action="{{ route('basket.validation') }}" class="p-3" method="post">
+            <form action="{{ route('cart.validation') }}" class="p-3" method="post">
                 @csrf
                 <div class="form-group">
                     <label for="adresseFacturationId">Choisisez une adresse</label>
@@ -168,7 +168,7 @@
 
 
     <h3 class="p-3">Type de livraison</h3>
-    <form method="post" action="{{route('basket.choosedelivery')}}">
+    <form method="post" action="{{route('cart.choosedelivery')}}">
         @csrf
         <div class="form-group">
             <input type="radio" name="delivery" id="classique" value="classique" @if(isset($delivery) && $delivery==="classique" ) checked @endif>

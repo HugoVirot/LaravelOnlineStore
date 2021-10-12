@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Article;
 
-interface BasketInterfaceRepository {
+interface CartInterfaceRepository {
 
 	// Afficher le panier
 	public function show();

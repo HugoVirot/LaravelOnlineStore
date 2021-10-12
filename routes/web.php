@@ -56,19 +56,21 @@ Route::resource('campagnes', App\Http\Controllers\CampagneController::class);
 
 // ********** Panier **********
 
-Route::get('basket', [App\Http\Controllers\BasketController::class, 'show'])->name('basket.show');
-Route::post('basket/add/{product}', [App\Http\Controllers\BasketController::class, 'add'])->name('basket.add');
-Route::get('basket/remove/{product}', [App\Http\Controllers\BasketController::class, 'remove'])->name('basket.remove');
-Route::get('basket/empty', [App\Http\Controllers\BasketController::class, 'empty'])->name('basket.empty');
-Route::get('basket/emptyAfterOrder', [App\Http\Controllers\BasketController::class, 'emptyAfterOrder'])->name('basket.emptyAfterOrder');
-Route::get('basket/validation', [App\Http\Controllers\BasketController::class, 'validation'])->name('basket.validation');
-Route::post('basket/validation', [App\Http\Controllers\BasketController::class, 'validation'])->name('basket.validation');
-Route::post('basket/choosedelivery', [App\Http\Controllers\BasketController::class, 'chooseDelivery'])->name('basket.choosedelivery');
+Route::get('cart', [App\Http\Controllers\CartController::class, 'show'])->name('cart.show');
+Route::post('cart/add/{product}', [App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
+Route::get('cart/remove/{product}', [App\Http\Controllers\CartController::class, 'remove'])->name('cart.remove');
+Route::get('cart/empty', [App\Http\Controllers\CartController::class, 'empty'])->name('cart.empty');
+Route::get('cart/emptyAfterOrder', [App\Http\Controllers\CartController::class, 'emptyAfterOrder'])->name('cart.emptyAfterOrder');
+Route::get('cart/validation', [App\Http\Controllers\CartController::class, 'validation'])->name('cart.validation');
+Route::post('cart/validation', [App\Http\Controllers\CartController::class, 'validation'])->name('cart.validation');
+Route::post('cart/choosedelivery', [App\Http\Controllers\CartController::class, 'chooseDelivery'])->name('cart.choosedelivery');
 
 
 // ********** Commandes **********
 
 Route::resource('commandes', App\Http\Controllers\CommandeController::class);
+Route::post('commandes', [ App\Http\Controllers\CommandeController::class, 'store'])->name('commandes.store');
+Route::get('commandes/{commande}', [ App\Http\Controllers\CommandeController::class, 'show'])->name('commandes.show');
 
 
 // ********** Notre histoire / qualité **********
@@ -83,12 +85,17 @@ Route::get('admin/index', [App\Http\Controllers\AdminController::class, 'index']
 
 // ********** Favoris **********
 
-Route::resource('favoris', App\Http\Controllers\FavoriController::class);
+Route::get('favoris', [App\Http\Controllers\FavoriController::class, 'index'])->name('favoris.index');
+Route::post('favoris', [App\Http\Controllers\FavoriController::class, 'store'])->name('favoris.store');
+Route::delete('favoris', [App\Http\Controllers\FavoriController::class, 'destroy'])->name('favoris.destroy');
 
 
 // ********** Avis **********
 
-Route::resource('avis', App\Http\Controllers\AvisController::class);
+Route::post('avis', [ App\Http\Controllers\AvisController::class, 'store'])->name('avis.store');
 
-Route::get('/mail', [App\Http\Controllers\TestController::class, 'mail'])->name('mail');
+
+
+
+//Route::get('/mail', [App\Http\Controllers\TestController::class, 'mail'])->name('mail');
 

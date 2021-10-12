@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="container-fluid text-center">
-        <img id="summerImage" src="{{ asset('images/summer.png') }}" alt="logo">
+        <img id="summerImage" src="{{ asset('images/autumn.jpg') }}" alt="logo">
     </div>
 
     @if ($currentPromo)
@@ -41,33 +41,36 @@
                                 <button class="btn btn-info text-light m-2">Détails produit</button>
                             </a>
 
+                            <!-- si l'utilisateur est connecté (sinon, pas de gestion des favoris)-->
                             @if (auth()->user() !== null)
-                                @if (in_array($article->id, $favorisIds))
-                                    <!-- si dans les favoris-->
-                                    <form method="post" action="{{ route('favoris.destroy', $article) }}">
+
+                                <!-- si le produit est déjà dans les favoris-->
+                                @if (Auth::user()->isInFavorites($article))
+                                    <form method="post" action="{{ route('favoris.destroy') }}">
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="btn btn-warning m-2">Retirer des favoris</button>
                                         <input type="hidden" value="{{ $article->id }}" name="articleId">
                                     </form>
 
+                                    <!-- si le produit n'est pas dans les favoris-->
                                 @else
-                                    <!-- si pas dans les favoris-->
-                                    <form method="post" action="{{ route('favoris.store', $article) }}">
+                                    <form method="post" action="{{ route('favoris.store') }}">
                                         @csrf
                                         <button type="submit" class="btn btn-success m-2">Ajouter aux favoris</button>
                                         <input type="hidden" value="{{ $article->id }}" name="articleId">
                                     </form>
 
                                 @endif
+
                             @endif
 
                             @if ($article->stock !== 0)
-                                <form method="POST" action="{{ route('basket.add', $article->id) }}"
+                                <form method="POST" action="{{ route('cart.add', $article->id) }}"
                                     class="form-inline d-inline-block">
                                     @csrf
                                     <input type="number" min="1" max="9" name="quantite" class="form-control mr-2"
-                                        value="{{ isset(session('basket')[$article->id]) ? session('basket')[$article->id]['quantite'] : 1 }}">
+                                        value="{{ isset(session('cart')[$article->id]) ? session('cart')[$article->id]['quantite'] : 1 }}">
                                     <button type="submit" class="btn btn-warning mt-2">+ Ajouter au panier</button>
                                 </form>
                             @endif
@@ -132,9 +135,9 @@
                         @php $articleId = $article->id @endphp
 
                         @if (auth()->user() !== null)
-                            @if (in_array($articleId, $favorisIds))
+                            @if (Auth::user()->isInFavorites($article))
                                 <!-- si dans les favoris-->
-                                <form method="post" action="{{ route('favoris.destroy', $article) }}">
+                                <form method="post" action="{{ route('favoris.destroy') }}">
                                     @csrf
                                     @method('delete')
                                     <button type="submit" class="btn btn-warning m-2">Retirer des favoris</button>
@@ -143,7 +146,7 @@
 
                             @else
                                 <!-- si pas dans les favoris-->
-                                <form method="post" action="{{ route('favoris.store', $article) }}">
+                                <form method="post" action="{{ route('favoris.store') }}">
                                     @csrf
                                     <button type="submit" class="btn btn-success m-2">Ajouter aux favoris</button>
                                     <input type="hidden" value="{{ $article->id }}" name="articleId">
@@ -153,11 +156,11 @@
                         @endif
 
                         @if ($article->stock !== 0)
-                            <form method="POST" action="{{ route('basket.add', $article->id) }}"
+                            <form method="POST" action="{{ route('cart.add', $article->id) }}"
                                 class="form-inline d-inline-block">
                                 @csrf
                                 <input type="number" min="1" max="9" name="quantite" class="form-control mr-2"
-                                    value="{{ isset(session('basket')[$article->id]) ? session('basket')[$article->id]['quantite'] : 1 }}">
+                                    value="{{ isset(session('cart')[$article->id]) ? session('cart')[$article->id]['quantite'] : 1 }}">
                                 <button type="submit" class="btn btn-warning mt-2">+ Ajouter au panier</button>
                             </form>
                         @endif

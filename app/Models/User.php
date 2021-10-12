@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Article;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
     /**
-         * The attributes that are mass assignable.
+     * The attributes that are mass assignable.
      *
      * @var array
      */
@@ -54,7 +55,6 @@ class User extends Authenticatable
     }
 
     //pour table intermédiaire favoris (= users_articles)
-
     public function favoris()
     {
         return $this->belongsToMany(Article::class, 'favoris');
@@ -68,5 +68,13 @@ class User extends Authenticatable
     public function commandes()
     {
         return $this->hasMany(Commande::class);
+    }
+
+    // permet de vérifier si un article est dans les favoris de l'utilisateur connecté
+    // dans la vue, on utilise la syntaxe suivante : @if (Auth::user()->isInFavorites($article))
+    
+    public function isInFavorites(Article $article)
+    {
+        return $article->users()->where('user_id', $this->id)->exists();
     }
 }

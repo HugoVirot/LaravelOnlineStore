@@ -34,7 +34,7 @@
                                             @endphp
                                             €</span>
                                     </h5>
-                                    
+
                                 @else
                                     <h5 class="card-text font-weight-light">{{ $article->prix }} €</h5>
                                 @endif
@@ -49,31 +49,35 @@
 
                             @php $articleId = $article->id @endphp
 
-                            @if (auth()->user() !== null && in_array($articleId, $favorisIds))
-                                <!-- si dans les favoris-->
-                                <form method="post" action="{{ route('favoris.destroy', $article) }}">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-danger m-2">Retirer des favoris</button>
-                                    <input type="hidden" value="{{ $article->id }}" name="articleId">
-                                </form>
+                            @if (auth()->user() !== null)
 
-                            @else
-                                <!-- si pas dans les favoris-->
-                                <form method="post" action="{{ route('favoris.store', $article) }}">
-                                    @csrf
-                                    <button type="submit" class="btn btn-success m-2">Ajouter aux favoris</button>
-                                    <input type="hidden" value="{{ $article->id }}" name="articleId">
-                                </form>
+                                @if (Auth::user()->isInFavorites($article))
+                                    <!-- si dans les favoris-->
+                                    <form method="post" action="{{ route('favoris.destroy') }}">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-danger m-2">Retirer des favoris</button>
+                                        <input type="hidden" value="{{ $article->id }}" name="articleId">
+                                    </form>
 
+                                @else
+                                    <!-- si pas dans les favoris-->
+                                    <form method="post" action="{{ route('favoris.store') }}">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success m-2">Ajouter aux favoris</button>
+                                        <input type="hidden" value="{{ $article->id }}" name="articleId">
+                                    </form>
+
+                                @endif
+                                
                             @endif
 
                             @if ($article->stock !== 0)
-                                <form method="POST" action="{{ route('basket.add', $article->id) }}"
+                                <form method="POST" action="{{ route('cart.add', $article->id) }}"
                                     class="form-inline d-inline-block">
                                     @csrf
                                     <input type="number" min="1" max="9" name="quantite" class="form-control mr-2"
-                                        value="{{ isset(session('basket')[$article->id]) ? session('basket')[$article->id]['quantite'] : 1 }}">
+                                        value="{{ isset(session('cart')[$article->id]) ? session('cart')[$article->id]['quantite'] : 1 }}">
                                     <button type="submit" class="btn btn-warning">+ Ajouter au panier</button>
                                 </form>
                             @endif

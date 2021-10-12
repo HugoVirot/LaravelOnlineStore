@@ -4,15 +4,15 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-use App\Repositories\BasketInterfaceRepository;
-use App\Repositories\BasketSessionRepository;
+use App\Repositories\CartInterfaceRepository;
+use App\Repositories\CartSessionRepository;
 
-class BasketServiceProvider extends ServiceProvider
+class CartServiceProvider extends ServiceProvider
 {
     
     public function register()
     {
-        $this->app->bind(BasketInterfaceRepository::class, BasketSessionRepository::class);
+        $this->app->bind(CartInterfaceRepository::class, CartSessionRepository::class);
     }
 
     /**

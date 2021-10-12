@@ -21,7 +21,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <link rel="icon" href="{{ asset("images/logo.png") }}">
+    <link rel="icon" href="{{ asset('images/logo.png') }}">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css">
 </head>
@@ -29,13 +29,15 @@
 <body>
     <div id="app">
         <div class="container-fluid text-center p-4" id="header">
-            <img style="width : 100px;" src="{{ asset("images/logo.png") }}" alt="logo">
+            <img style="width : 100px;" src="{{ asset('images/logo.png') }}" alt="logo">
             <h2 class="pt-3">Laravel Online Store</h2>
         </div>
         <nav class="navbar navbar-expand-md sticky-top p-4 navbar-dark shadow-sm">
             <div class="container">
 
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -68,16 +70,16 @@
                             </a>
                         </li>
                         <li>
-                            <a class="navbar-brand" href="{{ route('basket.show') }}">
+                            <a class="navbar-brand" href="{{ route('cart.show') }}">
                                 Panier
                             </a>
                         </li>
-                        @if(auth()->user() !== null)
-                        <li>
-                            <a class="navbar-brand" href="{{ route('favoris.index') }}">
-                                Favoris
-                            </a>
-                        </li>
+                        @if (auth()->user() !== null)
+                            <li>
+                                <a class="navbar-brand" href="{{ route('favoris.index') }}">
+                                    Favoris
+                                </a>
+                            </li>
                         @endif
                         <!-- Left Side Of Navbar -->
 
@@ -87,39 +89,43 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                        @if (Route::has('login'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Connexion') }}</a>
-                        </li>
-                        @endif
+                            @if (Route::has('login'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Connexion') }}</a>
+                                </li>
+                            @endif
 
-                        @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Inscription') }}</a>
-                        </li>
-                        @endif
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                        href="{{ route('register') }}">{{ __('Inscription') }}</a>
+                                </li>
+                            @endif
                         @else
-                        <li class="nav-item dropdown pr-5">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" style="color: white" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ auth()->user()->pseudo }}
-                            </a>
+                            <li class="nav-item dropdown pr-5">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" style="color: white" href="#"
+                                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ auth()->user()->pseudo }}
+                                </a>
 
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('account', $user = auth()->user()->id) }}">{{ __('Mon compte') }}</a>
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                    {{ __('Déconnexion') }}
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                                @if (auth()->user()->role_id == 2)
-                                <a class="dropdown-item" href="{{ route('admin.index') }}">
-                                    Back-office
-                                </a>
-                                @endif
-                            </div>
-                        </li>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item"
+                                        href="{{ route('account', $user = auth()->user()->id) }}">{{ __('Mon compte') }}</a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
+                                        {{ __('Déconnexion') }}
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        class="d-none">
+                                        @csrf
+                                    </form>
+                                    @if (auth()->user()->role_id == 2)
+                                        <a class="dropdown-item" href="{{ route('admin.index') }}">
+                                            Back-office
+                                        </a>
+                                    @endif
+                                </div>
+                            </li>
                         @endguest
                     </ul>
                 </div>
@@ -128,18 +134,18 @@
 
         <div class="container w-50 text-center p-3">
 
-            @if(session()->has('message'))
-            <p class="alert alert-success">{{ session()->get('message') }}</p>
+            @if (session()->has('message'))
+                <p class="alert alert-success">{{ session()->get('message') }}</p>
             @endif
 
             @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             @endif
 
         </div>
