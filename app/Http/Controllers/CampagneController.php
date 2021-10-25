@@ -37,16 +37,14 @@ class CampagneController extends Controller
             'date_fin' => 'required'
         ]);
 
-        // dd($request);
-
         $campagne = Campagne::create($request->all());
 
         $articles = Article::all();
 
-        for ($i = 0; $i < count($articles); $i++) {
+        for ($i = 1; $i < count($articles); $i++) {
+            
             if (isset($request['article' . $i])) {
-
-                $campagne->articles()->attach([$request['article' . $i]]);
+                $campagne->articles()->attach([$i]);
             }
         }
 

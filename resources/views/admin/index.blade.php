@@ -195,7 +195,7 @@
         </div>
         <div class="form-group">
             @foreach ($articles as $article)
-            <input type="checkbox" id="article{{$article->id}}" name="article{{$article->id}}" value="{{$article->id}}" checked>
+            <input type="checkbox" id="article{{$article->id}}" name="article{{$article->id}}" value="{{$article->id}}">
             <label for="article{{$article->id}}">{{$article->nom}}</label>
             @endforeach
             <button type="submit" class="btn btn-info text-light mt-4">Valider</button>

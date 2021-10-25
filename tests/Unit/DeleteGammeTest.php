@@ -27,12 +27,14 @@ class DeleteGammeTest extends TestCase
         $this->json('POST', 'gammes', $data);
 
         // on récupère la gamme en bdd
-        $gamme = Gamme::where('id', 1)->get();
+        $gamme = Gamme::first();
 
         // on supprime la gamme
         $this->delete(route('gammes.destroy', $gamme));
 
         // on vérifie qu'elle a bien été supprimée
         $this->assertDeleted('gammes', ['nom' => 'ma super gamme']);
+        $this->assertEquals(0, Gamme::count());
+
     }
 }

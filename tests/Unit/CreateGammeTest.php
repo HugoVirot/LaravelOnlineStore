@@ -13,7 +13,7 @@ class CreateGammeTest extends TestCase
      * @return void
      */
 
-    //use RefreshDatabase;  // remet la bdd à son état initial après un test
+    use RefreshDatabase;  // remet la bdd à son état initial après un test
 
     public function testGammeCreation()
     {
@@ -25,7 +25,7 @@ class CreateGammeTest extends TestCase
         // on sauvegarde l'article en bdd
         $this->json('POST', 'gammes', $data);
 
-        // on vérifie que la table articles contient bien notre nouvel article
+        // on vérifie que la table gammes contient bien notre nouvel gammes
         $this->assertDatabaseHas('gammes', ['nom' => 'ma super gamme']);
     }
 }

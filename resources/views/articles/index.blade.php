@@ -20,7 +20,7 @@
 
                             @if (in_array($article->id, $campagnesArticlesIds))
 
-                                @php $campagne = GetCampaign($campagnes, $article->id) @endphp
+                                @php $campagne = GetCampaign($article->id) @endphp
 
                                 @if ($campagne)
 
