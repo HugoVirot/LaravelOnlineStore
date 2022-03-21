@@ -24,7 +24,6 @@
                         @foreach (session('cart') as $key => $item)
                             <!-- On incrémente le total général par le total de chaque produit du panier -->
                             @if (count($item) > 0)
-                                @php $total += $item['prix'] * $item['quantite'] @endphp
 
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
@@ -45,13 +44,14 @@
                                             <span class="text-danger font-weight-bold">
                                                 @php
                                                     $newPrice = $item['prix'] - $item['prix'] * ($campagne->reduction / 100);
-                                                    echo number_format($newPrice, 2);
+                                                    echo number_format($newPrice, 2, ',', ' ');
                                                 @endphp
                                                 €</span>
 
                                         </td>
                                     @else
-                                        <td>{{ $item['prix'] }} €</td>
+                                        <td>@php echo number_format($item['prix'], 2, ',', ' ') @endphp;
+                                        </td>
                                     @endif
 
                                     <td>{{ $item['description'] }}</td>
@@ -68,7 +68,19 @@
                                     </td>
                                     <td>
                                         <!-- Le total du produit = prix * quantité -->
-                                        {{ $item['prix'] * $item['quantite'] }} €
+                                        @if ($campagne)
+                                            @php
+                                                $lineTotal = $newPrice * $item['quantite'];
+                                            @endphp
+                                        @else
+                                            @php
+                                                $lineTotal = $item['prix'] * $item['quantite'];
+                                            @endphp
+                                        @endif
+                                        @php
+                                            echo number_format($lineTotal, 2, ',', ' ') . ' €';
+                                            $total += $lineTotal;
+                                        @endphp
                                     </td>
                                     <td>
                                         <!-- Le Lien pour retirer un produit du panier -->
@@ -82,7 +94,7 @@
                             <td colspan="4">Total général</td>
                             <td colspan="2">
                                 <!-- On affiche total général -->
-                                <strong>{{ $total }} €</strong>
+                                <strong>@php echo (number_format($total, 2, ',', ' ') . " €") @endphp</strong>
                             </td>
                         </tr>
                     </tbody>

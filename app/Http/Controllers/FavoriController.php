@@ -22,7 +22,7 @@ class FavoriController extends Controller
     public function index()
     {
         $user = User::find(auth()->user()->id);
-        $user->load('favoris');
+        $user->load('favoris.campagnes');
         return view('favoris/index', [
             'user' => $user
         ]);

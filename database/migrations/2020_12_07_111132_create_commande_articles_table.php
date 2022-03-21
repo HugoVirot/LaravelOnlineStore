@@ -14,11 +14,13 @@ class CreateCommandeArticlesTable extends Migration
     public function up()
     {
         Schema::create('commande_articles', function (Blueprint $table) {
-            $table->primary(['commande_id', 'article_id']);
             $table->foreignId('commande_id')->constrained();
-            $table->foreignId('article_id')->constrained();
+
+            $table->unsignedBigInteger('article_id')->nullable();
+            $table->foreign('article_id')->references('id')->on('articles')->onDelete('set null');
+
             $table->integer('quantite');
-            $table->timestamps();
+            $table->integer('reduction')->default(0);
         });
     }
 

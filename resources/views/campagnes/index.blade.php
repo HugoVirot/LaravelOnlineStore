@@ -76,7 +76,7 @@
 
                                             @endif
 
-                                            @if ($article->stock !== 0)
+                                            @if ($article->stock > 0)
                                                 <form method="POST" action="{{ route('cart.add', $article->id) }}"
                                                     class="form-inline d-inline-block">
                                                     @csrf

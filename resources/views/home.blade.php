@@ -65,7 +65,7 @@
 
                             @endif
 
-                            @if ($article->stock !== 0)
+                            @if ($article->stock > 0)
                                 <form method="POST" action="{{ route('cart.add', $article->id) }}"
                                     class="form-inline d-inline-block">
                                     @csrf
@@ -148,14 +148,14 @@
                                 <!-- si pas dans les favoris-->
                                 <form method="post" action="{{ route('favoris.store') }}">
                                     @csrf
-                                    <button type="submit" class="btn btn-success m-2">Ajouter aux favoris</button>
                                     <input type="hidden" value="{{ $article->id }}" name="articleId">
+                                    <button type="submit" class="btn btn-success m-2">Ajouter aux favoris</button>
                                 </form>
 
                             @endif
                         @endif
 
-                        @if ($article->stock !== 0)
+                        @if ($article->stock > 0)
                             <form method="POST" action="{{ route('cart.add', $article->id) }}"
                                 class="form-inline d-inline-block">
                                 @csrf

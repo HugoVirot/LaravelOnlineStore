@@ -39,7 +39,7 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nom' => 'required|min:5|max:30',
+            'nom' => 'required|string|min:5|max:30',
             'description' => 'required|min:10|max:100',
             'description_detaillee' => 'required|min:50|max:500',
             'image' => 'required|min:5|max:25',
@@ -101,7 +101,7 @@ class ArticleController extends Controller
             'gamme_id' => 'required'
         ]);
 
-        $article->update($request->all());
+        $article->update($request->except('_token'));
         return redirect()->route('admin.index')->with('message', 'Article modifié avec succès');
     }
 

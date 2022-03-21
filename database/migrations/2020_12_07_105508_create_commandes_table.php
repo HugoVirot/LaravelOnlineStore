@@ -19,7 +19,14 @@ class CreateCommandesTable extends Migration
             $table->float('prix');
             $table->timestamps();
 
-            $table->foreignId('user_id')->constrained();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+
+            $table->unsignedBigInteger('adresse_livraison_id')->nullable();
+            $table->foreign('adresse_livraison_id')->references('id')->on('adresses')->onDelete('set null');
+
+            $table->unsignedBigInteger('adresse_facturation_id')->nullable();
+            $table->foreign('adresse_facturation_id')->references('id')->on('adresses')->onDelete('set null');
         });
     }
 

@@ -9,6 +9,9 @@ use App\Models\Campagne;
  * @return $campagne
  */
 
+ // renvoie la promo associée au produit dont l'id est en paramètre
+ // si et seulement si elle est en cours
+ 
 function getCampaign($articleId)
 {
     foreach (Campagne::all() as $campagne) {
@@ -18,6 +21,7 @@ function getCampaign($articleId)
                     return $campagne;
                 }
             }
+            return null;
         }
     }
 }

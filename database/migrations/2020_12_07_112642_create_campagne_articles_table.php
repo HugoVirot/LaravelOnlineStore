@@ -15,8 +15,13 @@ class CreateCampagneArticlesTable extends Migration
     {
         Schema::create('campagne_articles', function (Blueprint $table) {
             $table->primary(['campagne_id', 'article_id']);
-            $table->foreignId('campagne_id')->constrained();
-            $table->foreignId('article_id')->constrained();
+
+            $table->unsignedBigInteger('campagne_id');
+            $table->foreign('campagne_id')->references('id')->on('campagnes')->onDelete('cascade');
+
+            $table->unsignedBigInteger('article_id');
+            $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

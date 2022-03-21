@@ -18,7 +18,7 @@ class HomeController extends Controller
         $currentPromo = Campagne::with(['articles' => function ($query) {
             $query->limit(3);
         }])
-            ->whereDate('date_debut', '<=', date('Y-m-d'))
+            ->whereDate('date_debut', '<=', date('Y-m-d')) //2022-02-09  format de date mysql
             ->whereDate('date_fin', '>=',  date('Y-m-d'))
             ->get();
 
@@ -27,9 +27,10 @@ class HomeController extends Controller
         } else {
             $currentPromo = null;
         }
+
         // on récupère les 3 articles les mieux notés avec leurs éventuelles campagnes promo,
         // si et seulement si elles sont en cours
-        $topRatedArticles = Article::orderBy('note', 'desc')
+        $topRatedArticles = Article::orderBy('note', 'desc')  // desc = descaling = décroissant
             ->limit(3)
             ->with(['campagnes' => function ($query) {
                 $query->whereDate('date_debut', '<=', date('Y-m-d'))

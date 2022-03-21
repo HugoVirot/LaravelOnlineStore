@@ -31,11 +31,9 @@
                                         <h5 class="card-title font-weight-bold">{{ $article->nom }}</h5>
                                         <p class="card-text font-italic">{{ $article->description }}</p>
 
-                                        @if (in_array($article->id, $campagnesArticlesIds))
-
                                             @php $campagne = GetCampaign($article->id) @endphp
 
-                                            @if ($campagne)
+                                            @if ($campagne !== null)
 
                                                 <p class="card-text text-danger font-weight-bold">{{ $campagne->nom }} :
                                                     -{{ $campagne->reduction }}%</p>
@@ -51,10 +49,6 @@
                                             @else
                                                 <h5 class="card-text font-weight-light">{{ $article->prix }} €</h5>
                                             @endif
-
-                                        @else
-                                            <h5 class="card-text font-weight-light">{{ $article->prix }} €</h5>
-                                        @endif
 
                                         <a href="{{ route('articles.show', $article) }}">
                                             <button class="btn btn-info m-2">Détails produit</button>
@@ -89,7 +83,7 @@
 
                                         @endif
 
-                                        @if ($article->stock !== 0)
+                                        @if ($article->stock > 0)
                                             <form method="POST" action="{{ route('cart.add', $article->id) }}"
                                                 class="form-inline d-inline-block">
                                                 @csrf

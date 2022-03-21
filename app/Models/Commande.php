@@ -14,6 +14,14 @@ class Commande extends Model
     }
 
     public function articles(){
-        return $this->belongsToMany(Article::class, 'commande_articles')->withPivot('quantite');
+        return $this->belongsToMany(Article::class, 'commande_articles')->withPivot('quantite', 'reduction');
+    }
+
+    public function adresseLivraison() {
+        return $this->belongsTo(Adresse::class);
+    }
+
+    public function adresseFacturation() {
+        return $this->belongsTo(Adresse::class);
     }
 }

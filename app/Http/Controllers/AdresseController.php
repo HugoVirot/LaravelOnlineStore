@@ -18,7 +18,7 @@ class AdresseController extends Controller
     {
         $request->validate([
             'adresse' => 'required|min:3|max:50',
-            'code_postal' => 'required|min:3|max:50',
+            'code_postal' => 'required|min:5|max:5',
             'ville' => 'required|min:3|max:50',
         ]);
 

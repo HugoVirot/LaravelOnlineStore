@@ -24,7 +24,8 @@ class CreateArticlesTable extends Migration
             $table->float('note')->nullable();
             $table->timestamps();
 
-            $table->foreignId('gamme_id')->constrained();
+            $table->unsignedBigInteger('gamme_id');
+            $table->foreign('gamme_id')->references('id')->on('gammes')->onDelete('cascade');
         });
     }
 

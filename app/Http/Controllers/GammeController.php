@@ -17,17 +17,9 @@ class GammeController extends Controller
      */
     public function index()
     {
-        $gammes = Gamme::all();
-        $gammes->load('articles');
-        $campagnes = Campagne::all();
-
-        $campagnesArticlesIds = DB::table('campagne_articles')->pluck('article_id');
-        $campagnesArticlesIds = $campagnesArticlesIds->toArray();
-
+        $gammes = Gamme::with('articles')->get();
         return view('gammes/index', [
             'gammes' => $gammes,
-            'campagnes' => $campagnes,
-            'campagnesArticlesIds' => $campagnesArticlesIds,
         ]);
     }
 

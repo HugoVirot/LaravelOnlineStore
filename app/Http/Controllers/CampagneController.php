@@ -18,7 +18,6 @@ class CampagneController extends Controller
     {
         // on récupère uniquement les campagnes non terminées (sinon, inutiles)
         $campagnes = Campagne::whereDate('date_fin', '>=',  date('Y-m-d'))->orderBy('date_debut')->get();
-
         return view('campagnes/index', ['campagnes' => $campagnes]);
     }
 
@@ -100,9 +99,15 @@ class CampagneController extends Controller
         $articles = Article::all();
 
         // on associe à la campagne ceux cochés dans le formulaire
-        for ($i = 0; $i < count($articles); $i++) {
-            if (isset($request['article' . $i])) {
-                $campagne->articles()->attach([$request['article' . $i]]);
+        // for ($i = 0; $i < count($articles); $i++) {
+        //     if (isset($request['article' . $i])) {
+        //         $campagne->articles()->attach([$request['article' . $i]]);
+        //     }
+        // }
+
+        foreach ($articles as $article) {
+            if (isset ($request['article' . $article->id])){
+                $campagne->articles()->attach([$article->id]);
             }
         }
 

@@ -32,7 +32,7 @@ Route::put('account/updatePassword',  [App\Http\Controllers\UserController::clas
 Route::delete('user/delete',  [App\Http\Controllers\UserController::class, 'delete'])->name('user.delete');
 
 
-// ********** adresse ***********
+// ********** Adresse ***********
 
 Route::post('address/create',  [App\Http\Controllers\AdresseController::class, 'create'])->name('address.create');
 Route::put('address/update',  [App\Http\Controllers\AdresseController::class, 'update'])->name('address.update');
@@ -99,3 +99,4 @@ Route::post('avis', [ App\Http\Controllers\AvisController::class, 'store'])->nam
 
 //Route::get('/mail', [App\Http\Controllers\TestController::class, 'mail'])->name('mail');
 
+Route::resource('test', App\Http\Controllers\NewTestController::class);

@@ -14,10 +14,10 @@ class LoginTest extends TestCase
      */
     public function test_user_can_view_a_login_form()
     {
-        $response = $this->get('/login');
+        $response = $this->get('/login'); // je demande l'adresse /login (formulaire de connexion)
 
-        $response->assertSuccessful();
-        $response->assertViewIs('auth.login');
+        $response->assertSuccessful(); // je m'attends à ce que la page soit bien affichée (code HTTP 200)
+        $response->assertViewIs('auth.login');  // je m'attends à ce que la vue blade soit auth.login
     }
 
         

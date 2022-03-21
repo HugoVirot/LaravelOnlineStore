@@ -22,7 +22,6 @@
                         @foreach (session('cart') as $key => $item)
                             <!-- On incrémente le total général par le total de chaque produit du panier -->
                             @if (count($item) > 0)
-                                @php $total += $item['prix'] * $item['quantite'] @endphp
 
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
@@ -41,7 +40,7 @@
                                             <span class="text-danger font-weight-bold">
                                                 @php
                                                     $newPrice = $item['prix'] - $item['prix'] * ($campagne->reduction / 100);
-                                                    echo number_format($newPrice, 2);
+                                                    echo number_format($newPrice, 2, ',', ' ');
                                                 @endphp
                                                 €</span>
 
@@ -53,7 +52,19 @@
                                     <td>{{ $item['quantite'] }}</td>
                                     <td>
                                         <!-- Le total du produit = prix * quantité -->
-                                        {{ $item['prix'] * $item['quantite'] }} €
+                                        @if ($campagne)
+                                            @php
+                                                $lineTotal = $newPrice * $item['quantite'];
+                                            @endphp
+                                        @else
+                                            @php
+                                                $lineTotal = $item['prix'] * $item['quantite'];
+                                            @endphp
+                                        @endif
+                                        @php
+                                            echo number_format($lineTotal, 2, ',', ' ') . ' €';
+                                            $total += $lineTotal;
+                                        @endphp
                                     </td>
                                 </tr>
                             @endif
@@ -62,7 +73,7 @@
                             <td colspan="4">Total général</td>
                             <td colspan="2">
                                 <!-- On affiche total général -->
-                                <strong>{{ $total }} €</strong>
+                                <strong>@php echo (number_format($total, 2, ',', ' ') . " €") @endphp</strong>
                             </td>
                         </tr>
                     </tbody>
@@ -116,7 +127,7 @@
     <h3 class="p-3">Adresse de livraison</h3>
 
     <div class="row pb-3">
-        <div class="col-6 offset-3 text-center border border-info">
+        <div class="col-6 offset-3 text-center border border-info pb-3">
 
             @if (session('adresseLivraison') !== null)
                 @php $adresseLivraison = session('adresseLivraison') @endphp
@@ -130,6 +141,8 @@
             @else
                 <p class="mt-4">Aucune adresse choisie.</p>
             @endif
+
+            @if(count($user->adresses) > 0)
 
             <form action="{{ route('cart.validation') }}" class="p-3" method="post">
                 @csrf
@@ -149,19 +162,23 @@
                 </div>
             </form>
 
+            @else
+            <p class="rounded m-auto m-5 pt-4 p-3 bg-danger text-white">Vous n'avez aucune adresse enregistrée. Ajoutez-en une dans l'espace client.
+            @endif
+
         </div>
     </div>
 
     <h3 class="p-3">Adresse de facturation</h3>
 
     <div class="row pb-3">
-        <div class="col-6 offset-3 text-center border border-info">
+        <div class="col-6 offset-3 text-center border border-info pb-3">
 
             @if (session('adresseFacturation') !== null)
                 @php $adresseFacturation = session('adresseFacturation') @endphp
 
                 <div class="font-weight-bold pt-3">
-                    <p>{{ $user->nom }} {{ $user->prenom }}</p>
+                    <p>{{ $user->prenom }} {{ $user->nom }}</p>
                     <p>{{ $adresseFacturation->adresse }}</p>
                     <p>{{ $adresseFacturation->code_postal }} {{ $adresseFacturation->ville }}</p>
                 </div>
@@ -169,6 +186,8 @@
             @else
                 <p class="mt-4">Aucune adresse choisie.</p>
             @endif
+
+            @if(count($user->adresses) > 0)
 
             <form action="{{ route('cart.validation') }}" class="p-3" method="post">
                 @csrf
@@ -188,12 +207,16 @@
                 </div>
             </form>
 
+            @else
+            <p class="rounded m-auto m-5 pt-4 p-3 bg-danger text-white">Vous n'avez aucune adresse enregistrée. Ajoutez-en une dans l'espace client.
+            @endif
+
         </div>
     </div>
 
 
     <h3 class="p-3">Type de livraison</h3>
-    <form method="post" action="{{ route('cart.choosedelivery') }}">
+    <form method="post" action="{{ route('cart.choosedelivery') }}" class="mb-4">
         @csrf
         <div class="form-group">
             <input type="radio" name="delivery" id="classique" value="classique" @if (isset($delivery) && $delivery === 'classique') checked @endif>
@@ -207,11 +230,11 @@
             <input type="radio" name="delivery" id="pointrelais" value="pointrelais" @if (isset($delivery) && $delivery === 'pointrelais') checked @endif>
             <label for="classique">En point-relais (48h) : 4 €</label>
         </div>
-        <button type="submit" class="btn btn-info">Valider</button>
         <input type="hidden" value="{{ $total }}" name="total">
+        <button type="submit" class="btn btn-info">Valider</button>
     </form>
 
-    @if (isset($lastTotal))
+    @if (isset($lastTotal) && session('adresseFacturation') && session('adresseFacturation'))
         <h3 class="pt-5 pb-3 font-weight-bold">Total à payer : {{ $lastTotal }} €</h3>
         <form method="post" action="{{ route('commandes.store') }}">
             @csrf
@@ -219,7 +242,7 @@
             <button type="submit" class="btn btn-success btn-lg">Valider la commande</button>
         </form>
     @else
-        <p class="pt-4">Choissez un mode de livraison pour connaître le total.
+        <p class="rounded m-auto mt-5 pt-4 w-50 p-3 bg-danger text-white">Choissez un mode de livraison, une adresse de livraison et une adresse de facturation pour connaître le total.</p>
     @endif
     </div>
 @endsection

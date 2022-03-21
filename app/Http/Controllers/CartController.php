@@ -3,22 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Repositories\CartInterfaceRepository;
 use App\Models\Article;
 use App\Models\User;
 use App\Models\Adresse;
-use App\Models\Gamme;
 use Illuminate\Support\Facades\Gate;
+
 
 class CartController extends Controller
 {
-
-	protected $cartRepository; // L'instance cartSessionRepository
-
-	public function __construct(CartInterfaceRepository $cartRepository)
-	{
-		$this->cartRepository = $cartRepository;
-	}
 
 	# Affichage du panier
 	public function show()
@@ -34,13 +26,36 @@ class CartController extends Controller
 			"quantite" => "numeric|min:1"
 		]);
 
-		$article = Article::findOrFail($articleId);
+		$article = Article::find($articleId);  // on récupère la quantité en stock de l'article
+		$article->load('campagnes');
 		$quantite = $request->quantite;
 
-		if ($article->stock >= $quantite) {
+		if ($article->stock >= $quantite) {  // si le stock restant est suffisant
 
 			// Ajout/Mise à jour du produit au panier avec sa quantité
-			$this->cartRepository->add($article, $quantite);
+			$cart = session()->get("cart"); // On récupère le panier en session
+
+			// Les informations du produit à ajouter
+			$article_details = [
+				'id' => $article->id,
+				'nom' => $article->nom,
+				'prix' => $article->prix,
+				'description' => $article->description,
+				'quantite' => $quantite
+			];
+
+			// si l'article est concerné par une promo ET si celle-ci est en cours => on prend en compte sa réduction
+			if (
+				isset($article->campagnes[0]) &&
+				$article->campagnes[0]->date_debut <= date('Y-m-d') &&
+				$article->campagnes[0]->date_fin >= date('Y-m-d')
+			) {
+				$article_details['reduction'] = $article->campagnes[0]->reduction;
+			}
+
+			$cart[$article->id] = $article_details; // On ajoute ou on met à jour le produit au panier
+			session()->put("cart", $cart); // On enregistre le panier
+
 		} else {
 			return redirect()->back()->withErrors("Quantité en stock insuffisante !");
 		}
@@ -53,7 +68,9 @@ class CartController extends Controller
 	public function remove($key)
 	{
 		// Suppression du produit du panier par son identifiant
-		$this->cartRepository->remove($key);
+		$cart = session()->get("cart"); // On récupère le panier en session
+		unset($cart[$key]); // On supprime le produit du tableau $cart
+		session()->put("cart", $cart); // On enregistre le panier
 
 		// Redirection vers le panier
 		return back()->withMessage("Produit retiré du panier");
@@ -62,8 +79,8 @@ class CartController extends Controller
 	// Vider le panier
 	public function empty()
 	{
-		// Suppression des informations du panier en session
-		$this->cartRepository->empty();
+		// Suppression du panier en session
+		session()->forget("cart");
 
 		// Redirection 
 		return back()->withMessage("Panier vidé");
@@ -73,7 +90,7 @@ class CartController extends Controller
 	public function emptyAfterOrder()
 	{
 		// Suppression des informations du panier en session
-		$this->cartRepository->empty();
+		session()->forget("cart");
 
 		// Redirection
 		return redirect('home')->withMessage("Votre commande a été validée. Merci de votre confiance.");
@@ -83,12 +100,12 @@ class CartController extends Controller
 	public function validation(Request $request)
 	{
 
-			if (!Gate::allows('access_order_validation')){
+		if (!Gate::allows('access_order_validation')) {   // autre syntaxe : if(Gate::denies('access_order_validation'))
 			abort(403);
 		}
 
 		$user = User::find(auth()->user()->id);
-		
+
 		$adresseLivraisonId = null;
 		$adresseFacturationId = null;
 
@@ -96,6 +113,7 @@ class CartController extends Controller
 			$adresseLivraisonId = $request->input('adresseLivraisonId');
 			$adresseLivraison = Adresse::findOrFail($adresseLivraisonId);
 			session(['adresseLivraison' => $adresseLivraison]);
+			// autre syntaxe : session()->put('adresseLivraison' => $adresseLivraison);
 		}
 
 		if (($request->input('adresseFacturationId') != null)) {

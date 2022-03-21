@@ -16,8 +16,7 @@ class UserController extends Controller
     public function account(User $user)
     {
         $user = User::find($user->id);
-        $user->load('adresses');
-        $user->load('commandes');
+        $user->load('adresses', 'commandes');
         return view('user.account', ['user' => $user]);
     }
 
