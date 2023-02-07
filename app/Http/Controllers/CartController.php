@@ -26,9 +26,9 @@ class CartController extends Controller
 			"quantite" => "numeric|min:1"
 		]);
 
-		$article = Article::find($articleId);  // on récupère la quantité en stock de l'article
-		$article->load('campagnes');
-		$quantite = $request->quantite;
+		$article = Article::find($articleId);  // on récupère l'article
+		$article->campagne = getCampaign($articleId); // on récupère son éventuelle campagne en cours (sinon => null)
+		$quantite = $request->quantite; // on récupère la quantité choisie
 
 		if ($article->stock >= $quantite) {  // si le stock restant est suffisant
 
@@ -45,12 +45,8 @@ class CartController extends Controller
 			];
 
 			// si l'article est concerné par une promo ET si celle-ci est en cours => on prend en compte sa réduction
-			if (
-				isset($article->campagnes[0]) &&
-				$article->campagnes[0]->date_debut <= date('Y-m-d') &&
-				$article->campagnes[0]->date_fin >= date('Y-m-d')
-			) {
-				$article_details['reduction'] = $article->campagnes[0]->reduction;
+			if ($article->campagne) {
+				$article_details['reduction'] = $article->campagne->reduction;
 			}
 
 			$cart[$article->id] = $article_details; // On ajoute ou on met à jour le produit au panier
@@ -136,6 +132,8 @@ class CartController extends Controller
 		$total = $request->input('total');
 		$delivery = $request->input('delivery');
 
+		session()->put('delivery', $delivery);
+
 		switch ($delivery) {
 			case ('classique'):
 				$total += 5;
@@ -148,6 +146,8 @@ class CartController extends Controller
 				break;
 		}
 
-		return view('cart/validation', ['user' => $user, 'lastTotal' => $total, 'delivery' => $delivery]);
+		session()->put('finalTotal', $total);
+
+		return view('cart/validation', ['user' => $user]);
 	}
 }

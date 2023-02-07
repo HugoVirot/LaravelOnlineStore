@@ -31,7 +31,7 @@ class GammeSeeder extends Seeder
         ]);
 
         DB::table('gammes')->insert([
-            'nom' => 'produits connectés',
+            'nom' => 'objets connectés',
         ]);
     }
 }

@@ -20,7 +20,7 @@ Modifier article {{$article->nom}}
         </div>
         <div class="form-group">
             <label for="description_detaillee">description détaillée</label>
-            <input required type="text" class="form-control" name="description_detaillee" value="{{$article->description_détaillée}}" id="description_detaillee">
+            <textarea required class="form-control" name="description_detaillee" id="description_detaillee">{{$article->description_detaillee}}</textarea>
         </div>
         <div class="form-group">
             <label for="image">image</label>
@@ -37,6 +37,15 @@ Modifier article {{$article->nom}}
         <div class="form-group">
             <label for="note">note</label>
             <input required type="text" class="form-control" name="note" value="{{$article->note}}" id="note">
+        </div>
+        <div class="form-group">
+            <label for="gamme_id">gamme</label>
+            <select name="gamme_id" id="gamme_id">
+                <option value="">--Choisissez une gamme--</option>
+                @foreach ($gammes as $gamme)
+                    <option value="{{ $gamme->id }}">{{ $gamme->nom }}</option>
+                @endforeach
+            </select>
         </div>
         <input type="hidden" name="gamme_id" value="{{$article->gamme_id}}">
         <button type="submit" class="btn btn-info text-light mt-4">Valider</button>

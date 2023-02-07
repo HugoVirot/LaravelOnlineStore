@@ -23,16 +23,18 @@ class CreateUserTest extends TestCase
         // on vérifie que l'on part d'une table users vide
         $this->assertEquals(0, User::count());
 
+        // on insère le rôle user en bdd
         DB::table('roles')->insert([
+            'id' => 1,
             'role' => 'user'
         ]);
 
         // on initialise les données
         $data = [
-            'nom' => 'paul',
-            'prenom' => 'paul',
-            'pseudo' => 'paulpaul',
-            'email' => 'test@test.fr',
+            'nom' => 'Testeur',
+            'prenom' => 'Test',
+            'pseudo' => 'TesteurTest',
+            'email' => 'testeur@test.fr',
             'password' => 'Azerty77@',
             'password_confirmation' => 'Azerty77@',
         ];

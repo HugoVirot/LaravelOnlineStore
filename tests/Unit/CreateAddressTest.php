@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Adresse;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class CreateAddressTest extends TestCase  // test de création d'une nouvelle adresse
 {
@@ -14,7 +16,7 @@ class CreateAddressTest extends TestCase  // test de création d'une nouvelle ad
      * @return void
      */
 
-   use RefreshDatabase;  // remet la bdd à son état initial après un test
+    use RefreshDatabase;  // remet la bdd à son état initial après un test
 
     /** @test */
     public function testAddressCreation()
@@ -23,7 +25,22 @@ class CreateAddressTest extends TestCase  // test de création d'une nouvelle ad
         // on vérifie que l'on part d'une table adresses vide
         $this->assertEquals(0, Adresse::count());
 
-        // on initialise les données
+        // on crée le rôle user
+        DB::table('roles')->insert([
+            'role' => 'user'
+        ]);
+
+        // on crée un user
+        User::create([
+            'nom' => 'Test',
+            'prenom' => 'paul',
+            'pseudo' => 'paulTest',
+            'email' => 'paul@test.fr',
+            'password' => 'Azerty77@',
+            'password_confirmation' => 'Azerty77@'
+        ]);
+
+        // on initialise les données de ladresse
         $data = [
             'adresse' => '1 rue du test',
             'code_postal' => '99999',
@@ -32,7 +49,7 @@ class CreateAddressTest extends TestCase  // test de création d'une nouvelle ad
         ];
 
         // on sauvegarde l'adresse en bdd
-        $this->json('POST', 'address/create', $data);
+        $this->json('POST', 'address/store', $data);
 
         // on vérifie que la table adresses contient bien notre nouvelle adresse
         $this->assertEquals(1, Adresse::count());

@@ -145,7 +145,7 @@
 
         <div class="row text-center w-75 m-auto mt-4">
             <div class="col-6 offset-3 text-center">
-                <form class="col-12 mx-auto p-5 border border-info" action="{{ route('address.create') }}" method="post">
+                <form class="col-12 mx-auto p-5 border border-info" action="{{ route('address.store') }}" method="post">
                     @csrf
                     <div class="form-group">
                         <label for="adresse">Adresse</label>

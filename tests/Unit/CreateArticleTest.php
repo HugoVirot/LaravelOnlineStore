@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Article;
+use Illuminate\Support\Facades\DB;
 
 class CreateArticleTest extends TestCase
 {
@@ -13,7 +14,7 @@ class CreateArticleTest extends TestCase
      *
      * @return void
      */
-   use RefreshDatabase;  // remet la bdd à son état initial après un test
+    use RefreshDatabase;  // remet la bdd à son état initial après un test
 
     /** @test */
     public function testArticleCreation()
@@ -21,6 +22,12 @@ class CreateArticleTest extends TestCase
 
         // on vérifie que l'on part d'une table articles vide
         $this->assertEquals(0, Article::count());
+
+
+        // on crée une gamme qui va être associée à l'article
+        DB::table('gammes')->insert([
+            'nom' => 'ma super gamme',
+        ]);
 
         // on initialise les données
         $data = [

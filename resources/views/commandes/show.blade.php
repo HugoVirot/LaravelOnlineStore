@@ -38,18 +38,19 @@ Détails commande - Laravel Online Store
             <td>{{$article->nom}}</td>
             
             @if(($article->pivot->reduction) != 0)
-            <td>{{$article->prix -= $article->prix * $article->pivot->reduction/100 }}</td>
+            <td>{{number_format($article->prix -= $article->prix * $article->pivot->reduction/100, 2, ',', '') . " €";  }}</td>
             <td>-{{$article->pivot->reduction}}%</td>
 
             @else
-            <td>{{$article->prix}}</td>
+            <td>{{number_format($article->prix, 2, ',', '') . " €"; }}</td>
             <td>aucune</td>
             @endif
 
             <td>{{$article->description}}</td>
             <td>{{$article->pivot->quantite}}</td>
             <td>@php 
-                echo $lineTotal = $article->prix * $article->pivot->quantite;  // prix de chaque ligne
+                $lineTotal = $article->prix * $article->pivot->quantite;  // prix de chaque ligne
+                echo number_format($lineTotal, 2, ',', '') . ' €';
                 $total += $lineTotal;   // on l'ajoute au total général
                 @endphp</td>
         </tr>

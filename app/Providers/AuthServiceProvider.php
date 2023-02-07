@@ -21,8 +21,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
-
         Gate::define('access_backoffice', function ($user) {
             return $user->isAdmin(); //condition à satisfaire pour passer le gate
         });

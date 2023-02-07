@@ -21,21 +21,22 @@ class AvisController extends Controller
 
         $request->validate([
             'note' => 'required|min:1|max:5',
-            'commentaire' => 'min:10|max:255'
+            'commentaire' => 'nullable|min:10|max:255'
         ]);
 
         $articleId = $request->input('articleId');
-        $newNote = intval($request->input('note'));
+        $newNote = intval($request->input('note')); // intval transforme la note en integer
 
 
         // 2) calcul moyenne = (note actuelle * nb notes + nouvelle note) / (nb notes + 1)
 
         $article = Article::find($articleId);
-        $currentAverageNote = $article->note;   // OK
-        $allArticleReviews = Avis::where('article_id', $articleId)->get();
-        $notesNumber = count($allArticleReviews) + 1;
+        $currentAverageNote = $article->note;                               // note moyenne actuelle de l'article
+        $allArticleReviews = Avis::where('article_id', $articleId)->get();  // tous les avis postés sur cet article
+        $notesNumber = count($allArticleReviews) + 1;                       // comptage du nombre de notes
 
         $newAverageNote = ($currentAverageNote * $notesNumber + $newNote) / ($notesNumber + 1);
+
 
         // 3) sauvegarde de la nouvelle note moyenne de l'article
 

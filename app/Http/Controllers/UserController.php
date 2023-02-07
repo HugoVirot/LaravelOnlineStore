@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -18,6 +19,12 @@ class UserController extends Controller
         $user = User::find($user->id);
         $user->load('adresses', 'commandes');
         return view('user.account', ['user' => $user]);
+    }
+
+    public function test(){
+        $articles = Article::with('gamme')->get();
+        dd($articles);
+
     }
 
 

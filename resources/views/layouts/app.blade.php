@@ -28,45 +28,66 @@
     <script type="text/javascript" src="/tarteaucitron/tarteaucitron.js"></script>
 
     <script type="text/javascript">
-    tarteaucitron.init({
-      "privacyUrl": "", /* Privacy policy url */
+        tarteaucitron.init({
+            "privacyUrl": "",
+            /* Privacy policy url */
 
-      "hashtag": "#tarteaucitron", /* Open the panel with this hashtag */
-      "cookieName": "tarteaucitron", /* Cookie name */
+            "hashtag": "#tarteaucitron",
+            /* Open the panel with this hashtag */
+            "cookieName": "tarteaucitron",
+            /* Cookie name */
 
-      "orientation": "middle", /* Banner position (top - bottom) */
-   
-      "groupServices": false, /* Group services by category */
-                       
-      "showAlertSmall": false, /* Show the small banner on bottom right */
-      "cookieslist": false, /* Show the cookie list */
-                       
-      "closePopup": false, /* Show a close X on the banner */
+            "orientation": "middle",
+            /* Banner position (top - bottom) */
 
-      "showIcon": true, /* Show cookie icon to manage cookies */
-      //"iconSrc": "", /* Optionnal: URL or base64 encoded image */
-      "iconPosition": "BottomRight", /* BottomRight, BottomLeft, TopRight and TopLeft */
+            "groupServices": false,
+            /* Group services by category */
 
-      "adblocker": false, /* Show a Warning if an adblocker is detected */
-                       
-      "DenyAllCta" : true, /* Show the deny all button */
-      "AcceptAllCta" : true, /* Show the accept all button when highPrivacy on */
-      "highPrivacy": true, /* HIGHLY RECOMMANDED Disable auto consent */
-                       
-      "handleBrowserDNTRequest": false, /* If Do Not Track == 1, disallow all */
+            "showAlertSmall": false,
+            /* Show the small banner on bottom right */
+            "cookieslist": false,
+            /* Show the cookie list */
 
-      "removeCredit": false, /* Remove credit link */
-      "moreInfoLink": true, /* Show more info link */
+            "closePopup": false,
+            /* Show a close X on the banner */
 
-      "useExternalCss": false, /* If false, the tarteaucitron.css file will be loaded */
-      "useExternalJs": false, /* If false, the tarteaucitron.js file will be loaded */
+            "showIcon": true,
+            /* Show cookie icon to manage cookies */
+            //"iconSrc": "", /* Optionnal: URL or base64 encoded image */
+            "iconPosition": "BottomRight",
+            /* BottomRight, BottomLeft, TopRight and TopLeft */
 
-      //"cookieDomain": ".my-multisite-domaine.fr", /* Shared cookie for multisite */
-                      
-      "readmoreLink": "", /* Change the default readmore link */
+            "adblocker": false,
+            /* Show a Warning if an adblocker is detected */
 
-      "mandatory": true, /* Show a message about mandatory cookies */
-    });
+            "DenyAllCta": true,
+            /* Show the deny all button */
+            "AcceptAllCta": true,
+            /* Show the accept all button when highPrivacy on */
+            "highPrivacy": true,
+            /* HIGHLY RECOMMANDED Disable auto consent */
+
+            "handleBrowserDNTRequest": false,
+            /* If Do Not Track == 1, disallow all */
+
+            "removeCredit": false,
+            /* Remove credit link */
+            "moreInfoLink": true,
+            /* Show more info link */
+
+            "useExternalCss": false,
+            /* If false, the tarteaucitron.css file will be loaded */
+            "useExternalJs": false,
+            /* If false, the tarteaucitron.js file will be loaded */
+
+            //"cookieDomain": ".my-multisite-domaine.fr", /* Shared cookie for multisite */
+
+            "readmoreLink": "",
+            /* Change the default readmore link */
+
+            "mandatory": true,
+            /* Show a message about mandatory cookies */
+        });
     </script>
 </head>
 
@@ -79,8 +100,8 @@
         <nav class="navbar navbar-expand-md sticky-top p-4 navbar-dark shadow-sm">
             <div class="container">
 
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false"
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -141,8 +162,7 @@
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link"
-                                        href="{{ route('register') }}">{{ __('Inscription') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Inscription') }}</a>
                                 </li>
                             @endif
                         @else
@@ -155,15 +175,16 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item"
                                         href="{{ route('account', $user = auth()->user()->id) }}">{{ __('Mon compte') }}</a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">
                                         {{ __('Déconnexion') }}
                                     </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                        class="d-none">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
-                                    @if (auth()->user()->role_id == 2)
+                                    <!-- affichage du lien back-office uniquement pour l'administrateur -->
+                                    @if(Auth::user()->isAdmin())
                                         <a class="dropdown-item" href="{{ route('admin.index') }}">
                                             Back-office
                                         </a>
@@ -198,21 +219,22 @@
             @yield('content')
         </main>
     </div>
-</body>
 
-<footer class="text-center text-light bg-primary p-5 mt-3">
-    <h5 class="m-4">© LaravelOnlineStore 2020</h5>
-    <div class="container w-25 d-flex justify-content-around ">
-        <a href="https://www.facebook.com" style="color:inherit">
-            <i class="fab fa-3x fa-facebook-square"></i>
-        </a>
-        <a href="https://www.twitter.com" style="color:inherit">
-            <i class="fab fa-3x fa-twitter"></i>
-        </a>
-        <a href="https://www.youtube.com" style="color:inherit">
-            <i class="fab fa-3x fa-youtube"></i>
-        </a>
-    </div>
-</footer>
+    <footer class="text-center text-light bg-primary p-5 mt-3">
+        <h5 class="m-4">© LaravelOnlineStore 2020</h5>
+        <div class="container w-25 d-flex justify-content-around ">
+            <a href="https://www.facebook.com" style="color:inherit">
+                <i class="fab fa-3x fa-facebook-square"></i>
+            </a>
+            <a href="https://www.twitter.com" style="color:inherit">
+                <i class="fab fa-3x fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com" style="color:inherit">
+                <i class="fab fa-3x fa-youtube"></i>
+            </a>
+        </div>
+    </footer>
+
+</body>
 
 </html>

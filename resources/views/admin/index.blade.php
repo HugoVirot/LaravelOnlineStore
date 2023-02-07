@@ -5,10 +5,28 @@
 @endsection
 
 @section('content')
+
     <script>
-        function showElement($elementId) {
-            var element = document.getElementById($elementId);
+          let nomsTableaux = ['articlesForm', 'rangesForm', 'campaignsForm', 'articlesList', 'rangesList',
+            'campaignsList', 'usersList']
+
+        function showElement(elementId) {
+
+            nomsTableaux.forEach(element => { // nom du tableau 
+                document.getElementById(element).style.display = 'none'
+            });
+
+            let element = document.getElementById(elementId);
+
+            // écriture ternaire
             element.style.display == "block" ? element.style.display = "none" : element.style.display = "block";
+
+            // autre écriture
+            // if (element.style.display == "block" ){
+            //     element.style.display = "none" p
+            // } else {
+            //     element.style.display = "block"
+            // }
         }
     </script>
 
@@ -265,6 +283,4 @@
         </table>
     </div>
     </div>
-
-
 @endsection

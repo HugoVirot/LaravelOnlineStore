@@ -14,7 +14,7 @@ class AdresseController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'adresse' => 'required|min:3|max:50',

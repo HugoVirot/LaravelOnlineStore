@@ -17,6 +17,7 @@ use App\Http\Controllers\UserController;
 
 Auth::routes();
 
+Route::get('test', [App\Http\Controllers\UserController::class, 'test'])->name('test');
 
 // ********** accueil ***********
 
@@ -26,7 +27,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // ********** User ***********
 
-Route::get('account/{user}',[UserController::class, 'account'])->name('account');
+Route::get('account/{user}', [UserController::class, 'account'])->name('account');
 Route::put('account/update',  [App\Http\Controllers\UserController::class, 'update'])->name('account.update');
 Route::put('account/updatePassword',  [App\Http\Controllers\UserController::class, 'updatePassword'])->name('account.updatePassword');
 Route::delete('user/delete',  [App\Http\Controllers\UserController::class, 'delete'])->name('user.delete');
@@ -34,14 +35,14 @@ Route::delete('user/delete',  [App\Http\Controllers\UserController::class, 'dele
 
 // ********** Adresse ***********
 
-Route::post('address/create',  [App\Http\Controllers\AdresseController::class, 'create'])->name('address.create');
+Route::post('address/store',  [App\Http\Controllers\AdresseController::class, 'store'])->name('address.store');
 Route::put('address/update',  [App\Http\Controllers\AdresseController::class, 'update'])->name('address.update');
 Route::delete('address/delete',  [App\Http\Controllers\AdresseController::class, 'delete'])->name('address.delete');
 
 
 // ********** Articles ***********
 
-Route::resource('articles', App\Http\Controllers\ArticleController::class);
+Route::resource('articles', App\Http\Controllers\ArticleController::class)->except('create');
 
 
 // ********** Gammes ***********
@@ -69,8 +70,8 @@ Route::post('cart/choosedelivery', [App\Http\Controllers\CartController::class, 
 // ********** Commandes **********
 
 Route::resource('commandes', App\Http\Controllers\CommandeController::class);
-Route::post('commandes', [ App\Http\Controllers\CommandeController::class, 'store'])->name('commandes.store');
-Route::get('commandes/{commande}', [ App\Http\Controllers\CommandeController::class, 'show'])->name('commandes.show');
+Route::post('commandes', [App\Http\Controllers\CommandeController::class, 'store'])->name('commandes.store');
+Route::get('commandes/{commande}', [App\Http\Controllers\CommandeController::class, 'show'])->name('commandes.show');
 
 
 // ********** Notre histoire / qualité **********
@@ -92,11 +93,11 @@ Route::delete('favoris', [App\Http\Controllers\FavoriController::class, 'destroy
 
 // ********** Avis **********
 
-Route::post('avis', [ App\Http\Controllers\AvisController::class, 'store'])->name('avis.store');
+Route::post('avis', [App\Http\Controllers\AvisController::class, 'store'])->name('avis.store');
 
 
 
 
 //Route::get('/mail', [App\Http\Controllers\TestController::class, 'mail'])->name('mail');
 
-Route::resource('test', App\Http\Controllers\NewTestController::class);
+//Route::resource('test', App\Http\Controllers\NewTestController::class);

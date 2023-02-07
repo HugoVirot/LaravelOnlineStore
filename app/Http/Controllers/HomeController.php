@@ -15,6 +15,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // récupérer la promo en cours
         $currentPromo = Campagne::with(['articles' => function ($query) {
             $query->limit(3);
         }])

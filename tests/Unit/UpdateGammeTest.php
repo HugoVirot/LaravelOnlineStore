@@ -11,7 +11,6 @@ class UpdateGammeTest extends TestCase
 
     use RefreshDatabase;
     /**
-     * A basic feature test example.
      *
      * @return void
      */
@@ -29,15 +28,16 @@ class UpdateGammeTest extends TestCase
         $this->assertEquals(1, Gamme::count());
         $this->assertDatabaseHas('gammes', ['nom' => 'ma super gamme']);
 
-        // //modif gamme
-        $gamme = Gamme::findOrFail(1);
+        // modif gamme
+        $gamme = Gamme::first(); // récupération gamme en fonction de son id
 
-        $this->put(
+        $this->put(      // modif gamme avec route gammeS.update en passant la gamme en paramètre de la route
             route('gammes.update', $gamme),
             [
-                'nom' => 'la meilleure gamme'
+                'nom' => 'la meilleure gamme'  // je lui change son nom
             ],
         );
+
         // vérif modif
         $this->assertDatabaseHas('gammes', ['nom' => 'la meilleure gamme']);
     }

@@ -29,6 +29,8 @@ class CampagneController extends Controller
      */
     public function store(Request $request)
     {
+        // sauvegarde de la campagne avec infos de base
+
         $request->validate([
             'nom' => 'required|min:5|max:30',
             'reduction' => 'required',
@@ -36,14 +38,31 @@ class CampagneController extends Controller
             'date_fin' => 'required'
         ]);
 
+        // en la sauvegardant, je la stocke dans une variable
         $campagne = Campagne::create($request->all());
 
-        $articles = Article::all();
+        // insertion des articles associés dans campagne_articles
 
-        for ($i = 1; $i < count($articles); $i++) {
-            
-            if (isset($request['article' . $i])) {
-                $campagne->articles()->attach([$i]);
+        // ********************* version 1 : on boucle sur la liste des articles *********************
+
+        // $i = 1 => valeur de départ de $i 
+        // $i < count($articles) => condition de maintien
+        // $i++ => évolution de $i à chaque boucle
+        // for ($i = 1; $i < Article::count(); $i++) { // boucle for qui parcourt les articles
+
+        //     if (isset($request['article' . $i])) {  // on vérifie si un imput contenant ce name a été transmis (si l'article a été coché)
+
+        //         $campagne->articles()->attach([$i]); // on insère l'article dans campagnes_articles 
+
+        //     }
+        // }
+
+        // ********************* version 2 (la meilleure): on boucle sur $request *********************
+
+        foreach ($request->request as $key => $value) {
+            // si le name de l'input commence par article (exemple : "article2")
+            if (str_starts_with($key, 'article')) {
+                $campagne->articles()->attach([$value]); // on insère l'article correspondant dans campagnes_articles 
             }
         }
 
@@ -58,6 +77,7 @@ class CampagneController extends Controller
      */
     public function edit(Campagne $campagne)
     {
+        // récupérer liste articles associés à la campagne
         $campagneArticlesIds = DB::table('campagne_articles')->where('campagne_id', '=', $campagne->id)->get('article_id');
         $articles = Article::all();
 
@@ -98,15 +118,18 @@ class CampagneController extends Controller
         // on récupère la liste des articles
         $articles = Article::all();
 
-        // on associe à la campagne ceux cochés dans le formulaire
+        // on associe à la campagne ceux cochés dans le formulaire (version boucle for)
         // for ($i = 0; $i < count($articles); $i++) {
         //     if (isset($request['article' . $i])) {
         //         $campagne->articles()->attach([$request['article' . $i]]);
         //     }
         // }
 
+        // version foreach
         foreach ($articles as $article) {
-            if (isset ($request['article' . $article->id])){
+
+            if (isset($request['article' . $article->id])) {
+
                 $campagne->articles()->attach([$article->id]);
             }
         }

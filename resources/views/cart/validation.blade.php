@@ -1,4 +1,4 @@
-@extends("layouts.app")
+@extends('layouts.app')
 @section('content')
     <div class="container text-center">
         @if (session()->has('cart'))
@@ -22,7 +22,6 @@
                         @foreach (session('cart') as $key => $item)
                             <!-- On incrémente le total général par le total de chaque produit du panier -->
                             @if (count($item) > 0)
-
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>
@@ -32,7 +31,6 @@
                                     @php $campagne = GetCampaign($item['id']) @endphp
 
                                     @if ($campagne)
-
                                         <td>
                                             <p class="card-text text-danger font-weight-bold">{{ $campagne->nom }} :
                                                 -{{ $campagne->reduction }}%</p>
@@ -80,11 +78,10 @@
                 </table>
             </div>
             <div class="container w-50 text-center p-4">
-                <a class="btn btn-danger" href="{{ route('cart.empty') }}"
-                    title="Retirer tous les produits du panier">Vider le panier</a>
+                <a class="btn btn-danger" href="{{ route('cart.empty') }}" title="Retirer tous les produits du panier">Vider
+                    le panier</a>
                 <a class="btn btn-primary" href="{{ route('cart.validation') }}" title="validation">Valider la
                     commande</a>
-
             @else
                 <div class="alert alert-info">Aucun produit dans le panier</div>
         @endif
@@ -105,7 +102,8 @@
                 </div>
                 <div class="form-group">
                     <label for="nom">Nom</label>
-                    <input required type="text" class="form-control" name="nom" value="{{ $user->nom }}" id="nom">
+                    <input required type="text" class="form-control" name="nom" value="{{ $user->nom }}"
+                        id="nom">
                 </div>
                 <div class="form-group">
                     <label for="pseudo">Pseudo</label>
@@ -129,6 +127,8 @@
     <div class="row pb-3">
         <div class="col-6 offset-3 text-center border border-info pb-3">
 
+            <!-- affichage de l'adresse choisie -->
+
             @if (session('adresseLivraison') !== null)
                 @php $adresseLivraison = session('adresseLivraison') @endphp
 
@@ -137,33 +137,34 @@
                     <p>{{ $adresseLivraison->adresse }}</p>
                     <p>{{ $adresseLivraison->code_postal }} {{ $adresseLivraison->ville }}</p>
                 </div>
-
             @else
                 <p class="mt-4">Aucune adresse choisie.</p>
             @endif
 
-            @if(count($user->adresses) > 0)
+            <!-- si le user a enregistré des adresses, je lui propose le choix -->
+            @if (count($user->adresses) > 0)
+                <form action="{{ route('cart.validation') }}" class="p-3" method="post">
+                    @csrf
+                    <div class="form-group">
+                        <label for="adresseLivraisonId">Choisisez une adresse</label>
+                        <select name="adresseLivraisonId" id="adresseLivraisonId">
+                            <option value=""></option>
+                            @foreach ($user->adresses as $adresse)
+                                <option value="{{ $adresse->id }}">
+                                    <p>{{ $adresse->adresse }}</p>
+                                    <p>{{ $adresse->code_postal }}</p>
+                                    <p>{{ $adresse->ville }}</p>
+                                </option>
+                            @endforeach
+                        </select>
+                        <button type="submit" class="btn btn-warning">Sélectionner</button>
+                    </div>
+                </form>
 
-            <form action="{{ route('cart.validation') }}" class="p-3" method="post">
-                @csrf
-                <div class="form-group">
-                    <label for="adresseLivraisonId">Choisisez une adresse</label>
-                    <select name="adresseLivraisonId" id="adresseLivraisonId">
-                        <option value=""></option>
-                        @foreach ($user->adresses as $adresse)
-                            <option value="{{ $adresse->id }}">
-                                <p>{{ $adresse->adresse }}</p>
-                                <p>{{ $adresse->code_postal }}</p>
-                                <p>{{ $adresse->ville }}</p>
-                            </option>
-                        @endforeach
-                    </select>
-                    <button type="submit" class="btn btn-warning">Sélectionner</button>
-                </div>
-            </form>
-
+                <!-- si le user n'a pas enregistré d'adresses -->
             @else
-            <p class="rounded m-auto m-5 pt-4 p-3 bg-danger text-white">Vous n'avez aucune adresse enregistrée. Ajoutez-en une dans l'espace client.
+                <p class="rounded m-auto m-5 pt-4 p-3 bg-danger text-white">Vous n'avez aucune adresse enregistrée.
+                    Ajoutez-en une dans l'espace client.
             @endif
 
         </div>
@@ -182,33 +183,31 @@
                     <p>{{ $adresseFacturation->adresse }}</p>
                     <p>{{ $adresseFacturation->code_postal }} {{ $adresseFacturation->ville }}</p>
                 </div>
-
             @else
                 <p class="mt-4">Aucune adresse choisie.</p>
             @endif
 
-            @if(count($user->adresses) > 0)
-
-            <form action="{{ route('cart.validation') }}" class="p-3" method="post">
-                @csrf
-                <div class="form-group">
-                    <label for="adresseFacturationId">Choisisez une adresse</label>
-                    <select name="adresseFacturationId" id="adresseFacturationId">
-                        <option value=""></option>
-                        @foreach ($user->adresses as $adresse)
-                            <option value="{{ $adresse->id }}">
-                                <p>{{ $adresse->adresse }}</p>
-                                <p>{{ $adresse->code_postal }}</p>
-                                <p>{{ $adresse->ville }}</p>
-                            </option>
-                        @endforeach
-                    </select>
-                    <button type="submit" class="btn btn-warning">Sélectionner</button>
-                </div>
-            </form>
-
+            @if (count($user->adresses) > 0)
+                <form action="{{ route('cart.validation') }}" class="p-3" method="post">
+                    @csrf
+                    <div class="form-group">
+                        <label for="adresseFacturationId">Choisisez une adresse</label>
+                        <select name="adresseFacturationId" id="adresseFacturationId">
+                            <option value=""></option>
+                            @foreach ($user->adresses as $adresse)
+                                <option value="{{ $adresse->id }}">
+                                    <p>{{ $adresse->adresse }}</p>
+                                    <p>{{ $adresse->code_postal }}</p>
+                                    <p>{{ $adresse->ville }}</p>
+                                </option>
+                            @endforeach
+                        </select>
+                        <button type="submit" class="btn btn-warning">Sélectionner</button>
+                    </div>
+                </form>
             @else
-            <p class="rounded m-auto m-5 pt-4 p-3 bg-danger text-white">Vous n'avez aucune adresse enregistrée. Ajoutez-en une dans l'espace client.
+                <p class="rounded m-auto m-5 pt-4 p-3 bg-danger text-white">Vous n'avez aucune adresse enregistrée.
+                    Ajoutez-en une dans l'espace client.
             @endif
 
         </div>
@@ -219,30 +218,37 @@
     <form method="post" action="{{ route('cart.choosedelivery') }}" class="mb-4">
         @csrf
         <div class="form-group">
-            <input type="radio" name="delivery" id="classique" value="classique" @if (isset($delivery) && $delivery === 'classique') checked @endif>
+            <input type="radio" name="delivery" id="classique" value="classique"
+                @if (session('delivery') && session()->get('delivery') === 'classique') checked @endif>
             <label for="classique">Classique (à domicile, 48h) : 5 €</label>
         </div>
         <div class="form-group">
-            <input type="radio" name="delivery" id="express" value="express" @if (isset($delivery) && $delivery === 'express') checked @endif>
+            <input type="radio" name="delivery" id="express" value="express"
+                @if (session('delivery') && session()->get('delivery') === 'express') checked @endif>
             <label for="express">Express (à domicile, 24h) : 9,90 €</label>
         </div>
         <div class="form-group">
-            <input type="radio" name="delivery" id="pointrelais" value="pointrelais" @if (isset($delivery) && $delivery === 'pointrelais') checked @endif>
+            <input type="radio" name="delivery" id="pointrelais" value="pointrelais"
+                @if (session('delivery') && session()->get('delivery') === 'pointrelais') checked @endif>
             <label for="classique">En point-relais (48h) : 4 €</label>
         </div>
         <input type="hidden" value="{{ $total }}" name="total">
         <button type="submit" class="btn btn-info">Valider</button>
     </form>
 
-    @if (isset($lastTotal) && session('adresseFacturation') && session('adresseFacturation'))
-        <h3 class="pt-5 pb-3 font-weight-bold">Total à payer : {{ $lastTotal }} €</h3>
+    @if (session('adresseFacturation') &&
+        session('adresseFacturation') &&
+        session('delivery') &&
+        session('finalTotal'))
+        <h3 class="pt-5 pb-3 font-weight-bold">Total à payer : {{ session('finalTotal') }} €</h3>
         <form method="post" action="{{ route('commandes.store') }}">
             @csrf
-            <input type="hidden" value="{{ $lastTotal }}" name="lastTotal">
+            <input type="hidden" value="{{ session('finalTotal') }}" name="lastTotal">
             <button type="submit" class="btn btn-success btn-lg">Valider la commande</button>
         </form>
     @else
-        <p class="rounded m-auto mt-5 pt-4 w-50 p-3 bg-danger text-white">Choissez un mode de livraison, une adresse de livraison et une adresse de facturation pour connaître le total.</p>
+        <p class="rounded m-auto mt-5 pt-4 w-50 p-3 bg-danger text-white">Choissez un mode de livraison, une adresse de
+            livraison et une adresse de facturation pour connaître le total.</p>
     @endif
     </div>
 @endsection

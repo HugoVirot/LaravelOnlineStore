@@ -12,26 +12,23 @@ class AdminMiddlewareTest extends TestCase
 {
     use HasFactory;
     /** @test */
-    public function nonAdminsAreRedirected()
+    public function nonAdminsAreRedirected() // les personnes non admin ne peuvent pas accéder au back-office
     {
-        $user = User::factory()->make();
-        $this->actingAs($user);
-        $request = Request::create('/admin', 'GET');
-        $middleware = new IsAdmin;
-        $response = $middleware->handle($request, function () {});
-        $this->assertEquals($response->getStatusCode(), 302);
+        $user = User::factory()->make();    // on crée un user avec factory 
+        $this->actingAs($user);             // on se connecte en tant que ce user 
+        $response = $this->get('/admin/index');
+        $this->assertEquals(403, $response->getStatusCode());
     }
 
-
     /** @test */
-    public function adminsAreNotRedirected()
+    public function adminsAreNotRedirected() // les admins ne sont pas redirigés quand ils accèdent au back-office
     {
-        $user = User::factory()->make(['role_id' => 2]);
-        $this->actingAs($user);
-        $request = Request::create('/admin', 'GET');
-        $middleware = new IsAdmin;
-        $response = $middleware->handle($request, function () {});
-        $this->assertEquals($response, null);
+        $user = User::factory()->make(['role_id' => 2]); // je crée un admin
+        $this->actingAs($user);                          // je me connecte
+        $request = Request::create('/admin', 'GET');     // requête accès au back-office
+        $middleware = new IsAdmin;                       // création du middleware isAdmin
+        $response = $middleware->handle($request, function () {}); // test du middleware
+        $this->assertEquals($response, null);            // je teste qu'il fonctionne
     }
 }
 

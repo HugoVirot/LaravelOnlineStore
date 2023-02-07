@@ -113,5 +113,30 @@ class CampagneArticlesSeeder extends Seeder
             'campagne_id' => '4',
             'article_id' => '10',
         ]);
+
+        DB::table('campagne_articles')->insert([
+            'campagne_id' => '5',
+            'article_id' => '1',
+        ]);
+
+        DB::table('campagne_articles')->insert([
+            'campagne_id' => '5',
+            'article_id' => '2',
+        ]);
+
+        DB::table('campagne_articles')->insert([
+            'campagne_id' => '5',
+            'article_id' => '3',
+        ]);
+
+        DB::table('campagne_articles')->insert([
+            'campagne_id' => '5',
+            'article_id' => '4',
+        ]);
+
+        DB::table('campagne_articles')->insert([
+            'campagne_id' => '5',
+            'article_id' => '5',
+        ]);
     }
 }

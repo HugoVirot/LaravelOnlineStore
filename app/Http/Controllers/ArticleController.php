@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Campagne;
 use Illuminate\Support\Facades\DB;
+use App\Models\Gamme;
 
 class ArticleController extends Controller
 {
@@ -20,6 +21,7 @@ class ArticleController extends Controller
         $articles = Article::all();
 
         $campagnes = Campagne::all();
+        
         $campagnesArticlesIds = DB::table('campagne_articles')->pluck('article_id');
         $campagnesArticlesIds = $campagnesArticlesIds->toArray();
 
@@ -45,6 +47,7 @@ class ArticleController extends Controller
             'image' => 'required|min:5|max:25',
             'prix' => 'required',
             'stock' => 'required',
+            'note' => 'required',
             'gamme_id' => 'required'
         ]);
 
@@ -79,7 +82,10 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        return view('articles/edit', ['article' => $article]);
+        return view('articles/edit', [
+            'article' => $article,
+            'gammes' => Gamme::all()
+        ]);
     }
 
     /**

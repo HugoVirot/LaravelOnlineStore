@@ -4,8 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
+use Auth;
 class IsAdmin
 {
     /**
@@ -17,10 +16,13 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user() && Auth::user()->role_id == 2) {
+        // on vérifie que la personne est bien connectée ET qu'elle est admin
+        if (Auth::user() && Auth::user()->isAdmin()) {
             return $next($request);
         }
 
-        return redirect('/');
+        // si les deux conditions ne sont pas remplies => on redirige vers l'accueil (ou erreur 403)
+        //return redirect('/');
+        abort(403, 'Vous n\'êtes pas administrateur : accès refusé');
     }
 }
