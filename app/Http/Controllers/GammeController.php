@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Campagne;
 use Illuminate\Http\Request;
 use App\Models\Gamme;
-
-use Illuminate\Support\Facades\DB;
 
 class GammeController extends Controller
 {
@@ -18,10 +15,12 @@ class GammeController extends Controller
     public function index()
     {
         $gammes = Gamme::with('articles')->get();
+
         return view('gammes/index', [
             'gammes' => $gammes,
         ]);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -40,6 +39,7 @@ class GammeController extends Controller
         return redirect()->route('admin.index')->with('message', 'Gamme créée avec succès');
     }
 
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -50,6 +50,7 @@ class GammeController extends Controller
     {
         return view('gammes/edit', ['gamme' => $gamme]);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -65,8 +66,10 @@ class GammeController extends Controller
         ]);
 
         $gamme->update($request->all());
+
         return redirect()->route('admin.index')->with('message', 'Gamme modifiée avec succès');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -76,10 +79,6 @@ class GammeController extends Controller
      */
     public function destroy(Gamme $gamme)
     {
-        $gamme->load('articles');
-        foreach ($gamme->articles as $article) {
-            $article->delete();
-        }
         $gamme->delete();
 
         return redirect()->route('admin.index')->with('message', 'La gamme a bien été supprimée');

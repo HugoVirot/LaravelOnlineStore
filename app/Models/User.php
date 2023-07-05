@@ -20,6 +20,9 @@ class User extends Authenticatable
         'nom', 'prenom', 'email', 'password', 'pseudo', 'role_id', 'updated_at', 'created_at', 'remember_token'
     ];
 
+    // on charge le rôle automatiquement
+    protected $with = ['role'];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -62,7 +65,7 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return auth()->user()->role_id == 2;
+        return $this->role_id == 2;
     }
 
     public function commandes()

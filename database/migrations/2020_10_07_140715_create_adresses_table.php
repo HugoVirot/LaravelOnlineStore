@@ -20,6 +20,7 @@ class CreateAdressesTable extends Migration
             $table->string('ville');
             $table->timestamps();
 
+            // foreign key user_id : pointe vers le champ id de la table users
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
         });
     }

@@ -30,12 +30,11 @@
                             <span class="text-danger font-weight-bold">
                                 @php
                                     $newPrice = $article->prix - $article->prix * ($campagne->reduction / 100);
-                                    echo number_format($newPrice, 2);
-                                @endphp
-                                €</span>
+                                    echo number_format($newPrice, 2) 
+                                @endphp €</span>
                         </h3>
                     @else
-                        <h3 class="card-text font-weight-light">{{ $article->prix }} €</h3>
+                        <h3 class="card-text font-weight-light">@php number_format($article->prix, 2) @endphp €</h3>
                     @endif
 
                     @php $articleId = $article->id @endphp

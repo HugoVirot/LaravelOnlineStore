@@ -47,12 +47,12 @@ Route::resource('articles', App\Http\Controllers\ArticleController::class)->exce
 
 // ********** Gammes ***********
 
-Route::resource('gammes', App\Http\Controllers\GammeController::class);
+Route::resource('gammes', App\Http\Controllers\GammeController::class)->except('create');
 
 
 // ********** Campagnes ***********
 
-Route::resource('campagnes', App\Http\Controllers\CampagneController::class);
+Route::resource('campagnes', App\Http\Controllers\CampagneController::class)->except('create');
 
 
 // ********** Panier **********
@@ -96,8 +96,9 @@ Route::delete('favoris', [App\Http\Controllers\FavoriController::class, 'destroy
 Route::post('avis', [App\Http\Controllers\AvisController::class, 'store'])->name('avis.store');
 
 
+// ********** Politique de confidentialité **********
+
+Route::get('politique', [App\Http\Controllers\HomeController::class, 'politique'])->name('politique');
 
 
 //Route::get('/mail', [App\Http\Controllers\TestController::class, 'mail'])->name('mail');
-
-//Route::resource('test', App\Http\Controllers\NewTestController::class);

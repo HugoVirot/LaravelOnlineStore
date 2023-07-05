@@ -27,11 +27,13 @@ class AdminController extends Controller
         //      abort(403);                          // autre syntaxe : if(!Gate::allows('access_backoffice'))
         //  }
 
+        // je récupère toutes les données nécessaires
         $gammes = Gamme::all();
         $articles = Article::all();
         $campagnes = Campagne::all();
         $users = User::with('role')->get();
         
+        // je renvoie la vue admin/index.blade.php en y injectant toutes ces données
         return view('admin/index', [
             'gammes' => $gammes,
             'articles' => $articles,

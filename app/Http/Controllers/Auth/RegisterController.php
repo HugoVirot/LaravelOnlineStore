@@ -52,20 +52,25 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'nom' => ['required', 'string', 'max:30'],
-            'prenom' => ['required', 'string', 'max:30'],
-            'pseudo' => ['required', 'string', 'max:30'],
-            'email' => ['required', 'string', 'email', 'max:40', 'unique:users'],
-            'password' => [
-                'required', 'confirmed',
-                Password::min(8) // minimum 8 caractères   
-                    ->mixedCase() // Require at least one uppercase and one lowercase letter...
-                    ->letters()  // Require at least one letter...
-                    ->numbers() // Require at least one number...
-                    ->symbols() // Require at least one symbol...       
-            ],   // nouvelle syntaxe validation mdp, + d'infos : https://laravel.com/docs/8.x/validation#validating-passwords     
-        ]);
+        return Validator::make(
+            $data,
+            [
+                'nom' => ['required', 'string', 'max:30'],
+                'prenom' => ['required', 'string', 'max:30'],
+                'pseudo' => ['required', 'string', 'max:30'],
+                'email' => ['required', 'string', 'email', 'max:40', 'unique:users'],
+                'password' => [
+                    'required', 'confirmed',
+                    Password::min(8) // minimum 8 caractères   
+                        ->mixedCase() // Require at least one uppercase and one lowercase letter...
+                        ->letters()  // Require at least one letter...
+                        ->numbers() // Require at least one number...
+                        ->symbols() // Require at least one symbol...       
+                ],   // nouvelle syntaxe validation mdp, + d'infos : https://laravel.com/docs/8.x/validation#validating-passwords     
+                'politique' => 'required', // on vérifie que la checkbox est cochée
+            ],
+            ['politique.required' => 'Veuillez cocher la case pour accepter la politique de confidentialité et les mentions légales']
+        );  // message d'erreur personnalisé si on ne coche pas la checkbox
     }
 
     /**

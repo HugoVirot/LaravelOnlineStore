@@ -23,7 +23,8 @@
 
     <link rel="icon" href="{{ asset('images/logo.png') }}">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css">
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css"> --}}
+    <script src="https://kit.fontawesome.com/6259f9b52f.js" crossorigin="anonymous"></script>
 
     <script type="text/javascript" src="/tarteaucitron/tarteaucitron.js"></script>
 
@@ -183,12 +184,14 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
+
                                     <!-- affichage du lien back-office uniquement pour l'administrateur -->
                                     @if(Auth::user()->isAdmin())
                                         <a class="dropdown-item" href="{{ route('admin.index') }}">
                                             Back-office
                                         </a>
                                     @endif
+                                    
                                 </div>
                             </li>
                         @endguest

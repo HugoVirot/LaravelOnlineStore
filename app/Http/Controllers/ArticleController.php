@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
-use App\Models\Campagne;
-use Illuminate\Support\Facades\DB;
 use App\Models\Gamme;
 
 class ArticleController extends Controller
@@ -17,18 +15,10 @@ class ArticleController extends Controller
      */
     public function index()
     {
-
-        $articles = Article::all();
-
-        $campagnes = Campagne::all();
-        
-        $campagnesArticlesIds = DB::table('campagne_articles')->pluck('article_id');
-        $campagnesArticlesIds = $campagnesArticlesIds->toArray();
-
+        // on renvoie la vue articles/index (catalogue) 
+        // on y injecte la liste des articles, que l'on récupère simultanément
         return view('articles/index', [
-            'articles' => $articles,
-            'campagnes' => $campagnes,
-            'campagnesArticlesIds' => $campagnesArticlesIds,
+            'articles' => Article::all(),
         ]);
     }
 
@@ -40,6 +30,7 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
+        // on met en place un validateur avec les critères attendus
         $request->validate([
             'nom' => 'required|string|min:5|max:30',
             'description' => 'required|min:10|max:100',
@@ -51,7 +42,10 @@ class ArticleController extends Controller
             'gamme_id' => 'required'
         ]);
 
+        // on sauvegarde l'article en base de données en se basant sur les champs du formulaire
         Article::create($request->all());
+
+        // on redirige vers l'accueil du back-office
         return redirect()->route('admin.index')->with('message', 'Article créé avec succès');
     }
 
@@ -67,8 +61,8 @@ class ArticleController extends Controller
         // + son éventuelle campagne promo (si et seulement si elle est en cours)
         $article->load('avis.user');
         $article->load(['campagnes' => function ($query) {
-            $query->whereDate('date_debut', '<=', date('Y-m-d'))
-                ->whereDate('date_fin', '>=', date('Y-m-d'));
+            $query->whereDate('date_debut', '<=', date('Y-m-d')) // pour que la campagne ait bien commencé
+                ->whereDate('date_fin', '>=', date('Y-m-d'));  // pour qu'elle ne soit pas encore terminée
         }]);
 
         return view('articles/show', ['article' => $article]);
@@ -82,6 +76,8 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
+        // on renvoie la vue du formulaire de modification
+        // on y injecte la liste des gammes pour proposer un changement de gamme
         return view('articles/edit', [
             'article' => $article,
             'gammes' => Gamme::all()
@@ -97,6 +93,7 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
+        // on met en place un validateur avec les critères attendus
         $request->validate([
             'nom' => 'required|min:5|max:30',
             'description' => 'required|min:10|max:100',
@@ -107,6 +104,7 @@ class ArticleController extends Controller
             'gamme_id' => 'required'
         ]);
 
+        
         $article->update($request->except('_token'));
         return redirect()->route('admin.index')->with('message', 'Article modifié avec succès');
     }

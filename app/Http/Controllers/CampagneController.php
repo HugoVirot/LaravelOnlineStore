@@ -16,10 +16,13 @@ class CampagneController extends Controller
      */
     public function index()
     {
-        // on récupère uniquement les campagnes non terminées (sinon, inutiles)
+        // on récupère uniquement les campagnes à la fois commencées et non terminées (sinon, inutiles)
         $campagnes = Campagne::whereDate('date_fin', '>=',  date('Y-m-d'))->orderBy('date_debut')->get();
+
+        // on renvoie la vue de l'index des campagnes en y injectant les campagnes récupérées
         return view('campagnes/index', ['campagnes' => $campagnes]);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -69,6 +72,7 @@ class CampagneController extends Controller
         return redirect()->route('admin.index')->with('message', 'Campagne créée avec succès');
     }
 
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -87,6 +91,7 @@ class CampagneController extends Controller
             'campagneArticlesIds' => $campagneArticlesIds
         ]);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -118,14 +123,14 @@ class CampagneController extends Controller
         // on récupère la liste des articles
         $articles = Article::all();
 
-        // on associe à la campagne ceux cochés dans le formulaire (version boucle for)
+        // on associe à la campagne les articles cochés dans le formulaire (version boucle for)
         // for ($i = 0; $i < count($articles); $i++) {
         //     if (isset($request['article' . $i])) {
         //         $campagne->articles()->attach([$request['article' . $i]]);
         //     }
         // }
 
-        // version foreach
+        //  on associe à la campagne les articles cochés dans le formulaire (version foreach)
         foreach ($articles as $article) {
 
             if (isset($request['article' . $article->id])) {
@@ -134,8 +139,10 @@ class CampagneController extends Controller
             }
         }
 
+        // on redirige sur l'accueil du back-office avec un message de succès
         return redirect()->route('admin.index')->with('message', 'Campagne modifiée avec succès');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -145,8 +152,13 @@ class CampagneController extends Controller
      */
     public function destroy(Campagne $campagne)
     {
+        // je supprime toutes les lignes dans campagne_articles qui comprennent l'id de la commande
         $campagne->articles()->detach();
+
+        // je supprime la campagne
         $campagne->delete();
+
+        // on redirige sur l'accueil du back-office avec un message de succès
         return redirect()->route('admin.index')->with('message', 'La campagne a bien été supprimée');
     }
 }
