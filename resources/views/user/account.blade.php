@@ -140,8 +140,7 @@
         </div>
     @endforeach
 
-    @if (count($user->adresses) < 2)
-        <h5 class="text-center pt-4 pb-3"> Ajouter une adresse (maximum 2)</h5>
+        <h5 class="text-center pt-4 pb-3"> Ajouter une adresse</h5>
 
         <div class="row text-center w-75 m-auto mt-4">
             <div class="col-6 offset-3 text-center">
@@ -168,7 +167,6 @@
                 </form>
             </div>
         </div>
-    @endif
 
     <h4 class="text-center pt-5"> Mes commandes</h4>
 

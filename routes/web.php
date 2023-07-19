@@ -62,8 +62,13 @@ Route::post('cart/add/{product}', [App\Http\Controllers\CartController::class, '
 Route::get('cart/remove/{product}', [App\Http\Controllers\CartController::class, 'remove'])->name('cart.remove');
 Route::get('cart/empty', [App\Http\Controllers\CartController::class, 'empty'])->name('cart.empty');
 Route::get('cart/emptyAfterOrder', [App\Http\Controllers\CartController::class, 'emptyAfterOrder'])->name('cart.emptyAfterOrder');
+
+// afficher la page validation (lien du bouton validation dans le panier) => méthode GET
 Route::get('cart/validation', [App\Http\Controllers\CartController::class, 'validation'])->name('cart.validation');
+
+// valider choix d'adresse de livraison ou de facturation
 Route::post('cart/validation', [App\Http\Controllers\CartController::class, 'validation'])->name('cart.validation');
+
 Route::post('cart/choosedelivery', [App\Http\Controllers\CartController::class, 'chooseDelivery'])->name('cart.choosedelivery');
 
 
@@ -86,9 +91,7 @@ Route::get('admin/index', [App\Http\Controllers\AdminController::class, 'index']
 
 // ********** Favoris **********
 
-Route::get('favoris', [App\Http\Controllers\FavoriController::class, 'index'])->name('favoris.index');
-Route::post('favoris', [App\Http\Controllers\FavoriController::class, 'store'])->name('favoris.store');
-Route::delete('favoris', [App\Http\Controllers\FavoriController::class, 'destroy'])->name('favoris.destroy');
+Route::resource('favoris', App\Http\Controllers\FavoriController::class)->only('index' , 'store', 'destroy');
 
 
 // ********** Avis **********

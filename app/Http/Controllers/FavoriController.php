@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class FavoriController extends Controller
 {
-    
+
     public function __construct()
     {
         return $this->middleware('auth');
@@ -22,9 +24,7 @@ class FavoriController extends Controller
     {
         $user = User::find(auth()->user()->id);
         $user->load('favoris.campagnes');
-        return view('favoris/index', [
-            'user' => $user
-        ]);
+        return view('favoris/index', ['user' => $user]);
     }
 
     /**
@@ -35,9 +35,24 @@ class FavoriController extends Controller
      */
     public function store(Request $request)
     {
+        // je stocke dans une variable l'id de l'article transmis en hidden 
         $articleId = $request->input('articleId');
-        $user = User::find(auth()->user()->id);
+
+        // je récupère le user connecté grâce à son id
+        $user = User::find(Auth::user()->id);
+
+        // je vais insérer dans la table favoris : le user_id et l'article_id en question
+        // $user-> la relation "favoris" (fonction dans le modèle User) -> attach (syntaxe Laravel)
+        // attach insère automatiquement l'id du user + l'id de l'article fourni
         $user->favoris()->attach($articleId);
+
+        // autre syntaxe sans attach
+        // DB::table('favoris')->insert([
+        //     'user_id' => $user->id,
+        //     'article_id' => $articleId
+        // ]);
+
+        // on redirige avec un message de succès
         return redirect()->back()->with('message', 'Produit ajouté aux favoris !');
     }
 
@@ -47,11 +62,15 @@ class FavoriController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($articleId)
     {
-        $articleId = $request->input('articleId');
-        $user = User::find(auth()->user()->id);
+        // je récupère le user connecté grâce à son id
+        $user = User::find(Auth::user()->id);
+
+        // je vais supprimer la ligne qui contient l'id user + l'id article
         $user->favoris()->detach($articleId);
+
+        // on redirige avec un message de succès
         return redirect()->back()->with('message', 'Produit retiré des favoris !');
     }
 }

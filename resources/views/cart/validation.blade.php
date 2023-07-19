@@ -32,10 +32,10 @@
 
                                     @if ($campagne)
                                         <td>
-                                            <p class="card-text text-danger font-weight-bold">{{ $campagne->nom }} :
+                                            <p class="card-text text-danger fw-bold">{{ $campagne->nom }} :
                                                 -{{ $campagne->reduction }}%</p>
                                             <del>{{ $item['prix'] }} €</del>
-                                            <span class="text-danger font-weight-bold">
+                                            <span class="text-danger fw-bold">
                                                 @php
                                                     $newPrice = $item['prix'] - $item['prix'] * ($campagne->reduction / 100);
                                                     echo number_format($newPrice, 2, ',', ' ');
@@ -132,7 +132,7 @@
             @if (session('adresseLivraison') !== null)
                 @php $adresseLivraison = session('adresseLivraison') @endphp
 
-                <div class="font-weight-bold pt-3">
+                <div class="fw-bold pt-3">
                     <p>{{ $user->prenom }} {{ $user->nom }}</p>
                     <p>{{ $adresseLivraison->adresse }}</p>
                     <p>{{ $adresseLivraison->code_postal }} {{ $adresseLivraison->ville }}</p>
@@ -142,6 +142,7 @@
             @endif
 
             <!-- si le user a enregistré des adresses, je lui propose le choix -->
+            
             @if (count($user->adresses) > 0)
                 <form action="{{ route('cart.validation') }}" class="p-3" method="post">
                     @csrf
@@ -178,7 +179,7 @@
             @if (session('adresseFacturation') !== null)
                 @php $adresseFacturation = session('adresseFacturation') @endphp
 
-                <div class="font-weight-bold pt-3">
+                <div class="fw-bold pt-3">
                     <p>{{ $user->prenom }} {{ $user->nom }}</p>
                     <p>{{ $adresseFacturation->adresse }}</p>
                     <p>{{ $adresseFacturation->code_postal }} {{ $adresseFacturation->ville }}</p>
@@ -240,7 +241,7 @@
         session('adresseFacturation') &&
         session('delivery') &&
         session('finalTotal'))
-        <h3 class="pt-5 pb-3 font-weight-bold">Total à payer : {{ session('finalTotal') }} €</h3>
+        <h3 class="pt-5 pb-3 fw-bold">Total à payer : {{ session('finalTotal') }} €</h3>
         <form method="post" action="{{ route('commandes.store') }}">
             @csrf
             <input type="hidden" value="{{ session('finalTotal') }}" name="lastTotal">

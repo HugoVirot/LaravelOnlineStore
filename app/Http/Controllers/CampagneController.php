@@ -17,7 +17,7 @@ class CampagneController extends Controller
     public function index()
     {
         // on récupère uniquement les campagnes à la fois commencées et non terminées (sinon, inutiles)
-        $campagnes = Campagne::whereDate('date_fin', '>=',  date('Y-m-d'))->orderBy('date_debut')->get();
+        $campagnes = Campagne::where('date_fin', '>=',  date('Y-m-d'))->orderBy('date_debut')->get();
 
         // on renvoie la vue de l'index des campagnes en y injectant les campagnes récupérées
         return view('campagnes/index', ['campagnes' => $campagnes]);
@@ -81,14 +81,9 @@ class CampagneController extends Controller
      */
     public function edit(Campagne $campagne)
     {
-        // récupérer liste articles associés à la campagne
-        $campagneArticlesIds = DB::table('campagne_articles')->where('campagne_id', '=', $campagne->id)->get('article_id');
-        $articles = Article::all();
-
         return view('campagnes/edit', [
             'campagne' => $campagne,
-            'articles' => $articles,
-            'campagneArticlesIds' => $campagneArticlesIds
+            'articles' => Article::all()
         ]);
     }
 
@@ -112,7 +107,7 @@ class CampagneController extends Controller
         // on sauvegarde les modifications issues du formulaire
         $campagne->update($request->all());
 
-        // on charge les articles associés à la campagne
+        // on charge les articles associés à la campagne (eager loading)
         $campagne->load('articles');
 
         // on les retire de la table intermédiaire
@@ -120,22 +115,19 @@ class CampagneController extends Controller
             $campagne->articles()->detach($article);
         }
 
-        // on récupère la liste des articles
-        $articles = Article::all();
-
         // on associe à la campagne les articles cochés dans le formulaire (version boucle for)
-        // for ($i = 0; $i < count($articles); $i++) {
+        // for ($i = 1; $i < Article::count(); $i++) {
         //     if (isset($request['article' . $i])) {
-        //         $campagne->articles()->attach([$request['article' . $i]]);
+        //         $campagne->articles()->attach($i);
         //     }
         // }
 
         //  on associe à la campagne les articles cochés dans le formulaire (version foreach)
-        foreach ($articles as $article) {
+        foreach (Article::all() as $article) {
 
             if (isset($request['article' . $article->id])) {
 
-                $campagne->articles()->attach([$article->id]);
+                $campagne->articles()->attach($article->id);
             }
         }
 

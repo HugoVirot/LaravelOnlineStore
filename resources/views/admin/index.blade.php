@@ -195,11 +195,11 @@
             </div>
             <div class="form-group">
                 <label for="date_debut">date de début</label>
-                <input required type="text" class="form-control" name="date_debut" value="" id="date_debut">
+                <input required type="date" class="form-control" name="date_debut" value="" id="date_debut">
             </div>
             <div class="form-group">
                 <label for="date_fin">date de fin</label>
-                <input required type="text" class="form-control" name="date_fin" value="" id="date_fin">
+                <input required type="date" class="form-control" name="date_fin" value="" id="date_fin">
             </div>
             <div class="form-group">
                 @foreach ($articles as $article)

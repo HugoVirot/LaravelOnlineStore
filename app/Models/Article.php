@@ -9,6 +9,8 @@ class Article extends Model
 {
     use HasFactory;
 
+    protected $with = ["campagnes"];
+
     protected $fillable = ['nom', 'description', 'description_detaillee', 'image', 'prix', 'stock', 'note', 'gamme_id'];
 
     public function commandes(){

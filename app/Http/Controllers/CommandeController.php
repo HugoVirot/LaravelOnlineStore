@@ -25,7 +25,6 @@ class CommandeController extends Controller
         $commande->user_id = auth()->user()->id;
         $commande->adresse_livraison_id = session('adresseLivraison')->id;
         $commande->adresse_facturation_id = session('adresseFacturation')->id;
-        $commande->user_id = auth()->user()->id;
 
         // je la sauvegarde en bdd
         $commande->save();

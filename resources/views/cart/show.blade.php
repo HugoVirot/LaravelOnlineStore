@@ -1,4 +1,4 @@
-@extends("layouts.app")
+@extends('layouts.app')
 @section('content')
     <div class="container">
         @if (session()->has('cart'))
@@ -21,74 +21,67 @@
                         @php $total = 0 @endphp
 
                         <!-- On parcourt les produits du panier en session : session('cart') -->
-                        @foreach (session('cart') as $key => $item)
-                            <!-- On incrémente le total général par le total de chaque produit du panier -->
-                            @if (count($item) > 0)
+                        @foreach (session('cart') as $cle => $article)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
 
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                <td>
+                                    <strong><a href="{{ route('articles.show', $cle) }}"
+                                            title="Afficher le produit">{{ $article['nom'] }}</a></strong>
+                                </td>
 
+                                @if (isset($article['campagne']))
                                     <td>
-                                        <strong><a href="{{ route('articles.show', $key) }}"
-                                                title="Afficher le produit">{{ $item['nom'] }}</a></strong>
-                                    </td>
-
-                                    @php $campagne = GetCampaign($item['id']) @endphp
-
-                                    @if ($campagne)
-
-                                        <td>
-                                            <p class="card-text text-danger font-weight-bold">{{ $campagne->nom }} :
-                                                -{{ $campagne->reduction }}%</p>
-                                            <del>{{ $item['prix'] }} €</del>
-                                            <span class="text-danger font-weight-bold">
-                                                @php
-                                                    $newPrice = $item['prix'] - $item['prix'] * ($campagne->reduction / 100);
-                                                    echo number_format($newPrice, 2, ',', ' ');
-                                                @endphp
-                                                €</span>
-
-                                        </td>
-                                    @else
-                                        <td>@php echo number_format($item['prix'], 2, ',', ' ') @endphp;
-                                        </td>
-                                    @endif
-
-                                    <td>{{ $item['description'] }}</td>
-                                    <td>
-                                        <!-- Le formulaire de mise à jour de la quantité -->
-                                        <form method="POST" action="{{ route('cart.add', $key) }}"
-                                            class="form-inline d-inline-block">
-                                            @csrf
-                                            <input type="number" min="1" max="9" name="quantite"
-                                                value="{{ $item['quantite'] }}" class="form-control mr-2"
-                                                style="width: 80px">
-                                            <input type="submit" class="btn btn-primary" value="Actualiser" />
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <!-- Le total du produit = prix * quantité -->
-                                        @if ($campagne)
+                                        <p class="card-text text-danger fw-bold">{{ $article['campagne']->nom }}
+                                            :
+                                            -{{ $article['campagne']->reduction }}%</p>
+                                        <del>{{ $article['prix'] }} €</del>
+                                        <span class="text-danger fw-bold">
                                             @php
-                                                $lineTotal = $newPrice * $item['quantite'];
+                                                $newPrice = $article['prix'] - $article['prix'] * ($article['campagne']->reduction / 100);
+                                                echo number_format($newPrice, 2, ',', ' ');
                                             @endphp
-                                        @else
-                                            @php
-                                                $lineTotal = $item['prix'] * $item['quantite'];
-                                            @endphp
-                                        @endif
+                                            €</span>
+                                    </td>
+                                @else
+                                    <td>@php echo number_format($article['prix'], 2, ',', ' ') @endphp;
+                                    </td>
+                                @endif
+
+                                <td>{{ $article['description'] }}</td>
+                                <td>
+                                    <!-- Le formulaire de mise à jour de la quantité -->
+                                    <form method="POST" action="{{ route('cart.add', $cle) }}"
+                                        class="form-inline d-inline-block">
+                                        @csrf
+                                        <input type="number" min="1" max="9" name="quantite"
+                                            value="{{ $article['quantite'] }}" class="form-control mr-2"
+                                            style="width: 80px">
+                                        <input type="submit" class="btn btn-primary" value="Actualiser" />
+                                    </form>
+                                </td>
+                                <td>
+                                    <!-- Le total du produit = prix * quantité -->
+                                    @if (isset($article['campagne']))
                                         @php
-                                            echo number_format($lineTotal, 2, ',', ' ') . ' €';
-                                            $total += $lineTotal;
+                                            $lineTotal = $newPrice * $article['quantite'];
                                         @endphp
-                                    </td>
-                                    <td>
-                                        <!-- Le Lien pour retirer un produit du panier -->
-                                        <a href="{{ route('cart.remove', $key) }}" class="btn btn-outline-danger"
-                                            title="Retirer le produit du panier">Retirer</a>
-                                    </td>
-                                </tr>
-                            @endif
+                                    @else
+                                        @php
+                                            $lineTotal = $article['prix'] * $article['quantite'];
+                                        @endphp
+                                    @endif
+                                    @php
+                                        echo number_format($lineTotal, 2, ',', ' ') . ' €';
+                                        $total += $lineTotal;
+                                    @endphp
+                                </td>
+                                <td>
+                                    <!-- Le Lien pour retirer un produit du panier -->
+                                    <a href="{{ route('cart.remove', $cle) }}" class="btn btn-outline-danger"
+                                        title="Retirer le produit du panier">Retirer</a>
+                                </td>
+                            </tr>
                         @endforeach
                         <tr colspan="2">
                             <td colspan="4">Total général</td>
@@ -113,12 +106,11 @@
                 @else
                     <p class="p-2">Vous devez être connecté pour valider la commande.</p>
                 @endif
-
-            @else
-                <div class="container p-5 m-3">
-                    <div class="alert alert-info m-5 text-center">Aucun produit dans le panier</div>
-                </div>
+            </div>
+        @else
+            <div class="container p-5 m-3">
+                <div class="alert alert-info m-5 text-center">Aucun produit dans le panier</div>
+            </div>
         @endif
-    </div>
     </div>
 @endsection

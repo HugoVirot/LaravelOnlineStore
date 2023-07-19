@@ -32,7 +32,7 @@ class UserController extends Controller
     {
         $request->validate([
             'currentPassword' => 'required',
-            'newPassword' => 'confirmed',
+            'newPassword' => 'required|confirmed',
         ]);
 
         $user = User::find(auth()->user()->id);

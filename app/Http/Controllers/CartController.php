@@ -46,6 +46,7 @@ class CartController extends Controller
 
 			// si l'article est concerné par une promo ET si celle-ci est en cours => on prend en compte sa réduction
 			if ($article->campagne) {
+				$article_details['campagne'] = $article->campagne;
 				$article_details['reduction'] = $article->campagne->reduction;
 			}
 
@@ -95,34 +96,28 @@ class CartController extends Controller
 	// valider le panier
 	public function validation(Request $request)
 	{
-
-		if (!Gate::allows('access_order_validation')) {   // autre syntaxe : if(Gate::denies('access_order_validation'))
-			abort(403);
+		if (Gate::denies("access_order_validation")){
+			abort(403, 'Vous n\'êtes pas connecté');
 		}
 
 		$user = User::find(auth()->user()->id);
 
-		$adresseLivraisonId = null;
-		$adresseFacturationId = null;
-
-		if (($request->input('adresseLivraisonId') != null)) {
-			$adresseLivraisonId = $request->input('adresseLivraisonId');
-			$adresseLivraison = Adresse::findOrFail($adresseLivraisonId);
-			session(['adresseLivraison' => $adresseLivraison]);
+		// si je viens de choisir une adresse de livraison 
+		if (($request->adresseLivraisonId)) {
+			$adresseLivraisonId = $request->adresseLivraisonId; // je stocke l'id de cette adresse choisie
+			$adresseLivraison = Adresse::findOrFail($adresseLivraisonId); // je récupère en bdd l'adresse correspondante
+			session(['adresseLivraison' => $adresseLivraison]); // je la stocke dans la session
 			// autre syntaxe : session()->put('adresseLivraison' => $adresseLivraison);
 		}
 
-		if (($request->input('adresseFacturationId') != null)) {
+		// si je viens de choisir une adresse de facturation => même principe 
+		if (($request->adresseFacturationId)) {
 			$adresseFacturationId = $request->input('adresseFacturationId');
 			$adresseFacturation = Adresse::findOrFail($adresseFacturationId);
 			session(['adresseFacturation' => $adresseFacturation]);
 		}
 
-		return view('cart/validation', [
-			'user' => $user,
-			'adresseLivraisonId' => $adresseLivraisonId,
-			'adresseFacturationId' => $adresseFacturationId,
-		]);
+		return view('cart/validation', ['user' => $user]);
 	}
 
 	// valider le mode de livraison choisi et modifier le prix en conséquence

@@ -16,12 +16,12 @@ class HomeController extends Controller
     public function index()
     {
         // récupérer la promo en cours
-        $currentPromo = Campagne::with(['articles' => function ($query) {
-            $query->limit(3);
-        }])
-            ->whereDate('date_debut', '<=', date('Y-m-d')) //2022-02-09  format de date mysql
-            ->whereDate('date_fin', '>=',  date('Y-m-d'))
-            ->get();
+        $currentPromo = Campagne::where('date_debut', '<=', date('Y-m-d')) //2022-02-09  format de date mysql
+                                ->where('date_fin', '>=',  date('Y-m-d'))
+                                ->with('articles', function ($query){
+                                    $query->limit(3);
+                                })
+                                ->get();
 
         if (isset($currentPromo[0])) {
             $currentPromo = $currentPromo[0];
@@ -33,10 +33,6 @@ class HomeController extends Controller
         // si et seulement si elles sont en cours
         $topRatedArticles = Article::orderBy('note', 'desc')  // desc = descaling = décroissant
             ->limit(3)
-            ->with(['campagnes' => function ($query) {
-                $query->whereDate('date_debut', '<=', date('Y-m-d'))
-                    ->whereDate('date_fin', '>=', date('Y-m-d'))->get();
-            }])
             ->get();
 
         return view('home', [

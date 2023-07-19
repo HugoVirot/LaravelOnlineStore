@@ -1,37 +1,78 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
-@import url('https://fonts.googleapis.com/css2?family=Leckerli+One&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
+@import url("https://fonts.googleapis.com/css2?family=Leckerli+One&display=swap");
 
 // Variables
-@import '_variables';
+@import "_variables";
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
+
+@import url("https://fonts.googleapis.com/css2?family=Russo+One&family=Source+Code+Pro&display=swap");
 
 #header {
-    background-image: url(/images/autumnbanner.jpg);
+    background-image: url(/images/summerbanner1.jpg);
     background-position: center;
-    background-size: 115% 
+    background-size: 115%;
 }
 
 nav {
-    background: linear-gradient($orange, $yellow)
+    background: linear-gradient($blue, $yellow);
+}
+
+#imageAccueil {
+    background-image: url(/images/photo_accueil.jpg);
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+}
+
+#titreAccueil {
+    font-size: 8em;
+    color: white;
 }
 
 .currentPromoTitle {
-    color: $yellow;
-    font-size : 5rem;
-    font-family: 'Leckerli One', cursive;
+    color: $blue;
+}
+
+h2 {
+    font-size: 4rem;
+    font-family: "Russo One", cursive;
 }
 
 #summerImage {
-    width: 97vw
+    width: 97vw;
 }
 
 .ranges h2 {
     letter-spacing: 1rem;
 }
 
+h1 {
+    font-family: "Russo One", sans-serif;
+    font-size: 300%;
+    color: $blue;
+}
+
 footer {
-    background: linear-gradient($orange, $yellow)
+    background: linear-gradient($blue, $yellow);
+}
+
+#titreNavbar {
+    font-family: "Russo One", sans-serif;
+}
+
+#promoDuMoment {
+    letter-spacing: 2rem;
+}
+
+@media screen and (max-width: 576px) {
+    #header {
+        background-size: auto;
+    }
+
+    #paragrapheAccueil {
+        background-color: $blue;
+    }
 }

@@ -17,20 +17,24 @@
             <div class="col-md-5 mt-5">
                 <div class="card text-center p-3 m-3\">
                         <div class="card-body">
-                    <h2 class="card-text font-weight-bold font-italic text-info">{{ $article->description }}</h2>
+                    <h3 class="card-text fw-bold font-italic text-info">
+                        <i class="fa-solid fa-quote-left"></i>
+                        {{ $article->description }}
+                        <i class="fa-solid fa-quote-right"></i>
+                    </h3>
                     <p class="card-text font-italic">{{ $article->description_detaillee }}</p>
                     <i class="fas fa-box-open fa-2x mr-2"></i>@php DisplayStock($article->stock) @endphp
 
                     @php $campagne = getCampaign($article->id) @endphp
 
                     @if ($campagne)
-                        <p class="card-text text-danger font-weight-bold">{{ $campagne->nom }} :
+                        <p class="card-text text-danger fw-bold">{{ $campagne->nom }} :
                             -{{ $campagne->reduction }}%</p>
                         <h3 class="card-text font-weight-light"><del>{{ $article->prix }} €</del>
-                            <span class="text-danger font-weight-bold">
+                            <span class="text-danger fw-bold">
                                 @php
                                     $newPrice = $article->prix - $article->prix * ($campagne->reduction / 100);
-                                    echo number_format($newPrice, 2) 
+                                    echo number_format($newPrice, 2);
                                 @endphp €</span>
                         </h3>
                     @else
@@ -42,11 +46,10 @@
                     @if (auth()->user() !== null)
                         @if (Auth::user()->isInFavorites($article))
                             <!-- si dans les favoris-->
-                            <form method="post" action="{{ route('favoris.destroy') }}">
+                            <form method="post" action="{{ route('favoris.destroy', $article->id) }}">
                                 @csrf
                                 @method('delete')
-                                <button type="submit" class="btn btn-warning m-2">Retirer des favoris</button>
-                                <input type="hidden" value="{{ $article->id }}" name="articleId">
+                                <button type="submit" class="btn btn-danger m-2">Retirer des favoris</button>
                             </form>
                         @else
                             <!-- si pas dans les favoris-->
@@ -71,8 +74,8 @@
                     <h5 class="p-4">Note et avis sur ce produit</h5>
                     <div class="container w-75 m-auto">
 
-                        <div class="row pb-2 justify-content-center text-warning">
-                            <i class="fas fa-star fa-2x mr-4 text-warning"></i>
+                        <div class="row pb-2 justify-content-center">
+                            <i class="fas fa-star fa-3x mr-4 text-warning mb-3"></i>
                             <h4>{{ $article->note }} / 5</h4>
                         </div>
 
@@ -81,7 +84,11 @@
                         @if (isset($avisNumber) && $avisNumber > 0)
                             @foreach ($article->avis as $avis)
                                 <div class="row justify-content-around text-info">
-                                    <p>Posté par {{ $avis->user->pseudo }}</p>
+                                    @if ($avis->user)
+                                        <p>Posté par {{ $avis->user->pseudo }}</p>
+                                    @else
+                                        <p>Utilisateur supprimé</p>
+                                    @endif
                                     <p>{{ \Carbon\Carbon::parse($avis->created_at)->diffForHumans() }}</p>
                                 </div>
                                 <div class="row justify-content-center">

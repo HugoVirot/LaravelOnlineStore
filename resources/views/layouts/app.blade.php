@@ -96,13 +96,13 @@
     <div id="app">
         <div class="container-fluid text-center p-4" id="header">
             <img style="width : 100px;" src="{{ asset('images/logo.png') }}" alt="logo">
-            <h2 class="pt-3">Laravel Online Store</h2>
+            <h1 class="pt-3" id="titreNavbar">Laravel Online Store</h1>
         </div>
         <nav class="navbar navbar-expand-md sticky-top p-4 navbar-dark shadow-sm">
             <div class="container">
 
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -140,7 +140,7 @@
                                 Panier
                             </a>
                         </li>
-                        @if (auth()->user() !== null)
+                        @if (auth()->user())
                             <li>
                                 <a class="navbar-brand" href="{{ route('favoris.index') }}">
                                     Favoris
@@ -169,7 +169,7 @@
                         @else
                             <li class="nav-item dropdown pr-5">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" style="color: white" href="#"
-                                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ auth()->user()->pseudo }}
                                 </a>
 
